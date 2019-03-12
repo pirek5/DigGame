@@ -22,4 +22,12 @@ public class MapDisplay : MonoBehaviour
             foreground.SetTile(tile.Key, fullTile);
         }
     }
+
+    public void DisplayTile(Vector3Int position, TileType tileType)
+    {
+        if(tileType == TileType.empty)
+        {
+            foreground.SetTile(position, null);
+        }
+    }
 }

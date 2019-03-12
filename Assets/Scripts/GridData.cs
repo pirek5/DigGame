@@ -11,8 +11,6 @@ public class GridData : MonoBehaviour
     private MapGenerator mapGenerator;
     private MapDisplay mapDisplay;
 
-
-    // Start is called before the first frame update
     void Awake()
     {
         mapGenerator = FindObjectOfType<MapGenerator>();
@@ -44,6 +42,14 @@ public class GridData : MonoBehaviour
             } 
         }
         mapDisplay.DisplayMap(gridDictionary);
+    }
 
+    public void ChangeTile(Vector3Int tilePosition)
+    {
+        if (gridDictionary.ContainsKey(tilePosition))
+        {
+            gridDictionary[tilePosition].m_tileType = TileType.empty;
+            mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition].m_tileType);
+        }
     }
 }

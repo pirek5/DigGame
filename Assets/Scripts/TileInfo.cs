@@ -6,7 +6,7 @@ public enum TileType { full = 0, empty = 1 };
 
 public class TileInfo
 {
-    TileType m_tileType;
+    public TileType m_tileType;
     //int m_posX, m_posY;
 
     public TileInfo(TileType tileType/*, int posX, int posY*/)
