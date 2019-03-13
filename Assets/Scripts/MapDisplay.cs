@@ -8,10 +8,12 @@ public class MapDisplay : MonoBehaviour
     //config
     [SerializeField] private TileBase fullTile;
     [SerializeField] private TileBase backgroundTile;
+    [SerializeField] private TileBase digSelectionTile;
 
     //references set in editor
     [SerializeField] private Tilemap foreground;
     [SerializeField] private Tilemap background;
+    [SerializeField] private Tilemap digSelection;
 
 
     public void DisplayMap(Dictionary<Vector3Int, TileInfo> gridDictionary)
@@ -23,11 +25,11 @@ public class MapDisplay : MonoBehaviour
         }
     }
 
-    public void DisplayTile(Vector3Int position, TileType tileType)
+    public void DisplayTile(Vector3Int position, TileInfo tileInfo)
     {
-        if(tileType == TileType.empty)
+        if(tileInfo.digIt)
         {
-            foreground.SetTile(position, null);
+            digSelection.SetTile(position, digSelectionTile);
         }
     }
 }

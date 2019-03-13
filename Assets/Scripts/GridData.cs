@@ -48,8 +48,8 @@ public class GridData : MonoBehaviour
     {
         if (gridDictionary.ContainsKey(tilePosition))
         {
-            gridDictionary[tilePosition].m_tileType = TileType.empty;
-            mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition].m_tileType);
+            gridDictionary[tilePosition].digIt = true;
+            mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
         }
     }
 }

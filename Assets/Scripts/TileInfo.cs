@@ -7,12 +7,11 @@ public enum TileType { full = 0, empty = 1 };
 public class TileInfo
 {
     public TileType m_tileType;
-    //int m_posX, m_posY;
+    public bool digIt = false;
+   
 
-    public TileInfo(TileType tileType/*, int posX, int posY*/)
+    public TileInfo(TileType tileType)
     {
-       // m_posX = posX;
-       // m_posY = posY;
         m_tileType = tileType;
     }
 }
