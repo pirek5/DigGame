@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPos = grid.WorldToCell(mousePos);
+            Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
             gridData.ChangeTile(gridPos);
         }
     }

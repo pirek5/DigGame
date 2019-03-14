@@ -47,3 +47,9 @@ TagManager:
   - name: Foreground
     uniqueID: 154849487
     locked: 0
+  - name: Units
+    uniqueID: 3734001587
+    locked: 0
+  - name: DigSelection
+    uniqueID: 3245421529
+    locked: 0

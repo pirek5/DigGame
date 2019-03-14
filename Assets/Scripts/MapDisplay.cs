@@ -16,20 +16,20 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Tilemap digSelection;
 
 
-    public void DisplayMap(Dictionary<Vector3Int, TileInfo> gridDictionary)
+    public void DisplayMap(Dictionary<Vector2Int, Tile> gridDictionary)
     {
-        foreach(KeyValuePair<Vector3Int, TileInfo> tile in gridDictionary)
+        foreach(KeyValuePair<Vector2Int, Tile> tile in gridDictionary)
         {
-            background.SetTile(tile.Key, backgroundTile);
-            foreground.SetTile(tile.Key, fullTile);
+            background.SetTile((Vector3Int)tile.Key, backgroundTile);
+            foreground.SetTile((Vector3Int)tile.Key, fullTile);
         }
     }
 
-    public void DisplayTile(Vector3Int position, TileInfo tileInfo)
+    public void DisplayTile(Vector2Int position, Tile tileInfo)
     {
         if(tileInfo.digIt)
         {
-            digSelection.SetTile(position, digSelectionTile);
+            digSelection.SetTile((Vector3Int)position, digSelectionTile);
         }
     }
 }

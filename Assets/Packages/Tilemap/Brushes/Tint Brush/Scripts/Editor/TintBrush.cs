@@ -44,13 +44,13 @@ namespace UnityEditor
 			{
 				if ((tilemap.GetTileFlags(position) & TileFlags.LockColor) != 0)
 				{
-					if (tile is Tile)
+					if (tile is UnityEngine.Tilemaps.Tile)
 					{
-						Debug.LogWarning("Tint brush cancelled, because Tile (" + tile.name + ") has TileFlags.LockColor set. Unlock it from the Tile asset debug inspector.");
+                        Debug.LogWarning("Tint brush cancelled, because Tile (" + tile.name + ") has TileFlags.LockColor set. Unlock it from the Tile asset debug inspector.");
 					}
 					else
 					{
-						Debug.LogWarning("Tint brush cancelled. because Tile (" + tile.name + ") has TileFlags.LockColor set. Unset it in GetTileData().");
+                        Debug.LogWarning("Tint brush cancelled. because Tile (" + tile.name + ") has TileFlags.LockColor set. Unset it in GetTileData().");
 					}
 				}
 
