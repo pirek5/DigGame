@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Vectors
@@ -72,11 +71,11 @@ public class GridData : MonoBehaviour
         }
     }
 
-    public void ChangeTile(Vector2Int tilePosition)
+    public void DigTile(Vector2Int tilePosition, bool isDiging)
     {
         if (gridDictionary.ContainsKey(tilePosition))
         {
-            gridDictionary[tilePosition].digIt = true;
+            gridDictionary[tilePosition].digIt = isDiging;
             mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
         }
     }

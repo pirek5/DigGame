@@ -31,5 +31,9 @@ public class MapDisplay : MonoBehaviour
         {
             digSelection.SetTile((Vector3Int)position, digSelectionTile);
         }
+        else
+        {
+            digSelection.SetTile((Vector3Int)position, null);
+        }
     }
 }

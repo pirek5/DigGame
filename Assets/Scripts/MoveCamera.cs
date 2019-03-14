@@ -53,12 +53,12 @@ public class MoveCamera : MonoBehaviour
 
     private void MoveCameraHorizontal(float translateX, float sensitivity)
     {
-        Camera.main.transform.position = Camera.main.transform.position + new Vector3(translateX,0f,0f) * Time.deltaTime * sensitivity;
+        Camera.main.transform.position = Camera.main.transform.position + new Vector3(translateX,0f,0f) * Time.deltaTime * sensitivity * Camera.main.orthographicSize;
     }
 
     private void MoveCameraVertical(float translateY, float sensitivity)
     {
-        Camera.main.transform.position = Camera.main.transform.position + new Vector3(0f, translateY, 0f) * Time.deltaTime * sensitivity;
+        Camera.main.transform.position = Camera.main.transform.position + new Vector3(0f, translateY, 0f) * Time.deltaTime * sensitivity * Camera.main.orthographicSize;
     }
 
     private void CameraZoom(float zoom, float sensitivity)
