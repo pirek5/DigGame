@@ -16,7 +16,10 @@ public class Digger : MonoBehaviour
     {
         if (GridData.gridDictionary.ContainsKey(gridPos))
         {
-            movement.FindAndFollowPath(GridData.gridDictionary[gridPos]);
+            if (GridData.gridDictionary[gridPos].m_tileType == TileType.empty)
+            {
+                movement.FindAndFollowPath(GridData.gridDictionary[gridPos]);
+            }
         }
     }
 }

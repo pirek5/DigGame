@@ -22,7 +22,9 @@ public class Movement : MonoBehaviour
 
     public void FindAndFollowPath(Tile destination)
     {
+        StopAllCoroutines();
         var closestTile = GridData.FindClosestTile(transform.position);
+        if(closestTile == null) { return; };
         currentPath = pathfinder.FindPath(closestTile, destination);
         StartCoroutine(FollowPath(currentPath));
     }

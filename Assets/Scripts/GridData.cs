@@ -66,6 +66,7 @@ public class GridData : MonoBehaviour
                 if(gridDictionary.ContainsKey(tile.Key + direction))
                 {
                     tile.Value.neighbors.Add(gridDictionary[tile.Key + direction]);
+                
                 }
             }
         }
@@ -92,28 +93,31 @@ public class GridData : MonoBehaviour
     public static Tile FindClosestTile(Vector3 position)
     {
         Vector2Int positionInt = Vector2Int.FloorToInt(position);
-        List<Tile> possibleClosestTiles;
+        List<Tile> possibleClosestTiles = new List<Tile>();
         if (gridDictionary.ContainsKey(positionInt)) 
         {
-            possibleClosestTiles = gridDictionary[positionInt].neighbors;
-            possibleClosestTiles.Add(gridDictionary[positionInt]);
+            //possibleClosestTiles = gridDictionary[positionInt].neighbors;
+            //possibleClosestTiles.Add(gridDictionary[positionInt]);
+            possibleClosestTiles = new List<Tile>(gridDictionary.Values);
+            var closestTile = possibleClosestTiles[0];
+            for (int i = 1; i < possibleClosestTiles.Count; i++)
+            {
+                float currentClosestDistance = Vector3.Distance(position, closestTile.position);
+                float testDistance = Vector3.Distance(position, possibleClosestTiles[i].position);
+                if (testDistance <= currentClosestDistance)
+                {
+                    closestTile = possibleClosestTiles[i];
+                }
+            }
+            return closestTile;
         }
         else //much slower 'emergency' way
         {
             Debug.LogError("position out of map!");
-            possibleClosestTiles = new List<Tile>(gridDictionary.Values);
+            return null;
+            //possibleClosestTiles = new List<Tile>(gridDictionary.Values);
         }
 
-        var closestTile = possibleClosestTiles[0];
-        for(int i = 1; i< possibleClosestTiles.Count; i++)
-        {
-            float currentClosestDistance = Vector3.Distance(position, closestTile.position);
-            float testDistance = Vector3.Distance(position, possibleClosestTiles[i].position);
-            if (testDistance <= currentClosestDistance)
-            {
-                closestTile = possibleClosestTiles[i];
-            }
-        }
-        return closestTile;
+
     }
 }

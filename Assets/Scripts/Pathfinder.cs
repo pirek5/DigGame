@@ -10,22 +10,25 @@ public class Pathfinder : MonoBehaviour
         List<Tile> exploredTiles = new List<Tile>();
         startTile.distanceTraveled = 0f;
         frontierTiles.Enqueue(startTile);
+        //print("Enqueued: " + startTile.position);
         while(frontierTiles.Count > 0)
         {
             Tile currentTile = frontierTiles.Dequeue();
-            if(currentTile == endTile)
+            //print("Dequeued: " + currentTile.position);
+            if (currentTile == endTile)
             {
-                return CreatePath(startTile, currentTile); //right way of exit the loop
+                return CreatePath(startTile, currentTile); //right way to exit the loop
             }
             foreach (var neighbor in currentTile.neighbors)
             {
-                if(!frontierTiles.Contains(neighbor) && exploredTiles.Contains(neighbor) && neighbor.m_tileType == TileType.empty)
+                if(!frontierTiles.Contains(neighbor) && !exploredTiles.Contains(neighbor) && neighbor.m_tileType == TileType.empty)
                 {
                     neighbor.exploredFrom = currentTile;
                     float newDistanceTraveled = currentTile.distanceTraveled + 1f;
                     neighbor.distanceTraveled = newDistanceTraveled;
                     neighbor.priority = newDistanceTraveled + GetDistance(neighbor, endTile);
                     frontierTiles.Enqueue(neighbor);
+                    //print("Enqueued: " + neighbor.position);
                 }
             }
             exploredTiles.Add(currentTile);
