@@ -14,12 +14,12 @@ public class UiButtonsController : MonoBehaviour
 
     public void OnDigPressesd()
     {
-        playerInput.currentState = state.dig;
+        playerInput.currentState = State.dig;
     }
 
     public void OnErasePressesd()
     {
-        playerInput.currentState = state.erase;
+        playerInput.currentState = State.erase;
     }
 
 }

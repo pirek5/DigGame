@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour
         pathfinder = GetComponent<Pathfinder>();
     }
 
-    private void FindAndFollowPath(Tile destination)
+    public void FindAndFollowPath(Tile destination)
     {
         var closestTile = GridData.FindClosestTile(transform.position);
         currentPath = pathfinder.FindPath(closestTile, destination);
@@ -31,12 +31,13 @@ public class Movement : MonoBehaviour
     {
         foreach(var tile in path)
         {
-            nextStep = false;
-            SmoothMovement(tile.position);
-            while (!nextStep)
-            {
-                yield return null;
-            }
+            //nextStep = false;
+            yield return StartCoroutine(SmoothMovement(tile.position));
+            //SmoothMovement(tile.position);
+            //while (!nextStep)
+            //{
+              //  yield return null;
+            //}
         }
     }
 

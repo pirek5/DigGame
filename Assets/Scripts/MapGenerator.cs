@@ -14,7 +14,14 @@ public class MapGenerator : MonoBehaviour
         {
             for(int y = 0; y < mapHeight; y++)
             {
-                mapArray[x, y] = 1;
+                if (y == mapHeight - 1)
+                {
+                    mapArray[x, y] = 0;
+                }
+                else
+                {
+                    mapArray[x, y] = 1;
+                }
             }
         }
         return mapArray;

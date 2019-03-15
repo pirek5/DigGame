@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TileType { full = 0, empty = 1 };
+public enum TileType { empty = 0, full = 1 };
 
 public class Tile
 {

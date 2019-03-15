@@ -20,8 +20,11 @@ public class MapDisplay : MonoBehaviour
     {
         foreach(KeyValuePair<Vector2Int, Tile> tile in gridDictionary)
         {
-            background.SetTile((Vector3Int)tile.Key, backgroundTile);
-            foreground.SetTile((Vector3Int)tile.Key, fullTile);
+            //background.SetTile((Vector3Int)tile.Key, backgroundTile);
+            if(tile.Value.m_tileType == TileType.full)
+            {
+                foreground.SetTile((Vector3Int)tile.Key, fullTile);
+            }
         }
     }
 
@@ -34,6 +37,12 @@ public class MapDisplay : MonoBehaviour
         else
         {
             digSelection.SetTile((Vector3Int)position, null);
+        }
+
+        if(tileInfo.m_tileType == TileType.empty)
+        {
+            background.SetTile((Vector3Int)position, backgroundTile);
+            foreground.SetTile((Vector3Int)position, null);
         }
     }
 }

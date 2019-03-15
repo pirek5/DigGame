@@ -15,7 +15,7 @@ public class GridData : MonoBehaviour
     private MapGenerator mapGenerator;
     private MapDisplay mapDisplay;
 
-    void Awake()
+    private void Awake()
     {
         mapGenerator = FindObjectOfType<MapGenerator>();
         mapDisplay = FindObjectOfType<MapDisplay>();
@@ -45,13 +45,13 @@ public class GridData : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 TileType tileType = (TileType)gridArray[x, y]; //int to enum
-                Tile newTileInfo = new Tile(tileType);
-                newTileInfo.position = new Vector3(x, y, 0);
+                Tile newTile = new Tile(tileType);
+                newTile.position = new Vector3(x, y, 0);
                 Vector2Int position = new Vector2Int(x, y);
                 
                 if (!gridDictionary.ContainsKey(position))
                 {
-                    gridDictionary.Add(position, newTileInfo);
+                    gridDictionary.Add(position, newTile);
                 }
             }
         }
@@ -76,6 +76,15 @@ public class GridData : MonoBehaviour
         if (gridDictionary.ContainsKey(tilePosition))
         {
             gridDictionary[tilePosition].digIt = isDiging;
+            mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
+        }
+    }
+
+    public void DeleteTile(Vector2Int tilePosition)
+    {
+        if (gridDictionary.ContainsKey(tilePosition))
+        {
+            gridDictionary[tilePosition].m_tileType = TileType.empty;
             mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
         }
     }

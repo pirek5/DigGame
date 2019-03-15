@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Selectables
   - 
   - 
   - 
@@ -52,4 +52,7 @@ TagManager:
     locked: 0
   - name: DigSelection
     uniqueID: 3245421529
+    locked: 0
+  - name: Selectable
+    uniqueID: 1900718281
     locked: 0
