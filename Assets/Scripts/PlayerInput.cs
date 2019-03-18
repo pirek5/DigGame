@@ -69,8 +69,8 @@ public class PlayerInput : MonoBehaviour
             Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
             if (currentState == State.dig)
             {
-                //gridData.DigTile(gridPos, true);
-                gridData.DeleteTile(gridPos);
+                gridData.DigTile(gridPos, true);
+                //gridData.DeleteTile(gridPos);
             }
             else if (currentState == State.erase)
             {

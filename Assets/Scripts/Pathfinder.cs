@@ -10,14 +10,13 @@ public class Pathfinder : MonoBehaviour
         List<Tile> exploredTiles = new List<Tile>();
         startTile.distanceTraveled = 0f;
         frontierTiles.Enqueue(startTile);
-        //print("Enqueued: " + startTile.position);
         while(frontierTiles.Count > 0)
         {
             Tile currentTile = frontierTiles.Dequeue();
-            //print("Dequeued: " + currentTile.position);
             if (currentTile == endTile)
             {
-                return CreatePath(startTile, currentTile); //right way to exit the loop
+                //path found
+                return CreatePath(startTile, currentTile); 
             }
             foreach (var neighbor in currentTile.neighbors)
             {
@@ -28,14 +27,12 @@ public class Pathfinder : MonoBehaviour
                     neighbor.distanceTraveled = newDistanceTraveled;
                     neighbor.priority = newDistanceTraveled + GetDistance(neighbor, endTile);
                     frontierTiles.Enqueue(neighbor);
-                    //print("Enqueued: " + neighbor.position);
                 }
             }
             exploredTiles.Add(currentTile);
         }
-        //shouldnt happen - in case of 'emergency'
-        List<Tile> emergencyPath = new List<Tile>() { endTile };
-        return emergencyPath;
+        //path not found - end tile is impossible to reach
+        return null;
     }
 
     public List<Tile> CreatePath(Tile startTile, Tile endTile)

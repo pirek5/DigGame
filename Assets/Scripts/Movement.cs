@@ -12,34 +12,27 @@ public class Movement : MonoBehaviour
     private Pathfinder pathfinder;
     private List<Tile> currentPath;
 
-    //boolean flag
-    private bool nextStep; 
-
     void Awake()
     {
         pathfinder = GetComponent<Pathfinder>();
     }
 
-    public void FindAndFollowPath(Tile destination)
+    public bool FindAndFollowPath(Tile destination)
     {
         StopAllCoroutines();
-        var closestTile = GridData.FindClosestTile(transform.position);
-        if(closestTile == null) { return; };
-        currentPath = pathfinder.FindPath(closestTile, destination);
+        var startTile = GridData.FindStartTile(transform.position);
+        if(startTile == null) { return false; }
+        currentPath = pathfinder.FindPath(startTile, destination);
+        if(currentPath == null) { return false; }
         StartCoroutine(FollowPath(currentPath));
+        return true;
     }
 
     private IEnumerator FollowPath(List<Tile> path)
     {
         foreach(var tile in path)
         {
-            //nextStep = false;
             yield return StartCoroutine(SmoothMovement(tile.position));
-            //SmoothMovement(tile.position);
-            //while (!nextStep)
-            //{
-              //  yield return null;
-            //}
         }
     }
 
@@ -54,6 +47,5 @@ public class Movement : MonoBehaviour
             transform.position = Vector3.Lerp(currentPosition, destination, fractionOfJourney);
             yield return null;
         }
-        nextStep = true;
     }
 }

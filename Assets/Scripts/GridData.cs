@@ -14,11 +14,13 @@ public class GridData : MonoBehaviour
     //cached
     private MapGenerator mapGenerator;
     private MapDisplay mapDisplay;
+    private DigController digController;
 
     private void Awake()
     {
-        mapGenerator = FindObjectOfType<MapGenerator>();
-        mapDisplay = FindObjectOfType<MapDisplay>();
+        mapGenerator = FindObjectOfType<MapGenerator>(); //TODO
+        mapDisplay = FindObjectOfType<MapDisplay>(); //TODO
+        digController = FindObjectOfType<DigController>(); //TODO
     }
 
     private void Start()
@@ -78,6 +80,14 @@ public class GridData : MonoBehaviour
         {
             gridDictionary[tilePosition].digIt = isDiging;
             mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
+            if (isDiging)
+            {
+                digController.AddTileToDig(gridDictionary[tilePosition]);
+            }
+            else
+            {
+                digController.DeleteTileToDig(gridDictionary[tilePosition]);
+            }
         }
     }
 
@@ -90,7 +100,7 @@ public class GridData : MonoBehaviour
         }
     }
 
-    public static Tile FindClosestTile(Vector3 position)
+    public static Tile FindStartTile(Vector3 position)
     {
         Vector2Int positionInt = Vector2Int.FloorToInt(position);
         List<Tile> possibleClosestTiles = new List<Tile>();
@@ -117,7 +127,5 @@ public class GridData : MonoBehaviour
             return null;
             //possibleClosestTiles = new List<Tile>(gridDictionary.Values);
         }
-
-
     }
 }
