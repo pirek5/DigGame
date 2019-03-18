@@ -56,7 +56,7 @@ public class PlayerInput : MonoBehaviour
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
-                selectedObject.GetComponentInParent<Digger>().MoveOrDig(gridPos);
+                selectedObject.GetComponentInParent<Digger>().Move(gridPos);
             }
         }
     }

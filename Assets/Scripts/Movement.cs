@@ -11,32 +11,38 @@ public class Movement : MonoBehaviour
     //cached
     private Pathfinder pathfinder;
     private List<Tile> currentPath;
+    public Tile currentTile;
 
-    void Awake()
+    protected virtual void Awake()
     {
         pathfinder = GetComponent<Pathfinder>();
+    }
+
+    private void Start()
+    {
+        List<Tile> tiles = new List<Tile>(GridData.gridDictionary.Values);
+        currentTile = Utilities.TileFindClosestTile(transform.position, tiles);
     }
 
     public bool FindAndFollowPath(Tile destination)
     {
         StopAllCoroutines();
-        var startTile = GridData.FindStartTile(transform.position);
-        if(startTile == null) { return false; }
-        currentPath = pathfinder.FindPath(startTile, destination);
+        currentPath = pathfinder.FindPath(destination);
         if(currentPath == null) { return false; }
         StartCoroutine(FollowPath(currentPath));
         return true;
     }
 
-    private IEnumerator FollowPath(List<Tile> path)
+    protected virtual IEnumerator FollowPath(List<Tile> path)
     {
         foreach(var tile in path)
         {
             yield return StartCoroutine(SmoothMovement(tile.position));
+            currentTile = tile;
         }
     }
 
-    private IEnumerator SmoothMovement(Vector3 destination)
+    protected IEnumerator SmoothMovement(Vector3 destination)
     {
         float distance = Vector3.Distance(transform.position, destination);
         var currentPosition = transform.position;

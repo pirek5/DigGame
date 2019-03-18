@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DigController : MonoBehaviour
 {
@@ -74,8 +75,9 @@ public class DigController : MonoBehaviour
                 if(excavation.tilesInExcavation.Count == 0)
                 {
                     excavations.Remove(excavation);
-                    break; //excavation found, no need to continue function
                 }
+                CheckIntegrity(excavation, tileToDelete);
+                break; //excavation found, no need to continue function
             }
         }
     }
@@ -90,5 +92,73 @@ public class DigController : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public List<Tile> GetTilesToDig(Tile tile)
+    {
+        foreach (Excavation excavation in excavations)
+        {
+            if (excavation.tilesInExcavation.Contains(tile))
+            {
+                return excavation.tilesInExcavation;
+            }
+        }
+        return null;
+    }
+
+    public void CheckIntegrity(Excavation excavation, Tile delatedTile)
+    {
+        List<Tile> neighboursToDelatedTile = new List<Tile>();
+        foreach(Tile neighbour in delatedTile.neighbors)
+        {
+            if (excavation.tilesInExcavation.Contains(neighbour))
+            {
+                neighboursToDelatedTile.Add(neighbour);
+            }
+        }
+        if(neighboursToDelatedTile.Count > 1) // 1 or less means that excavation preserved integrity
+        {
+            List<List<Tile>> newExcavations = new List<List<Tile>>();
+            foreach(var tile in neighboursToDelatedTile)
+            {
+                if(!newExcavations.Any(s => s.Contains(tile)))
+                {
+                    var tilesInNewExcavation = BuildExcavation(tile, excavation.tilesInExcavation);
+                    newExcavations.Add(tilesInNewExcavation);
+                }
+            }
+
+            foreach(var newExcavation in newExcavations)
+            {
+                Excavation excav = new Excavation(newExcavation);
+                excavations.Add(excav);
+            }
+        }
+        excavations.Remove(excavation);
+    }
+
+    private List<Tile> BuildExcavation(Tile tile, List<Tile> tilesInExistingExcavation)
+    {
+        List<Tile> newExcavation = new List<Tile>();
+        Queue<Tile> newTilesInNewExcavation = new Queue<Tile>();
+        newTilesInNewExcavation.Enqueue(tile);
+        while (newTilesInNewExcavation.Count > 0)
+        {
+            var currentTile = newTilesInNewExcavation.Dequeue();
+            foreach(Tile neighbour in currentTile.neighbors)
+            {
+                if(!newExcavation.Contains(neighbour) && !newTilesInNewExcavation.Contains(neighbour) && tilesInExistingExcavation.Contains(neighbour))
+                {
+                    newTilesInNewExcavation.Enqueue(neighbour);
+                }
+            }
+            newExcavation.Add(currentTile);
+        }
+        return newExcavation;
+    }
+
+    private void Update()
+    {
+        print(excavations.Count);
     }
 }

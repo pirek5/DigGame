@@ -28,9 +28,9 @@ public class MapDisplay : MonoBehaviour
         }
     }
 
-    public void DisplayTile(Vector2Int position, Tile tileInfo)
+    public void DisplayTile(Vector2Int position, Tile tile)
     {
-        if(tileInfo.digIt)
+        if(tile.digIt)
         {
             digSelection.SetTile((Vector3Int)position, digSelectionTile);
         }
@@ -39,7 +39,7 @@ public class MapDisplay : MonoBehaviour
             digSelection.SetTile((Vector3Int)position, null);
         }
 
-        if(tileInfo.m_tileType == TileType.empty)
+        if(tile.m_tileType == TileType.empty)
         {
             background.SetTile((Vector3Int)position, backgroundTile);
             foreground.SetTile((Vector3Int)position, null);

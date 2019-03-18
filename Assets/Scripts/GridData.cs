@@ -21,10 +21,6 @@ public class GridData : MonoBehaviour
         mapGenerator = FindObjectOfType<MapGenerator>(); //TODO
         mapDisplay = FindObjectOfType<MapDisplay>(); //TODO
         digController = FindObjectOfType<DigController>(); //TODO
-    }
-
-    private void Start()
-    {
         Init();
     }
 
@@ -78,16 +74,17 @@ public class GridData : MonoBehaviour
     {
         if (gridDictionary.ContainsKey(tilePosition))
         {
-            gridDictionary[tilePosition].digIt = isDiging;
+            
             mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
-            if (isDiging)
+            if (isDiging && gridDictionary[tilePosition].digIt == false)
             {
                 digController.AddTileToDig(gridDictionary[tilePosition]);
             }
-            else
+            else if(!isDiging && gridDictionary[tilePosition].digIt == true)
             {
                 digController.DeleteTileToDig(gridDictionary[tilePosition]);
             }
+            gridDictionary[tilePosition].digIt = isDiging;
         }
     }
 
@@ -96,36 +93,14 @@ public class GridData : MonoBehaviour
         if (gridDictionary.ContainsKey(tilePosition))
         {
             gridDictionary[tilePosition].m_tileType = TileType.empty;
+            gridDictionary[tilePosition].digIt = false;
             mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
+            digController.DeleteTileToDig(gridDictionary[tilePosition]);
         }
     }
 
-    public static Tile FindStartTile(Vector3 position)
+    public void DeleteTile(Tile tile)
     {
-        Vector2Int positionInt = Vector2Int.FloorToInt(position);
-        List<Tile> possibleClosestTiles = new List<Tile>();
-        if (gridDictionary.ContainsKey(positionInt)) 
-        {
-            //possibleClosestTiles = gridDictionary[positionInt].neighbors;
-            //possibleClosestTiles.Add(gridDictionary[positionInt]);
-            possibleClosestTiles = new List<Tile>(gridDictionary.Values);
-            var closestTile = possibleClosestTiles[0];
-            for (int i = 1; i < possibleClosestTiles.Count; i++)
-            {
-                float currentClosestDistance = Vector3.Distance(position, closestTile.position);
-                float testDistance = Vector3.Distance(position, possibleClosestTiles[i].position);
-                if (testDistance <= currentClosestDistance)
-                {
-                    closestTile = possibleClosestTiles[i];
-                }
-            }
-            return closestTile;
-        }
-        else //much slower 'emergency' way
-        {
-            Debug.LogError("position out of map!");
-            return null;
-            //possibleClosestTiles = new List<Tile>(gridDictionary.Values);
-        }
+        DeleteTile(Vector2Int.FloorToInt(tile.position));
     }
 }

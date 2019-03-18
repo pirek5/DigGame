@@ -872,6 +872,7 @@ GameObject:
   - component: {fileID: 913406811}
   - component: {fileID: 913406810}
   - component: {fileID: 913406809}
+  - component: {fileID: 913406813}
   m_Layer: 0
   m_Name: GridData
   m_TagString: Untagged
@@ -937,6 +938,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &913406813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913406808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cca8a507dd014e640985c054fa538f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1006720194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,8 +1412,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1531043834}
   - component: {fileID: 1531043832}
-  - component: {fileID: 1531043831}
+  - component: {fileID: 1531043829}
   - component: {fileID: 1531043830}
+  - component: {fileID: 1531043828}
   m_Layer: 8
   m_Name: Digger
   m_TagString: Untagged
@@ -1408,6 +1422,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1531043828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531043827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d227ac128813f947a51829cf2cfd0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightedColor: {r: 1, g: 0, b: 0, a: 0}
+  flashingSpeed: 0.1
+--- !u!114 &1531043829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531043827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2009abae881e3d64e8c03776f2b62f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 10
 --- !u!114 &1531043830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1420,19 +1461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e134d9cd3411284488466bab022412ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1531043831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531043827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab77423e80225de45b4406ac9ed5112d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 10
+  diggingPeriod: 0.5
+  digging: 0
 --- !u!114 &1531043832
 MonoBehaviour:
   m_ObjectHideFlags: 0

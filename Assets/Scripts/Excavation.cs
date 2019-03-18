@@ -13,6 +13,12 @@ public class Excavation
         UpdateDigEntrance();
     }
 
+    public Excavation(List<Tile> tiles)
+    {
+        tilesInExcavation = new List<Tile>(tiles);
+        UpdateDigEntrance();
+    }
+
     public void AddTileToExcavation(Tile tile)
     {
         tilesInExcavation.Add(tile);
@@ -39,6 +45,4 @@ public class Excavation
          tilesInExcavation.Remove(tileToDelete);
          UpdateDigEntrance();
     }
-
-
 }

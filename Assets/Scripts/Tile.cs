@@ -9,6 +9,7 @@ public class Tile
     //state
     public TileType m_tileType;
     public bool digIt = false;
+    public int health = 4; //TODO magic number
 
     //used to pathfinding
     public List<Tile> neighbors = new List<Tile>();
@@ -21,6 +22,11 @@ public class Tile
     public Tile(TileType tileType) 
     {
         m_tileType = tileType;
+    }
+
+    public void LoseHealth()
+    {
+        health--;
     }
 
     //used to pathfinding

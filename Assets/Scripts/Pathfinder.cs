@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Pathfinder : MonoBehaviour
 {
-    public List<Tile> FindPath(Tile startTile, Tile endTile)
+    public List<Tile> FindPath(Tile endTile)
     {
         PriorityQueue frontierTiles = new PriorityQueue();
         List<Tile> exploredTiles = new List<Tile>();
+        Tile startTile = FindStartTile(transform.position);
+        if(startTile == null)
+        {
+            return null;
+        }
         startTile.distanceTraveled = 0f;
         frontierTiles.Enqueue(startTile);
         while(frontierTiles.Count > 0)
@@ -33,6 +38,24 @@ public class Pathfinder : MonoBehaviour
         }
         //path not found - end tile is impossible to reach
         return null;
+    }
+
+    public static Tile FindStartTile(Vector3 position)
+    {
+        Vector2Int positionInt = Vector2Int.FloorToInt(position);
+        List<Tile> possibleClosestTiles = new List<Tile>();
+        if (GridData.gridDictionary.ContainsKey(positionInt))
+        {
+            Tile tile = GridData.gridDictionary[positionInt];
+            possibleClosestTiles.Add(tile);
+            possibleClosestTiles.AddRange(tile.neighbors);
+        }
+        else //much slower 'emergency' way
+        {
+            possibleClosestTiles = new List<Tile>(GridData.gridDictionary.Values);
+            Debug.LogError("position out of map!");
+        }
+        return Utilities.TileFindClosestTile(position, possibleClosestTiles);
     }
 
     public List<Tile> CreatePath(Tile startTile, Tile endTile)
