@@ -11,6 +11,7 @@ public class Pathfinder : MonoBehaviour
         Tile startTile = FindStartTile(transform.position);
         if(startTile == null)
         {
+            //path not found - start tile is impossible to find
             return null;
         }
         startTile.distanceTraveled = 0f;
@@ -55,7 +56,7 @@ public class Pathfinder : MonoBehaviour
             possibleClosestTiles = new List<Tile>(GridData.gridDictionary.Values);
             Debug.LogError("position out of map!");
         }
-        return Utilities.TileFindClosestTile(position, possibleClosestTiles);
+        return Utilities.FindClosestTile(position, possibleClosestTiles);
     }
 
     public List<Tile> CreatePath(Tile startTile, Tile endTile)

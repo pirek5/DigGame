@@ -77,12 +77,12 @@ public class DigController : MonoBehaviour
                     excavations.Remove(excavation);
                 }
                 CheckIntegrity(excavation, tileToDelete);
-                break; //excavation found, no need to continue function
+                return; //excavation found, no need to continue function
             }
         }
     }
 
-    public List<Tile> FindEnternace(Tile tile)
+    public List<Tile> FindPossibleEnternace(Tile tile)
     {
         foreach (Excavation excavation in excavations)
         {
@@ -94,13 +94,13 @@ public class DigController : MonoBehaviour
         return null;
     }
 
-    public List<Tile> GetTilesToDig(Tile tile)
+    public Excavation GetExcavation(Tile tile)
     {
         foreach (Excavation excavation in excavations)
         {
             if (excavation.tilesInExcavation.Contains(tile))
             {
-                return excavation.tilesInExcavation;
+                return excavation;
             }
         }
         return null;
@@ -127,14 +127,21 @@ public class DigController : MonoBehaviour
                     newExcavations.Add(tilesInNewExcavation);
                 }
             }
-
-            foreach(var newExcavation in newExcavations)
+            for(int i = 0; i < newExcavations.Count; i++)
             {
-                Excavation excav = new Excavation(newExcavation);
-                excavations.Add(excav);
+                if (i == 0) //first newExcavation replace old excavation
+                {
+                    excavation.tilesInExcavation.Clear();
+                    excavation.tilesInExcavation.AddRange(newExcavations[i]);
+                    excavation.UpdateDigEntrance();
+                }
+                else //add rest of new excavations
+                {
+                    Excavation excav = new Excavation(newExcavations[i]);
+                    excavations.Add(excav);
+                }
             }
         }
-        excavations.Remove(excavation);
     }
 
     private List<Tile> BuildExcavation(Tile tile, List<Tile> tilesInExistingExcavation)
@@ -155,10 +162,5 @@ public class DigController : MonoBehaviour
             newExcavation.Add(currentTile);
         }
         return newExcavation;
-    }
-
-    private void Update()
-    {
-        print(excavations.Count);
     }
 }

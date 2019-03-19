@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum State {normal, dig, erase, unitSelected }
 
@@ -42,9 +43,12 @@ public class PlayerInput : MonoBehaviour
             {
                 selectedObject = hit.transform.gameObject;
                 currentState = State.unitSelected;
+                DiggerPanel.Open();
+                //hit.collider.GetComponent<UnitControlPanel>().Init();
             }
-            else
+            else if(!EventSystem.current.IsPointerOverGameObject())
             {
+                UIPanelManager.Instance.CloseAll();
                 selectedObject = null;
                 currentState = State.normal;
             }
@@ -52,18 +56,21 @@ public class PlayerInput : MonoBehaviour
 
         if (currentState == State.unitSelected && Input.GetMouseButtonDown(1)) //RMB (clicked)
         {
-            if (selectedObject.GetComponentInParent<Digger>())
+            if (selectedObject.GetComponentInParent<Movement>())
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
-                selectedObject.GetComponentInParent<Digger>().Move(gridPos);
+                if (GridData.gridDictionary.ContainsKey(gridPos))
+                {
+                    selectedObject.GetComponentInParent<Movement>().MoveToPosition(gridPos);
+                }
             }
         }
     }
 
     private void MouseActionsDigOrErase()
     {
-        if (Input.GetMouseButton(0)) //LMB (click and hold)
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) //LMB (click and hold)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
@@ -78,7 +85,7 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(1)) //RMB (click and hold)
+        if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()) //RMB (click and hold)
         {
              currentState = State.normal;
         }

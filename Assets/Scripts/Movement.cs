@@ -21,7 +21,21 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         List<Tile> tiles = new List<Tile>(GridData.gridDictionary.Values);
-        currentTile = Utilities.TileFindClosestTile(transform.position, tiles);
+        currentTile = Utilities.FindClosestTile(transform.position, tiles);
+    }
+
+    public virtual void MoveToPosition(Vector2Int position)
+    {
+         if (GridData.gridDictionary[position].m_tileType == TileType.empty) // move to specific tile
+         {
+             FindAndFollowPath(GridData.gridDictionary[position]); // TODO zaznacz nieudane wyszukanie ściezki FIndAndFollowPath to bool
+         }
+    }
+
+    public virtual void MoveToPosition(Tile tile)
+    {
+        var pos = Vector2Int.FloorToInt(tile.position);
+        MoveToPosition(pos);
     }
 
     public bool FindAndFollowPath(Tile destination)

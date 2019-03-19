@@ -774,7 +774,7 @@ GameObject:
   - component: {fileID: 801151754}
   - component: {fileID: 801151753}
   m_Layer: 5
-  m_Name: UI Canvas
+  m_Name: Const Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1204,6 +1204,7 @@ GameObject:
   - component: {fileID: 1184476220}
   - component: {fileID: 1184476222}
   - component: {fileID: 1184476223}
+  - component: {fileID: 1184476224}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -1273,6 +1274,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9d24a4937ce6194b85286e8689b8226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1184476224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184476219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50516079f67cd0f4d8ef99216187dd1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  diggerPanelPrefab: {fileID: 8807700697923559481, guid: 71c3464c0fdb7ce478e3db86350dc611,
+    type: 3}
+  menuParent: {fileID: 1184476221}
 --- !u!1 &1396176160
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,6 +1431,7 @@ GameObject:
   - component: {fileID: 1531043829}
   - component: {fileID: 1531043830}
   - component: {fileID: 1531043828}
+  - component: {fileID: 1531043831}
   m_Layer: 8
   m_Name: Digger
   m_TagString: Untagged
@@ -1463,6 +1480,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   diggingPeriod: 0.5
   digging: 0
+--- !u!114 &1531043831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531043827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212af9d390cdaaf4589c25704e744479, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1531043832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1503,7 +1532,7 @@ GameObject:
   - component: {fileID: 1637223412}
   - component: {fileID: 1637223411}
   m_Layer: 5
-  m_Name: Upper buttons panel
+  m_Name: Dig panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1527,7 +1556,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 500.8}
+  m_AnchoredPosition: {x: 0, y: -500.70007}
   m_SizeDelta: {x: 0, y: -1001.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1637223411

@@ -5,7 +5,7 @@ using System.Linq;
 
 public class Utilities : MonoBehaviour
 {
-    public static Tile TileFindClosestTile(Vector3 position, List<Tile> tiles)
+    public static Tile FindClosestTile(Vector3 position, List<Tile> tiles)
     {
         var closestTile = tiles[0];
         for (int i = 1; i < tiles.Count; i++)
@@ -18,6 +18,20 @@ public class Utilities : MonoBehaviour
             }
         }
         return closestTile;
+    }
+
+    public static bool CheckIfNeighbour(Vector3 position, Tile tileToCheck)
+    {
+        var pos = Vector2Int.FloorToInt(position);
+        if (GridData.gridDictionary.ContainsKey(pos))
+        {
+            Tile tile = GridData.gridDictionary[pos];
+            foreach(Tile neighbour in tile.neighbors)
+            {
+                if(neighbour == tileToCheck) { return true; }
+            }
+        }
+        return false;
     }
 
 }
