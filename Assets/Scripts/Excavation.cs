@@ -4,37 +4,37 @@ using UnityEngine;
 
 public class Excavation
 {
-    public List<Tile> tilesInExcavation;
-    public List<Tile> excavationEnternace = new List<Tile>(); 
+    public List<Tile> TilesInExcavation { get; private set; }
+    public List<Tile> ExcavationEnternace { get; private set; } 
 
     public Excavation(Tile tile)
     {
-        tilesInExcavation = new List<Tile>() { tile };
+        TilesInExcavation = new List<Tile>() { tile };
         UpdateDigEntrance();
     }
 
     public Excavation(List<Tile> tiles)
     {
-        tilesInExcavation = new List<Tile>(tiles);
+        TilesInExcavation = new List<Tile>(tiles);
         UpdateDigEntrance();
     }
 
     public void AddTileToExcavation(Tile tile)
     {
-        tilesInExcavation.Add(tile);
+        TilesInExcavation.Add(tile);
         UpdateDigEntrance();
     }
 
     public void UpdateDigEntrance()
     {
-        excavationEnternace.Clear();
-        foreach (Tile tile in tilesInExcavation)
+        ExcavationEnternace = new List<Tile>();
+        foreach (Tile tile in TilesInExcavation)
         {
-            foreach (Tile neighbor in tile.neighbors)
+            foreach (Tile neighbor in tile.Neighbors)
             {
-                if (neighbor.m_tileType == TileType.empty)
+                if (neighbor.TileType == TileType.empty)
                 {
-                    excavationEnternace.Add(neighbor);
+                    ExcavationEnternace.Add(neighbor);
                 }
             }
         }
@@ -42,7 +42,7 @@ public class Excavation
 
     public void DeleteTileInExcavation(Tile tileToDelete)
     {
-         tilesInExcavation.Remove(tileToDelete);
+         TilesInExcavation.Remove(tileToDelete);
          UpdateDigEntrance();
     }
 }

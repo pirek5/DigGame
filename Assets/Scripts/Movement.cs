@@ -11,7 +11,9 @@ public class Movement : MonoBehaviour
     //cached
     private Pathfinder pathfinder;
     private List<Tile> currentPath;
-    public Tile currentTile;
+
+    //state
+    public Tile CurrentTile { get; private set; }
 
     protected virtual void Awake()
     {
@@ -21,12 +23,12 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         List<Tile> tiles = new List<Tile>(GridData.gridDictionary.Values);
-        currentTile = Utilities.FindClosestTile(transform.position, tiles);
+        CurrentTile = Utilities.FindClosestTile(transform.position, tiles);
     }
 
     public virtual void MoveToPosition(Vector2Int position)
     {
-         if (GridData.gridDictionary[position].m_tileType == TileType.empty) // move to specific tile
+         if (GridData.gridDictionary[position].TileType == TileType.empty) // move to specific tile
          {
              FindAndFollowPath(GridData.gridDictionary[position]); // TODO zaznacz nieudane wyszukanie ściezki FIndAndFollowPath to bool
          }
@@ -34,7 +36,7 @@ public class Movement : MonoBehaviour
 
     public virtual void MoveToPosition(Tile tile)
     {
-        var pos = Vector2Int.FloorToInt(tile.position);
+        var pos = Vector2Int.FloorToInt(tile.Position);
         MoveToPosition(pos);
     }
 
@@ -51,8 +53,8 @@ public class Movement : MonoBehaviour
     {
         foreach(var tile in path)
         {
-            yield return StartCoroutine(SmoothMovement(tile.position));
-            currentTile = tile;
+            yield return StartCoroutine(SmoothMovement(tile.Position));
+            CurrentTile = tile;
         }
     }
 

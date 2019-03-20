@@ -1,39 +1,50 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Vectors
-{
-    public static Vector2Int[] directions = { new Vector2Int(1, 0), new Vector2Int(-1,0), new Vector2Int(0,-1), new Vector2Int(0,1) };
-}
-
 public class GridData : MonoBehaviour
 {
-    //state
+    //config
+    #pragma warning disable 0649
+    [SerializeField] private int tileHealth;
+    #pragma warning restore 0649
+
+    //basic data structure that contains all Tile classes
     public static Dictionary<Vector2Int, Tile> gridDictionary; 
 
-    //cached
-    private MapGenerator mapGenerator;
-    private MapDisplay mapDisplay;
-    private DigController digController;
+    //singleton
+    public static GridData Instance { get; private set; }
 
     private void Awake()
     {
-        mapGenerator = FindObjectOfType<MapGenerator>(); //TODO
-        mapDisplay = FindObjectOfType<MapDisplay>(); //TODO
-        digController = FindObjectOfType<DigController>(); //TODO
-        Init();
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            Init();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     void Init()
     {
         FillDictionary();
         AssignNeighbors();
-        mapDisplay.DisplayMap(gridDictionary);
+        MapDisplay.Instance.DisplayMap(gridDictionary);
     }
 
     private void FillDictionary()
     {
-        var gridArray = mapGenerator.GenerateMap();
+        var gridArray = MapGenerator.Instance.GenerateMap();
         int width = gridArray.GetLength(0);
         int height = gridArray.GetLength(1);
 
@@ -43,8 +54,8 @@ public class GridData : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 TileType tileType = (TileType)gridArray[x, y]; //int to enum
-                Tile newTile = new Tile(tileType);
-                newTile.position = new Vector3(x, y, 0);
+                Tile newTile = new Tile(tileType, tileHealth);
+                newTile.Position = new Vector3(x, y, 0);
                 Vector2Int position = new Vector2Int(x, y);
                 
                 if (!gridDictionary.ContainsKey(position))
@@ -59,11 +70,11 @@ public class GridData : MonoBehaviour
     {
         foreach(var tile in gridDictionary)
         {
-            foreach(Vector2Int direction in Vectors.directions)
+            foreach(Vector2Int direction in Utilities.basicDirections)
             {
                 if(gridDictionary.ContainsKey(tile.Key + direction))
                 {
-                    tile.Value.neighbors.Add(gridDictionary[tile.Key + direction]);
+                    tile.Value.Neighbors.Add(gridDictionary[tile.Key + direction]);
                 
                 }
             }
@@ -75,14 +86,14 @@ public class GridData : MonoBehaviour
         if (gridDictionary.ContainsKey(tilePosition))
         {
             
-            mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
+            MapDisplay.Instance.DisplayTile(tilePosition, gridDictionary[tilePosition]);
             if (isDiging && gridDictionary[tilePosition].digIt == false)
             {
-                digController.AddTileToDig(gridDictionary[tilePosition]);
+                DigManager.Instance.AddTileToDig(gridDictionary[tilePosition]);
             }
             else if(!isDiging && gridDictionary[tilePosition].digIt == true)
             {
-                digController.DeleteTileToDig(gridDictionary[tilePosition]);
+                DigManager.Instance.DeleteTileToDig(gridDictionary[tilePosition]);
             }
             gridDictionary[tilePosition].digIt = isDiging;
         }
@@ -92,15 +103,15 @@ public class GridData : MonoBehaviour
     {
         if (gridDictionary.ContainsKey(tilePosition))
         {
-            gridDictionary[tilePosition].m_tileType = TileType.empty;
+            gridDictionary[tilePosition].TileType = TileType.empty;
             gridDictionary[tilePosition].digIt = false;
-            mapDisplay.DisplayTile(tilePosition, gridDictionary[tilePosition]);
-            digController.DeleteTileToDig(gridDictionary[tilePosition]);
+            MapDisplay.Instance.DisplayTile(tilePosition, gridDictionary[tilePosition]);
+            DigManager.Instance.DeleteTileToDig(gridDictionary[tilePosition]);
         }
     }
 
     public void DeleteTile(Tile tile)
     {
-        DeleteTile(Vector2Int.FloorToInt(tile.position));
+        DeleteTile(Vector2Int.FloorToInt(tile.Position));
     }
 }

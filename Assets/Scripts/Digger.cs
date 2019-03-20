@@ -8,33 +8,29 @@ public class Digger : MonoBehaviour
     [SerializeField] private float diggingPeriod = 1f;
 
     //state
-    public bool digging = false;
-    public Excavation currentExcavation;
-    public Tile tileToDig;
+    public bool Digging { get; set; }
+    public Excavation CurrentExcavation { get; set; }
+    public Tile TileToDig { get; set; }
 
     //cached
-    DiggerMovement movement;
-    DigController digController;
-    GridData gridData;
+    private DiggerMovement movement;
 
     public void Awake()
     {
         movement = GetComponent<DiggerMovement>();
-        digController = FindObjectOfType<DigController>(); //TODO
-        gridData = FindObjectOfType<GridData>();
     }
 
     public void StartDigging()
     {
-        if(tileToDig == null)
+        if(TileToDig == null)
         {
-            digging = false;
+            Digging = false;
             return;
         }
-        else if(tileToDig.digIt == true)
+        else if(TileToDig.digIt == true)
         {
-            currentExcavation = digController.GetExcavation(tileToDig);
-            if(currentExcavation != null)
+            CurrentExcavation = DigManager.Instance.GetExcavation(TileToDig);
+            if(CurrentExcavation != null)
             {
                 StartCoroutine(DiggingCoroutine());
             }
@@ -43,51 +39,35 @@ public class Digger : MonoBehaviour
 
     IEnumerator DiggingCoroutine()
     {
-        var closestTileToDig = Utilities.FindClosestTile(transform.position, currentExcavation.tilesInExcavation);
-        print(Utilities.CheckIfNeighbour(transform.position, closestTileToDig));
-        print(closestTileToDig.position);
+        var closestTileToDig = Utilities.FindClosestTile(transform.position, CurrentExcavation.TilesInExcavation);
         if(Utilities.CheckIfNeighbour(transform.position, closestTileToDig))
         {
             GetComponent<FlashingObject>().StartFlashing();
             while (closestTileToDig.digIt == true)
             {
                 closestTileToDig.LoseHealth();
-                if(closestTileToDig.health <= 0)
+                if(closestTileToDig.Health <= 0)
                 {
-                    gridData.DeleteTile(closestTileToDig);
+                    GridData.Instance.DeleteTile(closestTileToDig);
                 }
                 yield return new WaitForSeconds(diggingPeriod);
             }
             GetComponent<FlashingObject>().StopFlashing();
 
-            if (currentExcavation != null)
+            if (CurrentExcavation != null)
             {
-                if(currentExcavation.tilesInExcavation.Count > 0)
+                if(CurrentExcavation.TilesInExcavation.Count > 0)
                 {
-                    Tile newTileToDig = Utilities.FindClosestTile(transform.position, currentExcavation.tilesInExcavation);
+                    Tile newTileToDig = Utilities.FindClosestTile(transform.position, CurrentExcavation.TilesInExcavation);
                     movement.MoveToPosition(newTileToDig);
                 }
                 else
                 {
-                    currentExcavation = null;
+                    CurrentExcavation = null;
                 }
             }
         }
         // wyszukanie nowej sciezki?
-        
-    }
-
-
-    private void Update()
-    {
-        if(tileToDig != null)
-        {
-            //print("tileToDig: " + tileToDig.position);
-        }
-        if(currentExcavation != null)
-        {
-            //print("currentExcavation: " + currentExcavation);
-        }
         
     }
 

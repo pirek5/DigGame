@@ -3,23 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class DigController : MonoBehaviour
+public class DigManager : MonoBehaviour
 {
-    public List<Tile> tilesToDig = new List<Tile>();
-    public List<Tile> digEntrance = new List<Tile>();
-
     //separate areas which contains tiles to dig
-    public List<Excavation> excavations = new List<Excavation>();
+    private List<Excavation> excavations = new List<Excavation>();
 
+    //singleton
+    public static DigManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     public void AddTileToDig(Tile tileToDig)
     {
         List<Excavation> excavationNeighbors = new List<Excavation>();
         foreach(Excavation excavation in excavations)
         {
-            foreach(Tile tileInExcavation in excavation.tilesInExcavation)
+            foreach(Tile tileInExcavation in excavation.TilesInExcavation)
             {
-                foreach(Tile tileToDigNeighbor in tileToDig.neighbors)
+                foreach(Tile tileToDigNeighbor in tileToDig.Neighbors)
                 {
                     if(tileToDigNeighbor == tileInExcavation)
                     {
@@ -57,7 +76,7 @@ public class DigController : MonoBehaviour
     {
         for(int i = 1; i < neighbourExcavations.Count; i++)
         {
-            neighbourExcavations[0].tilesInExcavation.AddRange(neighbourExcavations[i].tilesInExcavation);
+            neighbourExcavations[0].TilesInExcavation.AddRange(neighbourExcavations[i].TilesInExcavation);
             if (excavations.Contains(neighbourExcavations[i]))
             {
                 excavations.Remove(neighbourExcavations[i]);
@@ -69,10 +88,10 @@ public class DigController : MonoBehaviour
     {
         foreach(Excavation excavation in excavations)
         {
-            if (excavation.tilesInExcavation.Contains(tileToDelete))
+            if (excavation.TilesInExcavation.Contains(tileToDelete))
             {
                 excavation.DeleteTileInExcavation(tileToDelete);
-                if(excavation.tilesInExcavation.Count == 0)
+                if(excavation.TilesInExcavation.Count == 0)
                 {
                     excavations.Remove(excavation);
                 }
@@ -86,9 +105,9 @@ public class DigController : MonoBehaviour
     {
         foreach (Excavation excavation in excavations)
         {
-            if (excavation.tilesInExcavation.Contains(tile))
+            if (excavation.TilesInExcavation.Contains(tile))
             {
-                return excavation.excavationEnternace;
+                return excavation.ExcavationEnternace;
             }
         }
         return null;
@@ -98,7 +117,7 @@ public class DigController : MonoBehaviour
     {
         foreach (Excavation excavation in excavations)
         {
-            if (excavation.tilesInExcavation.Contains(tile))
+            if (excavation.TilesInExcavation.Contains(tile))
             {
                 return excavation;
             }
@@ -109,9 +128,9 @@ public class DigController : MonoBehaviour
     public void CheckIntegrity(Excavation excavation, Tile delatedTile)
     {
         List<Tile> neighboursToDelatedTile = new List<Tile>();
-        foreach(Tile neighbour in delatedTile.neighbors)
+        foreach(Tile neighbour in delatedTile.Neighbors)
         {
-            if (excavation.tilesInExcavation.Contains(neighbour))
+            if (excavation.TilesInExcavation.Contains(neighbour))
             {
                 neighboursToDelatedTile.Add(neighbour);
             }
@@ -123,7 +142,7 @@ public class DigController : MonoBehaviour
             {
                 if(!newExcavations.Any(s => s.Contains(tile)))
                 {
-                    var tilesInNewExcavation = BuildExcavation(tile, excavation.tilesInExcavation);
+                    var tilesInNewExcavation = BuildExcavation(tile, excavation.TilesInExcavation);
                     newExcavations.Add(tilesInNewExcavation);
                 }
             }
@@ -131,8 +150,8 @@ public class DigController : MonoBehaviour
             {
                 if (i == 0) //first newExcavation replace old excavation
                 {
-                    excavation.tilesInExcavation.Clear();
-                    excavation.tilesInExcavation.AddRange(newExcavations[i]);
+                    excavation.TilesInExcavation.Clear();
+                    excavation.TilesInExcavation.AddRange(newExcavations[i]);
                     excavation.UpdateDigEntrance();
                 }
                 else //add rest of new excavations
@@ -152,7 +171,7 @@ public class DigController : MonoBehaviour
         while (newTilesInNewExcavation.Count > 0)
         {
             var currentTile = newTilesInNewExcavation.Dequeue();
-            foreach(Tile neighbour in currentTile.neighbors)
+            foreach(Tile neighbour in currentTile.Neighbors)
             {
                 if(!newExcavation.Contains(neighbour) && !newTilesInNewExcavation.Contains(neighbour) && tilesInExistingExcavation.Contains(neighbour))
                 {

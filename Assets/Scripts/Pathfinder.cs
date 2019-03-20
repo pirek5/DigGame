@@ -14,7 +14,7 @@ public class Pathfinder : MonoBehaviour
             //path not found - start tile is impossible to find
             return null;
         }
-        startTile.distanceTraveled = 0f;
+        startTile.DistanceTraveled = 0f;
         frontierTiles.Enqueue(startTile);
         while(frontierTiles.Count > 0)
         {
@@ -24,14 +24,14 @@ public class Pathfinder : MonoBehaviour
                 //path found
                 return CreatePath(startTile, currentTile); 
             }
-            foreach (var neighbor in currentTile.neighbors)
+            foreach (var neighbor in currentTile.Neighbors)
             {
-                if(!frontierTiles.Contains(neighbor) && !exploredTiles.Contains(neighbor) && neighbor.m_tileType == TileType.empty)
+                if(!frontierTiles.Contains(neighbor) && !exploredTiles.Contains(neighbor) && neighbor.TileType == TileType.empty)
                 {
-                    neighbor.exploredFrom = currentTile;
-                    float newDistanceTraveled = currentTile.distanceTraveled + 1f;
-                    neighbor.distanceTraveled = newDistanceTraveled;
-                    neighbor.priority = newDistanceTraveled + GetDistance(neighbor, endTile);
+                    neighbor.ExploredFrom = currentTile;
+                    float newDistanceTraveled = currentTile.DistanceTraveled + 1f;
+                    neighbor.DistanceTraveled = newDistanceTraveled;
+                    neighbor.Priority = newDistanceTraveled + GetDistance(neighbor, endTile);
                     frontierTiles.Enqueue(neighbor);
                 }
             }
@@ -41,7 +41,7 @@ public class Pathfinder : MonoBehaviour
         return null;
     }
 
-    public static Tile FindStartTile(Vector3 position)
+    private Tile FindStartTile(Vector3 position)
     {
         Vector2Int positionInt = Vector2Int.FloorToInt(position);
         List<Tile> possibleClosestTiles = new List<Tile>();
@@ -49,7 +49,7 @@ public class Pathfinder : MonoBehaviour
         {
             Tile tile = GridData.gridDictionary[positionInt];
             possibleClosestTiles.Add(tile);
-            possibleClosestTiles.AddRange(tile.neighbors);
+            possibleClosestTiles.AddRange(tile.Neighbors);
         }
         else //much slower 'emergency' way
         {
@@ -59,25 +59,24 @@ public class Pathfinder : MonoBehaviour
         return Utilities.FindClosestTile(position, possibleClosestTiles);
     }
 
-    public List<Tile> CreatePath(Tile startTile, Tile endTile)
+    private List<Tile> CreatePath(Tile startTile, Tile endTile)
     {
         List<Tile> path = new List<Tile>();
         path.Add(endTile);
         Tile currentTile = endTile;
         while (currentTile != startTile)
         {
-            path.Add(currentTile.exploredFrom);
-            currentTile = currentTile.exploredFrom;
+            path.Add(currentTile.ExploredFrom);
+            currentTile = currentTile.ExploredFrom;
         }
         path.Reverse();
         return path;
     }
 
-    public static float GetDistance(Tile source, Tile target)
+    private float GetDistance(Tile source, Tile target)
     {
-        float dx = Mathf.Abs(source.position.x - target.position.x);
-        float dy = Mathf.Abs(source.position.y - target.position.y);
-
+        float dx = Mathf.Abs(source.Position.x - target.Position.x);
+        float dy = Mathf.Abs(source.Position.y - target.Position.y);
         return (dx + dy);
     }
 

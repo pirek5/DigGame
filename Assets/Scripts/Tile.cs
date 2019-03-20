@@ -7,36 +7,38 @@ public enum TileType { empty = 0, full = 1 };
 public class Tile
 {
     //state
-    public TileType m_tileType;
-    public bool digIt = false;
-    public int health = 4; //TODO magic number
+    public TileType TileType { get; set; }
+    public bool digIt { get; set; }
+    public int Health { get; set; }
 
     //used to pathfinding
-    public List<Tile> neighbors = new List<Tile>();
-    public Vector3 position;
-    public float distanceTraveled;
-    public float priority;
-    public Tile exploredFrom;
-   
+    public List<Tile> Neighbors { get; set; }
+    public Vector3 Position { get; set; }
+    public float DistanceTraveled { get; set; }
+    public float Priority { get; set; }
+    public Tile ExploredFrom { get; set; }
+
     //constructor
-    public Tile(TileType tileType) 
+    public Tile(TileType tileType, int health) 
     {
-        m_tileType = tileType;
+        TileType = tileType;
+        Health = health;
+        Neighbors = new List<Tile>();
     }
 
     public void LoseHealth()
     {
-        health--;
+        Health--;
     }
 
     //used to pathfinding
     public int CompareTo(Tile other)
     {
-        if (this.priority < other.priority)
+        if (this.Priority < other.Priority)
         {
             return -1;
         }
-        else if (this.priority > other.priority)
+        else if (this.Priority > other.Priority)
         {
             return 1;
         }

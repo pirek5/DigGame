@@ -6,25 +6,22 @@ public class DiggerMovement : Movement
 {
     //cached
     private Digger digger;
-    private DigController digController;
 
     protected override void Awake()
     {
         base.Awake();
         digger = GetComponent<Digger>();
-        digController = FindObjectOfType<DigController>(); //TODO
     }
 
     public override void MoveToPosition(Vector2Int position)
     {
-        digger.tileToDig = null;
-        digger.currentExcavation = null;
+        digger.TileToDig = null; //TODO
+        digger.CurrentExcavation = null; //TODO
         base.MoveToPosition(position); //move to specific tile or...
         if (GridData.gridDictionary[position].digIt == true) // ... move and dig
         {
-            digger.tileToDig = GridData.gridDictionary[position];
-            //tilesToDig = digController.GetTilesToDig(tileToDig);
-            List<Tile> possibleEntrance = digController.FindPossibleEnternace(digger.tileToDig);
+            digger.TileToDig = GridData.gridDictionary[position];
+            List<Tile> possibleEntrance = DigManager.Instance.FindPossibleEnternace(digger.TileToDig);
 
             if (possibleEntrance.Count > 0)
             {
@@ -32,18 +29,17 @@ public class DiggerMovement : Movement
             }
             else
             {
-                //tilesToDig.Clear();
                 //nie da sie znalezc sciezki
             }
         }
     }
 
-    public void FindDigEntrance(List<Tile> possibleDestinations)  //TODO move to new diggerPathfinder class?
+    public void FindDigEntrance(List<Tile> possibleDestinations)
     {
         Tile closestEnternance = Utilities.FindClosestTile(this.transform.position, possibleDestinations);
         if (FindAndFollowPath(closestEnternance)) //path founded
         {
-            digger.digging = true;
+            digger.Digging = true;
         }
         else // coudnt find path, change entarnace to second closest
         {
@@ -54,7 +50,6 @@ public class DiggerMovement : Movement
             }
             else
             {
-               // tilesToDig.Clear();
                 //nie da sie znalezx sciezki
             }
         }
@@ -63,7 +58,7 @@ public class DiggerMovement : Movement
     protected override IEnumerator FollowPath(List<Tile> path)
     {
         yield return StartCoroutine(base.FollowPath(path));
-        if (digger.digging)
+        if (digger.Digging)
         {
             digger.StartDigging();
         }

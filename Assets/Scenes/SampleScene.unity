@@ -924,6 +924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ef2a48f65b33244969981f4b48f4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileHealth: 4
 --- !u!4 &913406812
 Transform:
   m_ObjectHideFlags: 0
@@ -1225,12 +1226,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 655238086}
-  gridData: {fileID: 913406811}
   selectables:
     serializedVersion: 2
     m_Bits: 256
-  currentState: 0
-  selectedObject: {fileID: 0}
 --- !u!4 &1184476221
 Transform:
   m_ObjectHideFlags: 0
@@ -1258,6 +1256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b0bbc7ab16905241add9c10d31cb7f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 519420031}
   mouseScrollSensitivity: 1
   keyboardScrollSensitivity: 1.2
   mouseZoomSensitivity: 10
@@ -1479,7 +1478,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diggingPeriod: 0.5
-  digging: 0
 --- !u!114 &1531043831
 MonoBehaviour:
   m_ObjectHideFlags: 0

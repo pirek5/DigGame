@@ -8,18 +8,42 @@ public enum State {normal, dig, erase, unitSelected }
 public class PlayerInput : MonoBehaviour
 {
     //references set in editor
+    #pragma warning disable 0649
     [SerializeField] private Grid grid;
-    [SerializeField] private GridData gridData;
     [SerializeField] private LayerMask selectables;
+    #pragma warning restore 0649
 
     //state
-    public State currentState = State.normal;
-    public GameObject selectedObject;
+    public State CurrentState { get; set; }
+    private GameObject selectedObject;
 
-    // Update is called once per frame
+    //singleton
+    public static PlayerInput Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            CurrentState = State.normal;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
     void Update()
     {
-        switch (currentState)
+        switch (CurrentState)
         {
             case State.normal:
             case State.unitSelected:
@@ -42,19 +66,18 @@ public class PlayerInput : MonoBehaviour
             if (hit.collider != null)
             {
                 selectedObject = hit.transform.gameObject;
-                currentState = State.unitSelected;
+                CurrentState = State.unitSelected;
                 DiggerPanel.Open();
-                //hit.collider.GetComponent<UnitControlPanel>().Init();
             }
             else if(!EventSystem.current.IsPointerOverGameObject())
             {
                 UIPanelManager.Instance.CloseAll();
                 selectedObject = null;
-                currentState = State.normal;
+                CurrentState = State.normal;
             }
         }
 
-        if (currentState == State.unitSelected && Input.GetMouseButtonDown(1)) //RMB (clicked)
+        if (CurrentState == State.unitSelected && Input.GetMouseButtonDown(1)) //RMB (clicked)
         {
             if (selectedObject.GetComponentInParent<Movement>())
             {
@@ -74,20 +97,19 @@ public class PlayerInput : MonoBehaviour
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
-            if (currentState == State.dig)
+            if (CurrentState == State.dig)
             {
-                gridData.DigTile(gridPos, true);
-                //gridData.DeleteTile(gridPos);
+                GridData.Instance.DigTile(gridPos, true);
             }
-            else if (currentState == State.erase)
+            else if (CurrentState == State.erase)
             {
-                gridData.DigTile(gridPos, false);
+                GridData.Instance.DigTile(gridPos, false);
             }
         }
 
         if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()) //RMB (click and hold)
         {
-             currentState = State.normal;
+             CurrentState = State.normal;
         }
     }
 }

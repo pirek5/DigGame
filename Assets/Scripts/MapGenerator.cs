@@ -4,8 +4,34 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
+    //config
+    #pragma warning disable 0649
     [SerializeField] int mapHeight;
     [SerializeField] int mapWidth;
+    #pragma warning restore 0649
+
+    //singleton
+    public static MapGenerator Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     public int[,] GenerateMap()
     {
