@@ -8,7 +8,6 @@ public class MoveCamera : MonoBehaviour
     #pragma warning disable 0649
     [SerializeField] private Camera mainCamera;
     #pragma warning restore 0649
-
     //config
     [SerializeField] private float mouseScrollSensitivity = 1f;
     [SerializeField] private float keyboardScrollSensitivity = 1f;

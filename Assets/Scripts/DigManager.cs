@@ -8,6 +8,8 @@ public class DigManager : MonoBehaviour
     //separate areas which contains tiles to dig
     private List<Excavation> excavations = new List<Excavation>();
 
+    public List<Tile> TilesToDig { get; private set; }
+
     //singleton
     public static DigManager Instance { get; private set; }
 
@@ -31,7 +33,25 @@ public class DigManager : MonoBehaviour
         }
     }
 
-    public void AddTileToDig(Tile tileToDig)
+    public void MarkTileToDig(Tile tileToDig)
+    {
+        if (!TilesToDig.Contains(tileToDig))
+        {
+            TilesToDig.Add(tileToDig);
+        }
+    }
+
+    public void EraseTileToDig(Tile tileToDelete)
+    {
+        if (TilesToDig.Contains(tileToDelete))
+        {
+            TilesToDig.Remove(tileToDelete);
+        }
+    }
+
+
+    /*
+    public void MarkTileToDig(Tile tileToDig)
     {
         List<Excavation> excavationNeighbors = new List<Excavation>();
         foreach(Excavation excavation in excavations)
@@ -67,9 +87,23 @@ public class DigManager : MonoBehaviour
             excavationNeighbors[0].AddTileToExcavation(tileToDig);
             MergeExcavations(excavationNeighbors);
         }
+    }
 
-        //tilesToDig.Add(tileToDig);
-        //UpdateDigEntrance();
+    public void EraseTileToDig(Tile tileToDelete)
+    {
+        foreach (Excavation excavation in excavations)
+        {
+            if (excavation.TilesInExcavation.Contains(tileToDelete))
+            {
+                excavation.DeleteTileInExcavation(tileToDelete);
+                if (excavation.TilesInExcavation.Count == 0)
+                {
+                    excavations.Remove(excavation);
+                }
+                //CheckIntegrity(excavation, tileToDelete);
+                return; //excavation found, no need to continue function
+            }
+        }
     }
 
     private void MergeExcavations(List<Excavation> neighbourExcavations)
@@ -84,18 +118,17 @@ public class DigManager : MonoBehaviour
         }
     }
 
-    public void DeleteTileToDig(Tile tileToDelete)
+    public void DigTile(Tile diggedTile)
     {
-        foreach(Excavation excavation in excavations)
+        foreach (Excavation excavation in excavations)
         {
-            if (excavation.TilesInExcavation.Contains(tileToDelete))
+            if (excavation.TilesInExcavation.Contains(diggedTile))
             {
-                excavation.DeleteTileInExcavation(tileToDelete);
-                if(excavation.TilesInExcavation.Count == 0)
+                excavation.DigTile(diggedTile);
+                if (excavation.TilesInExcavation.Count == 0)
                 {
                     excavations.Remove(excavation);
                 }
-                CheckIntegrity(excavation, tileToDelete);
                 return; //excavation found, no need to continue function
             }
         }
@@ -142,7 +175,9 @@ public class DigManager : MonoBehaviour
             {
                 if(!newExcavations.Any(s => s.Contains(tile)))
                 {
-                    var tilesInNewExcavation = BuildExcavation(tile, excavation.TilesInExcavation);
+                    List<Tile> tilesInExistingExcavation = new List<Tile>(excavation.TilesInExcavation);
+                    tilesInExistingExcavation.AddRange(excavation.TilesDigged);
+                    var tilesInNewExcavation = BuildExcavation(tile, tilesInExistingExcavation);
                     newExcavations.Add(tilesInNewExcavation);
                 }
             }
@@ -182,4 +217,5 @@ public class DigManager : MonoBehaviour
         }
         return newExcavation;
     }
+    */
 }

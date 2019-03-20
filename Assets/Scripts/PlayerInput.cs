@@ -54,6 +54,7 @@ public class PlayerInput : MonoBehaviour
                 MouseActionsDigOrErase();
                 break;
         }
+        DebugLog();
     }
 
     private void MouseActionsNormal()
@@ -85,7 +86,7 @@ public class PlayerInput : MonoBehaviour
                 Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
                 if (GridData.gridDictionary.ContainsKey(gridPos))
                 {
-                    selectedObject.GetComponentInParent<Movement>().MoveToPosition(gridPos);
+                    selectedObject.GetComponentInParent<Movement>().MoveToPosition(GridData.gridDictionary[gridPos]);
                 }
             }
         }
@@ -99,17 +100,53 @@ public class PlayerInput : MonoBehaviour
             Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
             if (CurrentState == State.dig)
             {
-                GridData.Instance.DigTile(gridPos, true);
+                GridData.Instance.MarkTileToDig(gridPos);
             }
             else if (CurrentState == State.erase)
             {
-                GridData.Instance.DigTile(gridPos, false);
+                GridData.Instance.EraseTileToDig(gridPos);
             }
         }
 
         if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()) //RMB (click and hold)
         {
              CurrentState = State.normal;
+        }
+    }
+
+    private void DebugLog()
+    {
+        if (Input.GetMouseButtonDown(2))
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
+            if (GridData.gridDictionary.ContainsKey(gridPos))
+            {
+                var tile = GridData.gridDictionary[gridPos];
+                print("State: " + tile.TileType);
+                print("DigIt: " + tile.DigIt);
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Backspace) && selectedObject != null)
+        {
+            if (selectedObject.GetComponentInParent<Digger>())
+            {
+                if (selectedObject.GetComponentInParent<Digger>().CurrentExcavation != null)
+                {
+                    print("current excavation tiles: " + selectedObject.GetComponent<Digger>().CurrentExcavation.TilesInExcavation.Count);
+                }
+                else
+                {
+                    print("current excavation is null");
+                }
+                print("digging: " + selectedObject.GetComponentInParent<Digger>().Digging);
+            }
+            else
+            {
+                print("something wrong");
+            }
+            
         }
     }
 }

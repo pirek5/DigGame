@@ -13,15 +13,13 @@ public class DiggerMovement : Movement
         digger = GetComponent<Digger>();
     }
 
-    public override void MoveToPosition(Vector2Int position)
+    public override void MoveToPosition(Tile destinationTile)
     {
-        digger.TileToDig = null; //TODO
-        digger.CurrentExcavation = null; //TODO
-        base.MoveToPosition(position); //move to specific tile or...
-        if (GridData.gridDictionary[position].digIt == true) // ... move and dig
+        base.MoveToPosition(destinationTile); //move to specific tile or...
+        if (destinationTile.DigIt == true) // ... move and dig
         {
-            digger.TileToDig = GridData.gridDictionary[position];
-            List<Tile> possibleEntrance = DigManager.Instance.FindPossibleEnternace(digger.TileToDig);
+            digger.CurrentExcavation = DigManager.Instance.GetExcavation(destinationTile);
+            List<Tile> possibleEntrance = digger.CurrentExcavation.ExcavationEnternace;
 
             if (possibleEntrance.Count > 0)
             {
@@ -31,6 +29,11 @@ public class DiggerMovement : Movement
             {
                 //nie da sie znalezc sciezki
             }
+        }
+        else
+        {
+            digger.CurrentExcavation = null;
+            digger.Digging = false;
         }
     }
 

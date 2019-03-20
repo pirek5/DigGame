@@ -53,7 +53,7 @@ public class MapDisplay : MonoBehaviour
 
     public void DisplayTile(Vector2Int position, Tile tile)
     {
-        if(tile.digIt)
+        if(tile.DigIt)
         {
             digSelection.SetTile((Vector3Int)position, digSelectionTile);
         }

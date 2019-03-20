@@ -81,37 +81,48 @@ public class GridData : MonoBehaviour
         }
     }
 
-    public void DigTile(Vector2Int tilePosition, bool isDiging)
+    public void MarkTileToDig(Vector2Int tilePosition)
     {
         if (gridDictionary.ContainsKey(tilePosition))
         {
-            
-            MapDisplay.Instance.DisplayTile(tilePosition, gridDictionary[tilePosition]);
-            if (isDiging && gridDictionary[tilePosition].digIt == false)
+            Tile tile = gridDictionary[tilePosition];
+            if (tile.DigIt == false && tile.TileType == TileType.full)
             {
-                DigManager.Instance.AddTileToDig(gridDictionary[tilePosition]);
+                tile.DigIt = true;
+                DigManager.Instance.MarkTileToDig(tile);
+                MapDisplay.Instance.DisplayTile(tilePosition, tile);
             }
-            else if(!isDiging && gridDictionary[tilePosition].digIt == true)
-            {
-                DigManager.Instance.DeleteTileToDig(gridDictionary[tilePosition]);
-            }
-            gridDictionary[tilePosition].digIt = isDiging;
         }
     }
 
-    public void DeleteTile(Vector2Int tilePosition)
+    public void EraseTileToDig(Vector2Int tilePosition)
+    {
+        if (gridDictionary.ContainsKey(tilePosition))
+        {
+            Tile tile = gridDictionary[tilePosition];         
+            if (tile.DigIt == true)
+            {
+                tile.DigIt = false;
+                DigManager.Instance.EraseTileToDig(tile);
+                MapDisplay.Instance.DisplayTile(tilePosition, tile);
+            }
+            
+        }
+    }
+
+    public void DigTile(Vector2Int tilePosition)
     {
         if (gridDictionary.ContainsKey(tilePosition))
         {
             gridDictionary[tilePosition].TileType = TileType.empty;
-            gridDictionary[tilePosition].digIt = false;
+            gridDictionary[tilePosition].DigIt = false;
             MapDisplay.Instance.DisplayTile(tilePosition, gridDictionary[tilePosition]);
-            DigManager.Instance.DeleteTileToDig(gridDictionary[tilePosition]);
+            DigManager.Instance.DigTile(gridDictionary[tilePosition]);
         }
     }
 
     public void DeleteTile(Tile tile)
     {
-        DeleteTile(Vector2Int.FloorToInt(tile.Position));
+        DigTile(Vector2Int.FloorToInt(tile.Position));
     }
 }

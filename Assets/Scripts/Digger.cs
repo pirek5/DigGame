@@ -10,7 +10,6 @@ public class Digger : MonoBehaviour
     //state
     public bool Digging { get; set; }
     public Excavation CurrentExcavation { get; set; }
-    public Tile TileToDig { get; set; }
 
     //cached
     private DiggerMovement movement;
@@ -22,14 +21,12 @@ public class Digger : MonoBehaviour
 
     public void StartDigging()
     {
-        if(TileToDig == null)
+        if(CurrentExcavation == null)
         {
-            Digging = false;
-            return;
+            SearchForNewExcavation();
         }
-        else if(TileToDig.digIt == true)
+        else if(CurrentExcavation.TilesInExcavation.Count > 0)
         {
-            CurrentExcavation = DigManager.Instance.GetExcavation(TileToDig);
             if(CurrentExcavation != null)
             {
                 StartCoroutine(DiggingCoroutine());
@@ -43,7 +40,7 @@ public class Digger : MonoBehaviour
         if(Utilities.CheckIfNeighbour(transform.position, closestTileToDig))
         {
             GetComponent<FlashingObject>().StartFlashing();
-            while (closestTileToDig.digIt == true)
+            while (closestTileToDig.DigIt == true)
             {
                 closestTileToDig.LoseHealth();
                 if(closestTileToDig.Health <= 0)
@@ -61,14 +58,31 @@ public class Digger : MonoBehaviour
                     Tile newTileToDig = Utilities.FindClosestTile(transform.position, CurrentExcavation.TilesInExcavation);
                     movement.MoveToPosition(newTileToDig);
                 }
-                else
-                {
-                    CurrentExcavation = null;
-                }
             }
         }
-        // wyszukanie nowej sciezki?
+        else
+        {
+            SearchForNewExcavation();
+        }
         
+    }
+
+    private void SearchForNewExcavation()
+    {
+        print("search");
+        if(movement.CurrentTile == null){ return; }
+
+        foreach (var neighbour in movement.CurrentTile.Neighbors)
+        {
+            if(neighbour.DigIt)
+            {
+                CurrentExcavation = DigManager.Instance.GetExcavation(neighbour);
+                StartDigging();
+                return; // new excavation found, no need to continue function
+            }
+        }
+        Digging = false;
+        CurrentExcavation = null;
     }
 
 }

@@ -8,7 +8,7 @@ public class Tile
 {
     //state
     public TileType TileType { get; set; }
-    public bool digIt { get; set; }
+    public bool DigIt { get; set; }
     public int Health { get; set; }
 
     //used to pathfinding
@@ -24,6 +24,7 @@ public class Tile
         TileType = tileType;
         Health = health;
         Neighbors = new List<Tile>();
+        DigIt = false;
     }
 
     public void LoseHealth()

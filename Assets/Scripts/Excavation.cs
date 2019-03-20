@@ -5,17 +5,20 @@ using UnityEngine;
 public class Excavation
 {
     public List<Tile> TilesInExcavation { get; private set; }
-    public List<Tile> ExcavationEnternace { get; private set; } 
+    public List<Tile> ExcavationEnternace { get; private set; }
+    public List<Tile> TilesDigged { get; private set; }
 
     public Excavation(Tile tile)
     {
         TilesInExcavation = new List<Tile>() { tile };
+        TilesDigged = new List<Tile>();
         UpdateDigEntrance();
     }
 
     public Excavation(List<Tile> tiles)
     {
         TilesInExcavation = new List<Tile>(tiles);
+        TilesDigged = new List<Tile>();
         UpdateDigEntrance();
     }
 
@@ -44,5 +47,13 @@ public class Excavation
     {
          TilesInExcavation.Remove(tileToDelete);
          UpdateDigEntrance();
+    }
+
+    public void DigTile(Tile diggedTile)
+    {
+        TilesInExcavation.Remove(diggedTile);
+        UpdateDigEntrance();
+        TilesDigged.Add(diggedTile);
+        UpdateDigEntrance();
     }
 }
