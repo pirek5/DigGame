@@ -90,7 +90,7 @@ public class GridData : MonoBehaviour
             {
                 tile.DigIt = true;
                 DigManager.Instance.MarkTileToDig(tile);
-                MapDisplay.Instance.DisplayTile(tilePosition, tile);
+                MapDisplay.Instance.DisplayTile(tile);
             }
         }
     }
@@ -104,25 +104,31 @@ public class GridData : MonoBehaviour
             {
                 tile.DigIt = false;
                 DigManager.Instance.EraseTileToDig(tile);
-                MapDisplay.Instance.DisplayTile(tilePosition, tile);
+                MapDisplay.Instance.DisplayTile(tile);
             }
             
         }
     }
 
-    public void DigTile(Vector2Int tilePosition)
+    public void DigTile(Vector2Int tilePosition) //TODO do wyjebania raczej
     {
         if (gridDictionary.ContainsKey(tilePosition))
         {
             gridDictionary[tilePosition].TileType = TileType.empty;
             gridDictionary[tilePosition].DigIt = false;
-            MapDisplay.Instance.DisplayTile(tilePosition, gridDictionary[tilePosition]);
-            DigManager.Instance.DigTile(gridDictionary[tilePosition]);
+            MapDisplay.Instance.DisplayTile(gridDictionary[tilePosition]);
+            DigManager.Instance.EraseTileToDig(gridDictionary[tilePosition]);
         }
     }
 
-    public void DeleteTile(Tile tile)
+    public void TileDigged(Tile tile)
     {
-        DigTile(Vector2Int.FloorToInt(tile.Position));
+        if (gridDictionary.ContainsValue(tile))
+        {
+            tile.TileType = TileType.empty;
+            tile.DigIt = false;
+            MapDisplay.Instance.DisplayTile(tile);
+            DigManager.Instance.EraseTileToDig(tile);
+        }
     }
 }

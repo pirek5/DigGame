@@ -51,21 +51,21 @@ public class MapDisplay : MonoBehaviour
         }
     }
 
-    public void DisplayTile(Vector2Int position, Tile tile)
+    public void DisplayTile(Tile tile)
     {
         if(tile.DigIt)
         {
-            digSelection.SetTile((Vector3Int)position, digSelectionTile);
+            digSelection.SetTile(Vector3Int.FloorToInt(tile.Position), digSelectionTile);
         }
         else
         {
-            digSelection.SetTile((Vector3Int)position, null);
+            digSelection.SetTile(Vector3Int.FloorToInt(tile.Position), null);
         }
 
         if(tile.TileType == TileType.empty)
         {
-            background.SetTile((Vector3Int)position, backgroundTile);
-            foreground.SetTile((Vector3Int)position, null);
+            background.SetTile(Vector3Int.FloorToInt(tile.Position), backgroundTile);
+            foreground.SetTile(Vector3Int.FloorToInt(tile.Position), null);
         }
     }
 }

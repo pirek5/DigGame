@@ -127,26 +127,5 @@ public class PlayerInput : MonoBehaviour
                 print("DigIt: " + tile.DigIt);
             }
         }
-
-        if(Input.GetKeyDown(KeyCode.Backspace) && selectedObject != null)
-        {
-            if (selectedObject.GetComponentInParent<Digger>())
-            {
-                if (selectedObject.GetComponentInParent<Digger>().CurrentExcavation != null)
-                {
-                    print("current excavation tiles: " + selectedObject.GetComponent<Digger>().CurrentExcavation.TilesInExcavation.Count);
-                }
-                else
-                {
-                    print("current excavation is null");
-                }
-                print("digging: " + selectedObject.GetComponentInParent<Digger>().Digging);
-            }
-            else
-            {
-                print("something wrong");
-            }
-            
-        }
     }
 }

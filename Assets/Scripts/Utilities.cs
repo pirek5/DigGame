@@ -36,4 +36,11 @@ public class Utilities : MonoBehaviour
         return false;
     }
 
+    public static float GetDistance(Tile source, Tile target)
+    {
+        float dx = Mathf.Abs(source.Position.x - target.Position.x);
+        float dy = Mathf.Abs(source.Position.y - target.Position.y);
+        return (dx + dy);
+    }
+
 }

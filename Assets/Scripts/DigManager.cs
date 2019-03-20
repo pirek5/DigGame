@@ -5,9 +5,6 @@ using System.Linq;
 
 public class DigManager : MonoBehaviour
 {
-    //separate areas which contains tiles to dig
-    private List<Excavation> excavations = new List<Excavation>();
-
     public List<Tile> TilesToDig { get; private set; }
 
     //singleton
@@ -22,6 +19,7 @@ public class DigManager : MonoBehaviour
         else
         {
             Instance = this;
+            TilesToDig = new List<Tile>();
         }
     }
 
@@ -49,173 +47,35 @@ public class DigManager : MonoBehaviour
         }
     }
 
-
-    /*
-    public void MarkTileToDig(Tile tileToDig)
+    public List<Tile> GetPossibleEnternance(Tile destinationTile)
     {
-        List<Excavation> excavationNeighbors = new List<Excavation>();
-        foreach(Excavation excavation in excavations)
+        List<Tile> exploredTiles = new List<Tile>();
+        Queue<Tile> frontierTiles = new Queue<Tile>();
+        frontierTiles.Enqueue(destinationTile);
+        while (frontierTiles.Count > 0)
         {
-            foreach(Tile tileInExcavation in excavation.TilesInExcavation)
+            var currentTile = frontierTiles.Dequeue();
+            foreach (Tile neighbour in currentTile.Neighbors)
             {
-                foreach(Tile tileToDigNeighbor in tileToDig.Neighbors)
+                if (!exploredTiles.Contains(neighbour) && !frontierTiles.Contains(neighbour) && neighbour.DigIt)
                 {
-                    if(tileToDigNeighbor == tileInExcavation)
-                    {
-                        if (!excavationNeighbors.Contains(excavation))
-                        {
-                            excavationNeighbors.Add(excavation);
-                        }
-                    }
+                    frontierTiles.Enqueue(neighbour);
+                }
+            }
+            exploredTiles.Add(currentTile);
+        }
+
+        List<Tile> excavationEnternace = new List<Tile>();
+        foreach (Tile tile in exploredTiles)
+        {
+            foreach (Tile neighbor in tile.Neighbors)
+            {
+                if (neighbor.TileType == TileType.empty)
+                {
+                    excavationEnternace.Add(neighbor);
                 }
             }
         }
-
-        //No neighbour excavation - made new excavation
-        if (excavationNeighbors.Count == 0)
-        {
-            excavations.Add(new Excavation(tileToDig));
-        }
-        // 1 neighbour excavation - add tileToDig to existing excavation
-        else if (excavationNeighbors.Count == 1)
-        {
-            excavationNeighbors[0].AddTileToExcavation(tileToDig);
-        }
-        // 2 or more excavation neighbours - merge excavations and add new tileToDig
-        else if (excavationNeighbors.Count > 1)
-        {
-            excavationNeighbors[0].AddTileToExcavation(tileToDig);
-            MergeExcavations(excavationNeighbors);
-        }
+        return excavationEnternace;
     }
-
-    public void EraseTileToDig(Tile tileToDelete)
-    {
-        foreach (Excavation excavation in excavations)
-        {
-            if (excavation.TilesInExcavation.Contains(tileToDelete))
-            {
-                excavation.DeleteTileInExcavation(tileToDelete);
-                if (excavation.TilesInExcavation.Count == 0)
-                {
-                    excavations.Remove(excavation);
-                }
-                //CheckIntegrity(excavation, tileToDelete);
-                return; //excavation found, no need to continue function
-            }
-        }
-    }
-
-    private void MergeExcavations(List<Excavation> neighbourExcavations)
-    {
-        for(int i = 1; i < neighbourExcavations.Count; i++)
-        {
-            neighbourExcavations[0].TilesInExcavation.AddRange(neighbourExcavations[i].TilesInExcavation);
-            if (excavations.Contains(neighbourExcavations[i]))
-            {
-                excavations.Remove(neighbourExcavations[i]);
-            }
-        }
-    }
-
-    public void DigTile(Tile diggedTile)
-    {
-        foreach (Excavation excavation in excavations)
-        {
-            if (excavation.TilesInExcavation.Contains(diggedTile))
-            {
-                excavation.DigTile(diggedTile);
-                if (excavation.TilesInExcavation.Count == 0)
-                {
-                    excavations.Remove(excavation);
-                }
-                return; //excavation found, no need to continue function
-            }
-        }
-    }
-
-    public List<Tile> FindPossibleEnternace(Tile tile)
-    {
-        foreach (Excavation excavation in excavations)
-        {
-            if (excavation.TilesInExcavation.Contains(tile))
-            {
-                return excavation.ExcavationEnternace;
-            }
-        }
-        return null;
-    }
-
-    public Excavation GetExcavation(Tile tile)
-    {
-        foreach (Excavation excavation in excavations)
-        {
-            if (excavation.TilesInExcavation.Contains(tile))
-            {
-                return excavation;
-            }
-        }
-        return null;
-    }
-
-    public void CheckIntegrity(Excavation excavation, Tile delatedTile)
-    {
-        List<Tile> neighboursToDelatedTile = new List<Tile>();
-        foreach(Tile neighbour in delatedTile.Neighbors)
-        {
-            if (excavation.TilesInExcavation.Contains(neighbour))
-            {
-                neighboursToDelatedTile.Add(neighbour);
-            }
-        }
-        if(neighboursToDelatedTile.Count > 1) // 1 or less means that excavation preserved integrity
-        {
-            List<List<Tile>> newExcavations = new List<List<Tile>>();
-            foreach(var tile in neighboursToDelatedTile)
-            {
-                if(!newExcavations.Any(s => s.Contains(tile)))
-                {
-                    List<Tile> tilesInExistingExcavation = new List<Tile>(excavation.TilesInExcavation);
-                    tilesInExistingExcavation.AddRange(excavation.TilesDigged);
-                    var tilesInNewExcavation = BuildExcavation(tile, tilesInExistingExcavation);
-                    newExcavations.Add(tilesInNewExcavation);
-                }
-            }
-            for(int i = 0; i < newExcavations.Count; i++)
-            {
-                if (i == 0) //first newExcavation replace old excavation
-                {
-                    excavation.TilesInExcavation.Clear();
-                    excavation.TilesInExcavation.AddRange(newExcavations[i]);
-                    excavation.UpdateDigEntrance();
-                }
-                else //add rest of new excavations
-                {
-                    Excavation excav = new Excavation(newExcavations[i]);
-                    excavations.Add(excav);
-                }
-            }
-        }
-    }
-
-    private List<Tile> BuildExcavation(Tile tile, List<Tile> tilesInExistingExcavation)
-    {
-        List<Tile> newExcavation = new List<Tile>();
-        Queue<Tile> newTilesInNewExcavation = new Queue<Tile>();
-        newTilesInNewExcavation.Enqueue(tile);
-        while (newTilesInNewExcavation.Count > 0)
-        {
-            var currentTile = newTilesInNewExcavation.Dequeue();
-            foreach(Tile neighbour in currentTile.Neighbors)
-            {
-                if(!newExcavation.Contains(neighbour) && !newTilesInNewExcavation.Contains(neighbour) && tilesInExistingExcavation.Contains(neighbour))
-                {
-                    newTilesInNewExcavation.Enqueue(neighbour);
-                }
-            }
-            newExcavation.Add(currentTile);
-        }
-        return newExcavation;
-    }
-    */
 }

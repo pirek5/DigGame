@@ -31,7 +31,7 @@ public class Pathfinder : MonoBehaviour
                     neighbor.ExploredFrom = currentTile;
                     float newDistanceTraveled = currentTile.DistanceTraveled + 1f;
                     neighbor.DistanceTraveled = newDistanceTraveled;
-                    neighbor.Priority = newDistanceTraveled + GetDistance(neighbor, endTile);
+                    neighbor.Priority = newDistanceTraveled + Utilities.GetDistance(neighbor, endTile);
                     frontierTiles.Enqueue(neighbor);
                 }
             }
@@ -72,12 +72,4 @@ public class Pathfinder : MonoBehaviour
         path.Reverse();
         return path;
     }
-
-    private float GetDistance(Tile source, Tile target)
-    {
-        float dx = Mathf.Abs(source.Position.x - target.Position.x);
-        float dy = Mathf.Abs(source.Position.y - target.Position.y);
-        return (dx + dy);
-    }
-
 }

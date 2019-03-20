@@ -18,8 +18,7 @@ public class DiggerMovement : Movement
         base.MoveToPosition(destinationTile); //move to specific tile or...
         if (destinationTile.DigIt == true) // ... move and dig
         {
-            digger.CurrentExcavation = DigManager.Instance.GetExcavation(destinationTile);
-            List<Tile> possibleEntrance = digger.CurrentExcavation.ExcavationEnternace;
+            List<Tile> possibleEntrance = DigManager.Instance.GetPossibleEnternance(destinationTile);
 
             if (possibleEntrance.Count > 0)
             {
@@ -32,7 +31,6 @@ public class DiggerMovement : Movement
         }
         else
         {
-            digger.CurrentExcavation = null;
             digger.Digging = false;
         }
     }
