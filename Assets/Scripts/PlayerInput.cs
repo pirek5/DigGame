@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum State {normal, dig, erase, unitSelected }
+public enum State {normal, dig, erase, unitSelected, infrastructure }
 
 public class PlayerInput : MonoBehaviour
 {
@@ -16,6 +16,9 @@ public class PlayerInput : MonoBehaviour
     //state
     public State CurrentState { get; set; }
     private GameObject selectedObject;
+    private Vector2 mousePos2D;
+    private Vector2Int gridPos;
+    Tile mouseOverTile, previousMouseOverTile;
 
     //singleton
     public static PlayerInput Instance { get; private set; }
@@ -33,6 +36,13 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        mouseOverTile = GridData.DefaultTile;
+        previousMouseOverTile = GridData.DefaultTile;
+    }
+
+
     private void OnDestroy()
     {
         if (Instance == this)
@@ -43,6 +53,7 @@ public class PlayerInput : MonoBehaviour
 
     void Update()
     {
+        CollectData();       
         switch (CurrentState)
         {
             case State.normal:
@@ -51,18 +62,39 @@ public class PlayerInput : MonoBehaviour
                 break;
             case State.dig:
             case State.erase:
+            case State.infrastructure:
                 MouseActionsDigOrErase();
                 break;
         }
         DebugLog();
     }
 
+    private void CollectData()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos2D = new Vector2(mousePos.x, mousePos.y);
+        gridPos = (Vector2Int)grid.WorldToCell(mousePos);
+        if (GridData.GridDictionary.ContainsKey(gridPos))
+        {
+            mouseOverTile = GridData.GridDictionary[gridPos];
+        }
+        else
+        {
+            mouseOverTile = GridData.DefaultTile;
+        }
+        if(mouseOverTile != previousMouseOverTile)
+        {
+            MapDisplay.Instance.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
+            previousMouseOverTile = mouseOverTile;
+        }
+        
+        
+    }
+
     private void MouseActionsNormal()
     {
         if (Input.GetMouseButtonDown(0)) // LMB (clicked)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, Mathf.Infinity, selectables);
             if (hit.collider != null)
             {
@@ -82,11 +114,9 @@ public class PlayerInput : MonoBehaviour
         {
             if (selectedObject.GetComponentInParent<Movement>())
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
-                if (GridData.gridDictionary.ContainsKey(gridPos))
+                if (GridData.GridDictionary.ContainsKey(gridPos))
                 {
-                    selectedObject.GetComponentInParent<Movement>().MoveToPosition(GridData.gridDictionary[gridPos]);
+                    selectedObject.GetComponentInParent<Movement>().MoveToPosition(GridData.GridDictionary[gridPos]);
                 }
             }
         }
@@ -96,9 +126,14 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) //LMB (click and hold)
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
-            if (CurrentState == State.dig)
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, Mathf.Infinity, selectables);
+            if (hit.collider != null)
+            {
+                selectedObject = hit.transform.gameObject;
+                CurrentState = State.unitSelected;
+                DiggerPanel.Open();
+            }
+            else if (CurrentState == State.dig)
             {
                 GridData.Instance.MarkTileToDig(gridPos);
             }
@@ -106,11 +141,16 @@ public class PlayerInput : MonoBehaviour
             {
                 GridData.Instance.EraseTileToDig(gridPos);
             }
+            else if (CurrentState == State.infrastructure)
+            {
+                GridData.Instance.MarkTileAsInfrastructure(gridPos);
+            }
         }
 
         if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()) //RMB (click and hold)
         {
-             CurrentState = State.normal;
+            CurrentState = State.normal;
+            MapDisplay.Instance.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
         }
     }
 
@@ -118,11 +158,9 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(2))
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int gridPos = (Vector2Int)grid.WorldToCell(mousePos);
-            if (GridData.gridDictionary.ContainsKey(gridPos))
+            if (GridData.GridDictionary.ContainsKey(gridPos))
             {
-                var tile = GridData.gridDictionary[gridPos];
+                var tile = GridData.GridDictionary[gridPos];
                 print("State: " + tile.TileType);
                 print("DigIt: " + tile.DigIt);
             }

@@ -58,4 +58,11 @@ public class Digger : MonoBehaviour
             }
         }
     }
+
+    public void StopDigging()
+    {
+        Digging = false;
+        GetComponent<FlashingObject>().StopFlashing();
+        StopAllCoroutines();
+    }
 }

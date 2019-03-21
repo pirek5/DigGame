@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - Selectables
-  - 
+  - Cursor
   - 
   - 
   - 
@@ -55,4 +55,10 @@ TagManager:
     locked: 0
   - name: Selectable
     uniqueID: 1900718281
+    locked: 0
+  - name: UI
+    uniqueID: 3452578641
+    locked: 0
+  - name: UI-Cursor
+    uniqueID: 1963457691
     locked: 0

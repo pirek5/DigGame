@@ -25,9 +25,9 @@ public class Utilities : MonoBehaviour
     public static bool CheckIfNeighbour(Vector3 position, Tile tileToCheck)
     {
         var pos = Vector2Int.FloorToInt(position);
-        if (GridData.gridDictionary.ContainsKey(pos))
+        if (GridData.GridDictionary.ContainsKey(pos))
         {
-            Tile tile = GridData.gridDictionary[pos];
+            Tile tile = GridData.GridDictionary[pos];
             foreach(Tile neighbour in tile.Neighbors)
             {
                 if(neighbour == tileToCheck) { return true; }

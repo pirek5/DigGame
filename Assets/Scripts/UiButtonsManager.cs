@@ -15,4 +15,10 @@ public class UiButtonsManager : MonoBehaviour
         UIPanelManager.Instance.CloseAll();
         PlayerInput.Instance.CurrentState = State.erase;
     }
+
+    public void OnInfrastructurePressed()
+    {
+        UIPanelManager.Instance.CloseAll();
+        PlayerInput.Instance.CurrentState = State.infrastructure;
+    }
 }

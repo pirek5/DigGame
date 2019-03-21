@@ -45,15 +45,15 @@ public class Pathfinder : MonoBehaviour
     {
         Vector2Int positionInt = Vector2Int.FloorToInt(position);
         List<Tile> possibleClosestTiles = new List<Tile>();
-        if (GridData.gridDictionary.ContainsKey(positionInt))
+        if (GridData.GridDictionary.ContainsKey(positionInt))
         {
-            Tile tile = GridData.gridDictionary[positionInt];
+            Tile tile = GridData.GridDictionary[positionInt];
             possibleClosestTiles.Add(tile);
             possibleClosestTiles.AddRange(tile.Neighbors);
         }
         else //much slower 'emergency' way
         {
-            possibleClosestTiles = new List<Tile>(GridData.gridDictionary.Values);
+            possibleClosestTiles = new List<Tile>(GridData.GridDictionary.Values);
             Debug.LogError("position out of map!");
         }
         return Utilities.FindClosestTile(position, possibleClosestTiles);

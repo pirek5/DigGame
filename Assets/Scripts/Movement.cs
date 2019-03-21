@@ -22,7 +22,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        List<Tile> tiles = new List<Tile>(GridData.gridDictionary.Values);
+        List<Tile> tiles = new List<Tile>(GridData.GridDictionary.Values);
         CurrentTile = Utilities.FindClosestTile(transform.position, tiles);
     }
 

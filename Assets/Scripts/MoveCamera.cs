@@ -28,15 +28,15 @@ public class MoveCamera : MonoBehaviour
         //convert mouse position range to (-1, +1)
         mousePos.x = (Input.mousePosition.x - (Screen.width * (1 - Input.mousePosition.x / Screen.width))) / Screen.width;
         mousePos.y = (Input.mousePosition.y - (Screen.height * (1 - Input.mousePosition.y / Screen.height))) / Screen.height;
-        if (Mathf.Abs(mousePos.x) >= 1f)
-        {
-            MoveCameraHorizontal(mousePos.x, mouseScrollSensitivity);
-        }
+        //if (Mathf.Abs(mousePos.x) >= 1f) // Enable in PC build
+        //{
+        //    MoveCameraHorizontal(mousePos.x, mouseScrollSensitivity);
+        //}
 
-        if (Mathf.Abs(mousePos.y) >= 1f)
-        {
-            MoveCameraVertical(mousePos.y, mouseScrollSensitivity);
-        }
+        //if (Mathf.Abs(mousePos.y) >= 1f)
+        //{
+        //    MoveCameraVertical(mousePos.y, mouseScrollSensitivity);
+        //}
 
         CameraZoom(Input.mouseScrollDelta.y, mouseZoomSensitivity);
     }

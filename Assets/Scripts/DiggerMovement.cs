@@ -15,6 +15,7 @@ public class DiggerMovement : Movement
 
     public override void MoveToPosition(Tile destinationTile)
     {
+        digger.StopDigging();
         base.MoveToPosition(destinationTile); //move to specific tile or...
         if (destinationTile.DigIt == true) // ... move and dig
         {
@@ -28,10 +29,6 @@ public class DiggerMovement : Movement
             {
                 //nie da sie znalezc sciezki
             }
-        }
-        else
-        {
-            digger.Digging = false;
         }
     }
 
