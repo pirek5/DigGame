@@ -47,7 +47,7 @@ public class DigManager : MonoBehaviour
         }
     }
 
-    public List<Tile> GetPossibleEnternance(Tile destinationTile)
+    public List<Tile> GetPossibleEnternance(Tile destinationTile) 
     {
         List<Tile> exploredTiles = new List<Tile>();
         Queue<Tile> frontierTiles = new Queue<Tile>();

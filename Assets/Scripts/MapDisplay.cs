@@ -7,6 +7,7 @@ public class MapDisplay : MonoBehaviour
 {
     //config
     #pragma warning disable 0649
+    [Header("Tiles")]
     [SerializeField] private TileBase fullTile;
     [SerializeField] private TileBase backgroundTile;
     [SerializeField] private TileBase digSelectionTile;
@@ -14,9 +15,10 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private TileBase infrastructureSelectionTile;
 
     //references set in editor
+    [Header("Tilemaps")]
     [SerializeField] private Tilemap foreground;
     [SerializeField] private Tilemap background;
-    [SerializeField] private Tilemap digSelection;
+    [SerializeField] private Tilemap selection;
     [SerializeField] private Tilemap infrastructure;
 #pragma warning restore 0649
 
@@ -64,11 +66,15 @@ public class MapDisplay : MonoBehaviour
     {
         if(tile.DigIt)
         {
-            digSelection.SetTile(Vector3Int.FloorToInt(tile.Position), digSelectionTile);
+            selection.SetTile(Vector3Int.FloorToInt(tile.Position), digSelectionTile);
+        }
+        else if (tile.InfrastructureToBuild)
+        {
+            selection.SetTile(Vector3Int.FloorToInt(tile.Position), infrastructureSelectionTile);
         }
         else
         {
-            digSelection.SetTile(Vector3Int.FloorToInt(tile.Position), null);
+            selection.SetTile(Vector3Int.FloorToInt(tile.Position), null);
         }
 
         if (tile.HasInfrastructure)
@@ -91,17 +97,17 @@ public class MapDisplay : MonoBehaviour
     {
         if(currentState == State.dig && currentTile.TileType == TileType.full)
         {
-            digSelection.SetTile(Vector3Int.FloorToInt(currentTile.Position), digSelectionTile);
+            selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), digSelectionTile);
             DisplayTile(previousTile);
         }
         else if(currentState == State.erase)
         {
-            digSelection.SetTile(Vector3Int.FloorToInt(currentTile.Position), null);
+            selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), null);
             DisplayTile(previousTile);
         }
         else if(currentState == State.infrastructure && currentTile.TileType == TileType.empty)
         {
-            digSelection.SetTile(Vector3Int.FloorToInt(currentTile.Position), infrastructureSelectionTile);
+            selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), infrastructureSelectionTile);
             DisplayTile(previousTile);
         }
         else

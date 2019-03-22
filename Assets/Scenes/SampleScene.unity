@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 471124107}
   - component: {fileID: 471124108}
   m_Layer: 0
-  m_Name: DigSelection
+  m_Name: Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1118,6 +1118,7 @@ GameObject:
   - component: {fileID: 913406809}
   - component: {fileID: 913406813}
   - component: {fileID: 913406814}
+  - component: {fileID: 913406815}
   m_Layer: 0
   m_Name: GridData
   m_TagString: Untagged
@@ -1159,7 +1160,7 @@ MonoBehaviour:
     type: 2}
   foreground: {fileID: 1079166934}
   background: {fileID: 546860971}
-  digSelection: {fileID: 471124107}
+  selection: {fileID: 471124107}
   infrastructure: {fileID: 658292779}
 --- !u!114 &913406811
 MonoBehaviour:
@@ -1210,6 +1211,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f6de204dbea17b4581a80d9dd75ff3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &913406815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913406808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bff07a1f3bb41204b9d3d0d1c6278401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &996828152

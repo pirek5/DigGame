@@ -103,7 +103,7 @@ public class GridData : MonoBehaviour
         }
     }
 
-    public void EraseTileToDig(Vector2Int tilePosition)
+    public void EraseMark(Vector2Int tilePosition)
     {
         if (GridDictionary.ContainsKey(tilePosition))
         {
@@ -114,20 +114,26 @@ public class GridData : MonoBehaviour
                 DigManager.Instance.EraseTileToDig(tile);
                 MapDisplay.Instance.DisplayTile(tile);
             }
-
+            else if (tile.InfrastructureToBuild == true)
+            {
+                tile.InfrastructureToBuild = false;
+                InfrastructureBuildManager.Instance.EraseTileToBuild(tile);
+                MapDisplay.Instance.DisplayTile(tile);
+            }
         }
     }
 
-    public void MarkTileAsInfrastructure(Vector2Int tilePosition)
+    public void MarkTileAsInfrastructureToBuild(Vector2Int tilePosition)
     {
         Vector2Int lowerTilePos = tilePosition + Vector2Int.down;
         if (GridDictionary.ContainsKey(tilePosition) && GridDictionary.ContainsKey(lowerTilePos))
         {
             Tile tile = GridDictionary[tilePosition];
             Tile lowerTile = GridDictionary[lowerTilePos];
-            if (tile.HasInfrastructure == false && tile.TileType == TileType.empty &&lowerTile.TileType == TileType.full)
+            if (tile.InfrastructureToBuild == false && tile.HasInfrastructure == false && tile.TileType == TileType.empty && lowerTile.TileType == TileType.full)
             {
-                tile.HasInfrastructure = true;
+                tile.InfrastructureToBuild = true;
+                InfrastructureBuildManager.Instance.MarkTileToBuild(tile);
                 MapDisplay.Instance.DisplayTile(tile);
             }
         }
@@ -141,6 +147,26 @@ public class GridData : MonoBehaviour
             tile.DigIt = false;
             MapDisplay.Instance.DisplayTile(tile);
             DigManager.Instance.EraseTileToDig(tile);
+        }
+
+        Vector2Int upperTilePos = Vector2Int.FloorToInt(tile.Position) + Vector2Int.up;
+        if (GridDictionary.ContainsKey(upperTilePos))
+        {
+            Tile upperTile = GridDictionary[upperTilePos];
+            upperTile.HasInfrastructure = false;
+            upperTile.InfrastructureToBuild = false;
+            MapDisplay.Instance.DisplayTile(upperTile);
+        }
+    }
+
+    public void InfrastructureBuilt(Tile tile)
+    {
+        if (GridDictionary.ContainsValue(tile))
+        {
+            tile.InfrastructureToBuild = false;
+            tile.HasInfrastructure = true;
+            MapDisplay.Instance.DisplayTile(tile);
+            InfrastructureBuildManager.Instance.EraseTileToBuild(tile);
         }
     }
 }

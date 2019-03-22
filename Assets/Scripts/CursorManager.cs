@@ -48,12 +48,15 @@ public class CursorManager : MonoBehaviour
             case State.erase:
                 CursorErase();
                 break;
+            case State.infrastructure:
+                CursorBricks();
+                break;
         }
-    }
 
-    public void OnMouseClick()
-    {
-        primaryAnimator.SetTrigger("click");
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            primaryAnimator.SetTrigger("click");
+        }
     }
 
     public void CursorErase()
@@ -74,5 +77,10 @@ public class CursorManager : MonoBehaviour
     public void CursorDigging()
     {
 
+    }
+
+    public void CursorBricks()
+    {
+        secendaryAnimator.SetTrigger("Bricks");
     }
 }

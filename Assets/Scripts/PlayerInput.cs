@@ -82,13 +82,12 @@ public class PlayerInput : MonoBehaviour
         {
             mouseOverTile = GridData.DefaultTile;
         }
+
         if(mouseOverTile != previousMouseOverTile)
         {
             MapDisplay.Instance.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
             previousMouseOverTile = mouseOverTile;
         }
-        
-        
     }
 
     private void MouseActionsNormal()
@@ -98,9 +97,7 @@ public class PlayerInput : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, Mathf.Infinity, selectables);
             if (hit.collider != null)
             {
-                selectedObject = hit.transform.gameObject;
-                CurrentState = State.unitSelected;
-                DiggerPanel.Open();
+                SelectObject(hit.collider.gameObject);
             }
             else if(!EventSystem.current.IsPointerOverGameObject())
             {
@@ -126,25 +123,24 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) //LMB (click and hold)
         {
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, Mathf.Infinity, selectables);
-            if (hit.collider != null)
-            {
-                selectedObject = hit.transform.gameObject;
-                CurrentState = State.unitSelected;
-                DiggerPanel.Open();
-            }
-            else if (CurrentState == State.dig)
+            if (CurrentState == State.dig)
             {
                 GridData.Instance.MarkTileToDig(gridPos);
             }
             else if (CurrentState == State.erase)
             {
-                GridData.Instance.EraseTileToDig(gridPos);
+                GridData.Instance.EraseMark(gridPos);
             }
             else if (CurrentState == State.infrastructure)
             {
-                GridData.Instance.MarkTileAsInfrastructure(gridPos);
+                GridData.Instance.MarkTileAsInfrastructureToBuild(gridPos);
             }
+        }
+
+        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, Mathf.Infinity, selectables); //LMB Click
+        if (Input.GetMouseButtonDown(0) && hit.collider != null)
+        {
+            SelectObject(hit.collider.gameObject);
         }
 
         if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()) //RMB (click and hold)
@@ -152,6 +148,17 @@ public class PlayerInput : MonoBehaviour
             CurrentState = State.normal;
             MapDisplay.Instance.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
         }
+    }
+
+    private void SelectObject(GameObject obj)
+    {
+        selectedObject = obj;
+        if (obj.GetComponentInParent<Unit>())
+        {
+            CurrentState = State.unitSelected;
+            DiggerPanel.Open();
+        }
+        // else if building....
     }
 
     private void DebugLog()
