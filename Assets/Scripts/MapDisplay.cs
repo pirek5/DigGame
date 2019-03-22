@@ -107,7 +107,13 @@ public class MapDisplay : MonoBehaviour
         }
         else if(currentState == State.infrastructure && currentTile.TileType == TileType.empty)
         {
-            selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), infrastructureSelectionTile);
+            Vector2Int lowerTilePos = Vector2Int.FloorToInt(currentTile.Position) + Vector2Int.down;
+            if(!GridData.GridDictionary.ContainsKey(lowerTilePos)) { return; }
+            var lowerTile = GridData.GridDictionary[lowerTilePos];
+            if(lowerTile.TileType == TileType.full)
+            {
+                selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), infrastructureSelectionTile);
+            }
             DisplayTile(previousTile);
         }
         else
