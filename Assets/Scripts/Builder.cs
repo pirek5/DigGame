@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Builder : Unit
+public class Builder : MonoBehaviour
 {
     //config
     [SerializeField] private float buildPeriod = 1f;

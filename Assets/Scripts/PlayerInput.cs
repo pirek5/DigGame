@@ -15,7 +15,7 @@ public class PlayerInput : MonoBehaviour
 
     //state
     public State CurrentState { get; set; }
-    private GameObject selectedObject;
+    public GameObject SelectedObject { get; private set; }
     private Vector2 mousePos2D;
     private Vector2Int gridPos;
     Tile mouseOverTile, previousMouseOverTile;
@@ -102,18 +102,18 @@ public class PlayerInput : MonoBehaviour
             else if(!EventSystem.current.IsPointerOverGameObject())
             {
                 UIPanelManager.Instance.CloseAll();
-                selectedObject = null;
+                SelectedObject = null;
                 CurrentState = State.normal;
             }
         }
 
         if (CurrentState == State.unitSelected && Input.GetMouseButtonDown(1)) //RMB (clicked)
         {
-            if (selectedObject.GetComponentInParent<Movement>())
+            if (SelectedObject.GetComponentInParent<Movement>())
             {
                 if (GridData.GridDictionary.ContainsKey(gridPos))
                 {
-                    selectedObject.GetComponentInParent<Movement>().MoveToPosition(GridData.GridDictionary[gridPos]);
+                    SelectedObject.GetComponentInParent<Movement>().MoveToPosition(GridData.GridDictionary[gridPos]);
                 }
             }
         }
@@ -152,11 +152,11 @@ public class PlayerInput : MonoBehaviour
 
     private void SelectObject(GameObject obj)
     {
-        selectedObject = obj;
+        SelectedObject = obj;
         if (obj.GetComponentInParent<Unit>())
         {
             CurrentState = State.unitSelected;
-            DiggerPanel.Open();
+            UnitPanel.Open();
         }
         // else if building....
     }

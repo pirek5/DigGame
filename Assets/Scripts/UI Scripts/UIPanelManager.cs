@@ -5,7 +5,7 @@ using System.Reflection;
 
 public class UIPanelManager : MonoBehaviour
 {
-    [SerializeField] private DiggerPanel diggerPanelPrefab;
+    [SerializeField] private UnitPanel diggerPanelPrefab;
     [SerializeField] private Transform menuParent;
 
     private static UIPanelManager instance;
@@ -72,6 +72,7 @@ public class UIPanelManager : MonoBehaviour
                 panel.gameObject.SetActive(false);
             }
             uiPanelInstance.gameObject.SetActive(true);
+            uiPanelInstance.Init();
         }
     }
 

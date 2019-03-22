@@ -26,10 +26,12 @@ public abstract class UIPanel<T> : UIPanel where T : UIPanel<T>
             UIPanelManager.Instance.OpenPanel(Instance);
         }
     }
+
+    public override void Init() { }
 }
 
 [RequireComponent(typeof(Canvas))]
 public abstract class UIPanel : MonoBehaviour
 {
-
+    public virtual void Init() { }
 }

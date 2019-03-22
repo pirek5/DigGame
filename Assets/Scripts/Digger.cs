@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Digger : Unit
+public class Digger : MonoBehaviour
 {
     //config
     [SerializeField] private float diggingPeriod = 1f;
