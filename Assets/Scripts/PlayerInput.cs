@@ -23,39 +23,39 @@ public class PlayerInput : MonoBehaviour
     //dependencies
     [Inject] private GridData gridData;
     [Inject] private MapDisplay mapDisplay;
-    private Grid grid;
+    [Inject] private Grid grid;
 
-    //singleton
-    public static PlayerInput Instance { get; private set; }
+    ////singleton
+    //public static PlayerInput Instance { get; private set; }
 
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            CurrentState = State.normal;
-        }
-    }
+    //private void Awake()
+    //{
+    //    if (Instance != null)
+    //    {
+    //        Destroy(gameObject);
+    //    }
+    //    else
+    //    {
+    //        Instance = this;
+            
+    //    }
+    //}
 
     private void Start()
     {
+        CurrentState = State.normal;
         mouseOverTile = GridData.DefaultTile;
         previousMouseOverTile = GridData.DefaultTile;
-        grid = FindObjectOfType<Grid>();
     }
 
 
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
-    }
+    //private void OnDestroy()
+    //{
+    //    if (Instance == this)
+    //    {
+    //        Instance = null;
+    //    }
+    //}
 
     void Update()
     {

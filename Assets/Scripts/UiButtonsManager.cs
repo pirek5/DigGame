@@ -1,24 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class UiButtonsManager : MonoBehaviour
 {
+    [Inject] PlayerInput playerInput;
+
     public void OnDigPressesd()
     {
         UIPanelManager.Instance.CloseAll();
-        PlayerInput.Instance.CurrentState = State.dig;
+        playerInput.CurrentState = State.dig;
     }
 
     public void OnErasePressesd()
     {
         UIPanelManager.Instance.CloseAll();
-        PlayerInput.Instance.CurrentState = State.erase;
+        playerInput.CurrentState = State.erase;
     }
 
     public void OnInfrastructurePressed()
     {
         UIPanelManager.Instance.CloseAll();
-        PlayerInput.Instance.CurrentState = State.infrastructure;
+        playerInput.CurrentState = State.infrastructure;
     }
 }

@@ -221,7 +221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec31eaec4b6556c4dac2320cafce06d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDataPrefab: {fileID: 3747855352679967024, guid: eef18a5e6555d1b4895bcba77c3d33f2,
+  gridDataPrefab: {fileID: 6601232694983057529, guid: 50792112ea999714ca395d703c9271a8,
+    type: 3}
+  gridPrefab: {fileID: 6964890141863855243, guid: 7f9d850db2f48994ba488a6921bc7d5e,
     type: 3}
 --- !u!114 &41607619
 MonoBehaviour:
@@ -476,6 +478,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -615,6 +618,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0bbc7ab16905241add9c10d31cb7f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseScrollSensitivity: 1
+  keyboardScrollSensitivity: 1.5
+  mouseZoomSensitivity: 10
+  keyboardZoomSensitivity: 5
 --- !u!1 &681731812
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,7 +1269,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1184476221}
   - component: {fileID: 1184476220}
-  - component: {fileID: 1184476222}
   - component: {fileID: 1184476223}
   - component: {fileID: 1184476224}
   m_Layer: 0
@@ -1272,7 +1290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0385c7f794fcb63458be27f626b4b1fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 0}
   selectables:
     serializedVersion: 2
     m_Bits: 256
@@ -1291,23 +1308,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1184476222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1184476219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0bbc7ab16905241add9c10d31cb7f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainCamera: {fileID: 519420031}
-  mouseScrollSensitivity: 1
-  keyboardScrollSensitivity: 1.5
-  mouseZoomSensitivity: 10
-  keyboardZoomSensitivity: 5
 --- !u!114 &1184476223
 MonoBehaviour:
   m_ObjectHideFlags: 0

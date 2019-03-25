@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class CursorManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class CursorManager : MonoBehaviour
     //cached
     State cursorState;
 
+    [Inject] private PlayerInput playerInput;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +33,7 @@ public class CursorManager : MonoBehaviour
         cursor.localScale = mainCamera.orthographicSize * new Vector3(sizeFactor, sizeFactor);
         Vector2 cursorPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         cursor.position = cursorPos;
-        cursorState = PlayerInput.Instance.CurrentState;
+        cursorState = playerInput.CurrentState;
         UpdateCursorIcon();
     }
 

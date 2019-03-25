@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class MoveCamera : MonoBehaviour
 {
-    //reference set in editor
-    #pragma warning disable 0649
-    [SerializeField] private Camera mainCamera;
-    #pragma warning restore 0649
     //config
     [SerializeField] private float mouseScrollSensitivity = 1f;
     [SerializeField] private float keyboardScrollSensitivity = 1f;
@@ -15,7 +11,13 @@ public class MoveCamera : MonoBehaviour
     [SerializeField] private float keyboardZoomSensitivity = 1f;
 
     //cached
+    private Camera myCamera;
     private Vector3 mousePos = Vector3.zero;
+
+    private void Awake()
+    {
+        myCamera = GetComponent<Camera>();
+    }
 
     void Update()
     {
@@ -57,16 +59,16 @@ public class MoveCamera : MonoBehaviour
 
     private void MoveCameraHorizontal(float translateX, float sensitivity)
     {
-        mainCamera.transform.position = Camera.main.transform.position + new Vector3(translateX,0f,0f) * Time.deltaTime * sensitivity * Camera.main.orthographicSize;
+        transform.position += new Vector3(translateX,0f,0f) * Time.deltaTime * sensitivity * Camera.main.orthographicSize;
     }
 
     private void MoveCameraVertical(float translateY, float sensitivity)
     {
-        mainCamera.transform.position = Camera.main.transform.position + new Vector3(0f, translateY, 0f) * Time.deltaTime * sensitivity * Camera.main.orthographicSize;
+        transform.position += new Vector3(0f, translateY, 0f) * Time.deltaTime * sensitivity * Camera.main.orthographicSize;
     }
 
     private void CameraZoom(float zoom, float sensitivity)
     {
-        mainCamera.orthographicSize = Camera.main.orthographicSize - zoom * Time.deltaTime * sensitivity;
+        myCamera.orthographicSize = Camera.main.orthographicSize - zoom * Time.deltaTime * sensitivity;
     }
 }

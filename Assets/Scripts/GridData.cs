@@ -21,30 +21,6 @@ public class GridData : MonoBehaviour
     [Inject] DigManager digManager;
     [Inject] InfrastructureBuildManager infrastructureBM;
 
-    //singleton
-    //public static GridData Instance { get; private set; }
-
-    //private void Awake()
-    //{
-    //    if (Instance != null)
-    //    {
-    //        //Destroy(gameObject);
-    //    }
-    //    else
-    //    {
-    //        Instance = this;
-    //        Init();
-    //    }
-    //}
-
-    //private void OnDestroy()
-    //{
-    //    if (Instance == this)
-    //    {
-    //        Instance = null;
-    //    }
-    //}
-
     private void Start()
     {
         Init();

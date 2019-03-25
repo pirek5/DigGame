@@ -28,10 +28,12 @@ public abstract class UIPanel<T> : UIPanel where T : UIPanel<T>
     }
 
     public override void Init() { }
+    public override void SetDependenciec(PlayerInput playerInput) { }
 }
 
 [RequireComponent(typeof(Canvas))]
 public abstract class UIPanel : MonoBehaviour
 {
     public virtual void Init() { }
+    public virtual void SetDependenciec(PlayerInput playerInput) { }
 }

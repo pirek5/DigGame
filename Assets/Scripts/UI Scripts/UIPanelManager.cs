@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
+using Zenject;
 
 public class UIPanelManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class UIPanelManager : MonoBehaviour
 
     //cached
     List<UIPanel> panels = new List<UIPanel>();
+
+    [Inject] PlayerInput playerInput;
 
     private void Awake()
     {
@@ -55,6 +58,7 @@ public class UIPanelManager : MonoBehaviour
                 UIPanel panelInstance = Instantiate(prefab, menuParent);
                 panels.Add(panelInstance);
                 panelInstance.gameObject.SetActive(false);
+                panelInstance.SetDependenciec(playerInput);
             }
         }
     }

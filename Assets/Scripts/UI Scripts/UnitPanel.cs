@@ -11,6 +11,7 @@ public class UnitPanel : UIPanel<UnitPanel>
     #pragma warning restore 0649
 
     public Unit selectedUnit;
+    private PlayerInput playerInput;
 
     private void Update()
     {
@@ -21,12 +22,13 @@ public class UnitPanel : UIPanel<UnitPanel>
 
     public override void Init()
     {
-        base.Init();
-        if(PlayerInput.Instance.SelectedObject != null)
-        {
-            selectedUnit = PlayerInput.Instance.SelectedObject.GetComponentInParent<Unit>();
-        }
+        selectedUnit = playerInput.SelectedObject.GetComponentInParent<Unit>();
         FindRenderCamera();
+    }
+
+    public override void SetDependenciec(PlayerInput playerInput)
+    {
+        this.playerInput = playerInput;
     }
 
     private void UpdatePanelInformations()
