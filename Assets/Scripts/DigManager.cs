@@ -5,31 +5,12 @@ using System.Linq;
 
 public class DigManager : MonoBehaviour
 {
-    public List<Tile> TilesToDig { get; private set; }
-
-    //singleton
-    public static DigManager Instance { get; private set; }
-
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            TilesToDig = new List<Tile>();
-        }
+        TilesToDig = new List<Tile>();
     }
 
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
-    }
+    public List<Tile> TilesToDig { get; private set; }
 
     public void MarkTileToDig(Tile tileToDig)
     {

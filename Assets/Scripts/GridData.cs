@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class GridData : MonoBehaviour
 {
@@ -14,40 +15,51 @@ public class GridData : MonoBehaviour
     //First tile in gridDictionary - to avoid null exception in comparison
     public static Tile DefaultTile { get; private set; }
 
+    //dependencies
+    [Inject] MapGenerator mapGenerator;
+    [Inject] MapDisplay mapDisplay;
+    [Inject] DigManager digManager;
+    [Inject] InfrastructureBuildManager infrastructureBM;
+
     //singleton
-    public static GridData Instance { get; private set; }
+    //public static GridData Instance { get; private set; }
 
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            Init();
-        }
-    }
+    //private void Awake()
+    //{
+    //    if (Instance != null)
+    //    {
+    //        //Destroy(gameObject);
+    //    }
+    //    else
+    //    {
+    //        Instance = this;
+    //        Init();
+    //    }
+    //}
 
-    private void OnDestroy()
+    //private void OnDestroy()
+    //{
+    //    if (Instance == this)
+    //    {
+    //        Instance = null;
+    //    }
+    //}
+
+    private void Start()
     {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
+        Init();
     }
 
     void Init()
     {
         FillDictionary();
         AssignNeighbors();
-        MapDisplay.Instance.DisplayMap(GridDictionary);
+        mapDisplay.DisplayMap(GridDictionary);
     }
 
     private void FillDictionary()
     {
-        var gridArray = MapGenerator.Instance.GenerateMap();
+        var gridArray = mapGenerator.GenerateMap();
         int width = gridArray.GetLength(0);
         int height = gridArray.GetLength(1);
 
@@ -97,8 +109,8 @@ public class GridData : MonoBehaviour
             if (tile.DigIt == false && tile.TileType == TileType.full)
             {
                 tile.DigIt = true;
-                DigManager.Instance.MarkTileToDig(tile);
-                MapDisplay.Instance.DisplayTile(tile);
+                digManager.MarkTileToDig(tile);
+                mapDisplay.DisplayTile(tile);
             }
         }
     }
@@ -111,14 +123,14 @@ public class GridData : MonoBehaviour
             if (tile.DigIt == true)
             {
                 tile.DigIt = false;
-                DigManager.Instance.EraseTileToDig(tile);
-                MapDisplay.Instance.DisplayTile(tile);
+                digManager.EraseTileToDig(tile);
+                mapDisplay.DisplayTile(tile);
             }
             else if (tile.InfrastructureToBuild == true)
             {
                 tile.InfrastructureToBuild = false;
-                InfrastructureBuildManager.Instance.EraseTileToBuild(tile);
-                MapDisplay.Instance.DisplayTile(tile);
+                infrastructureBM.EraseTileToBuild(tile);
+                mapDisplay.DisplayTile(tile);
             }
         }
     }
@@ -133,8 +145,8 @@ public class GridData : MonoBehaviour
             if (tile.InfrastructureToBuild == false && tile.HasInfrastructure == false && tile.TileType == TileType.empty && lowerTile.TileType == TileType.full)
             {
                 tile.InfrastructureToBuild = true;
-                InfrastructureBuildManager.Instance.MarkTileToBuild(tile);
-                MapDisplay.Instance.DisplayTile(tile);
+                infrastructureBM.MarkTileToBuild(tile);
+                mapDisplay.DisplayTile(tile);
             }
         }
     }
@@ -145,8 +157,8 @@ public class GridData : MonoBehaviour
         {
             tile.TileType = TileType.empty;
             tile.DigIt = false;
-            MapDisplay.Instance.DisplayTile(tile);
-            DigManager.Instance.EraseTileToDig(tile);
+            mapDisplay.DisplayTile(tile);
+            digManager.EraseTileToDig(tile);
         }
 
         Vector2Int upperTilePos = Vector2Int.FloorToInt(tile.Position) + Vector2Int.up;
@@ -155,7 +167,7 @@ public class GridData : MonoBehaviour
             Tile upperTile = GridDictionary[upperTilePos];
             upperTile.HasInfrastructure = false;
             upperTile.InfrastructureToBuild = false;
-            MapDisplay.Instance.DisplayTile(upperTile);
+            mapDisplay.DisplayTile(upperTile);
         }
     }
 
@@ -165,8 +177,8 @@ public class GridData : MonoBehaviour
         {
             tile.InfrastructureToBuild = false;
             tile.HasInfrastructure = true;
-            MapDisplay.Instance.DisplayTile(tile);
-            InfrastructureBuildManager.Instance.EraseTileToBuild(tile);
+            mapDisplay.DisplayTile(tile);
+            infrastructureBM.EraseTileToBuild(tile);
         }
     }
 }

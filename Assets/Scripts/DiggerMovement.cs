@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class DiggerMovement : Movement
 {
-    //cached
+    //dependencies
     private Digger digger;
+    [Inject] private DigManager digManager;
 
     protected override void Awake()
     {
@@ -19,7 +21,7 @@ public class DiggerMovement : Movement
         base.MoveToPosition(destinationTile); //move to specific tile or...
         if (destinationTile.DigIt == true) // ... move and dig
         {
-            List<Tile> possibleEntrance = DigManager.Instance.GetPossibleEnternance(destinationTile);
+            List<Tile> possibleEntrance = digManager.GetPossibleEnternance(destinationTile);
 
             if (possibleEntrance.Count > 0)
             {

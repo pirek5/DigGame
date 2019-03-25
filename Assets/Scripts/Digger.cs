@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class Digger : MonoBehaviour
 {
@@ -11,8 +12,12 @@ public class Digger : MonoBehaviour
     //state
     public bool Digging { get; set; }
 
-    //cached
+    //dependencies
+    [Inject] DigManager digManager;
     private DiggerMovement movement;
+
+    [Inject]
+    private GridData gridData;
 
     public void Awake()
     {
@@ -26,12 +31,12 @@ public class Digger : MonoBehaviour
 
     IEnumerator DiggingCoroutine()
     {
-        if(DigManager.Instance.TilesToDig.Count <= 0)
+        if(digManager.TilesToDig.Count <= 0)
         {
             yield break;
         }
 
-        var closestTileToDig = Utilities.FindClosestTile(transform.position, DigManager.Instance.TilesToDig);
+        var closestTileToDig = Utilities.FindClosestTile(transform.position, digManager.TilesToDig);
         if(Utilities.CheckIfNeighbour(transform.position, closestTileToDig))
         {
             GetComponent<FlashingObject>().StartFlashing();
@@ -40,18 +45,18 @@ public class Digger : MonoBehaviour
                 closestTileToDig.LoseHealth();
                 if(closestTileToDig.Health <= 0)
                 {
-                    GridData.Instance.TileDigged(closestTileToDig);
+                    gridData.TileDigged(closestTileToDig);
                 }
                 yield return new WaitForSeconds(diggingPeriod);
             }
             GetComponent<FlashingObject>().StopFlashing();
 
-            if(DigManager.Instance.TilesToDig.Count <= 0 || movement.CurrentTile == null)
+            if(digManager.TilesToDig.Count <= 0 || movement.CurrentTile == null)
             {
                 yield break;
             }
 
-            Tile newTileToDig = Utilities.FindClosestTile(transform.position, DigManager.Instance.TilesToDig);
+            Tile newTileToDig = Utilities.FindClosestTile(transform.position, digManager.TilesToDig);
             if (Utilities.GetDistance(movement.CurrentTile, newTileToDig) <= autoDiggingRange)
             {
                 movement.MoveToPosition(newTileToDig);

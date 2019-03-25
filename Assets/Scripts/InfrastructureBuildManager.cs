@@ -9,28 +9,9 @@ public class InfrastructureBuildManager : MonoBehaviour
     //config
     public int infrastructureBuildTime = 3; //TODO public field
 
-    //singleton
-    public static InfrastructureBuildManager Instance { get; private set; }
-
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            TilesWithInfrastructureToBuild = new List<Tile>();
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
+        TilesWithInfrastructureToBuild = new List<Tile>();
     }
 
     public void MarkTileToBuild(Tile tileToBuild)

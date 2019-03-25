@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class Builder : MonoBehaviour
 {
@@ -11,8 +12,11 @@ public class Builder : MonoBehaviour
     //state
     public bool Build { get; set; }
 
-    //cached
+    //dependencies
     private BuilderMovement movement;
+    [Inject] InfrastructureBuildManager infrastructureBM;
+    [Inject] private GridData gridData;
+
 
     public void Awake()
     {
@@ -26,7 +30,7 @@ public class Builder : MonoBehaviour
 
     private IEnumerator BuildCoroutine()
     {
-        if (InfrastructureBuildManager.Instance.TilesWithInfrastructureToBuild.Count <= 0 || movement.CurrentTile == null)
+        if (infrastructureBM.TilesWithInfrastructureToBuild.Count <= 0 || movement.CurrentTile == null)
         {
             yield break;
         }
@@ -39,20 +43,20 @@ public class Builder : MonoBehaviour
             while(currentTileToBuild.InfrastructureToBuild == true)
             {
                 currentTileToBuild.BuildingInfrastructure();
-                if(currentTileToBuild.buildProgress >= InfrastructureBuildManager.Instance.infrastructureBuildTime)
+                if(currentTileToBuild.buildProgress >= infrastructureBM.infrastructureBuildTime)
                 {
-                    GridData.Instance.InfrastructureBuilt(currentTileToBuild);
+                    gridData.InfrastructureBuilt(currentTileToBuild);
                 }
                 yield return new WaitForSeconds(buildPeriod);
             }
             GetComponent<FlashingObject>().StopFlashing();
 
-            if (InfrastructureBuildManager.Instance.TilesWithInfrastructureToBuild.Count <= 0 || movement.CurrentTile == null)
+            if (infrastructureBM.TilesWithInfrastructureToBuild.Count <= 0 || movement.CurrentTile == null)
             {
                 yield break;
             }
 
-            Tile newTileToBuild = Utilities.FindClosestTile(transform.position, InfrastructureBuildManager.Instance.TilesWithInfrastructureToBuild);
+            Tile newTileToBuild = Utilities.FindClosestTile(transform.position, infrastructureBM.TilesWithInfrastructureToBuild);
             if (Utilities.GetDistance(movement.CurrentTile, newTileToBuild) <= autoBuildRange)
             {
                 movement.MoveToPosition(newTileToBuild);

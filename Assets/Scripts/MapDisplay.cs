@@ -22,29 +22,6 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Tilemap infrastructure;
 #pragma warning restore 0649
 
-    //singleton
-    public static MapDisplay Instance { get; private set; }
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
-    }
-
     public void DisplayMap(Dictionary<Vector2Int, Tile> gridDictionary)
     {
         foreach(KeyValuePair<Vector2Int, Tile> tile in gridDictionary)

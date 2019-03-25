@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public enum State {normal, dig, erase, unitSelected, infrastructure }
 
@@ -9,7 +10,6 @@ public class PlayerInput : MonoBehaviour
 {
     //references set in editor
     #pragma warning disable 0649
-    [SerializeField] private Grid grid;
     [SerializeField] private LayerMask selectables;
     #pragma warning restore 0649
 
@@ -19,6 +19,11 @@ public class PlayerInput : MonoBehaviour
     private Vector2 mousePos2D;
     private Vector2Int gridPos;
     Tile mouseOverTile, previousMouseOverTile;
+    
+    //dependencies
+    [Inject] private GridData gridData;
+    [Inject] private MapDisplay mapDisplay;
+    private Grid grid;
 
     //singleton
     public static PlayerInput Instance { get; private set; }
@@ -40,6 +45,7 @@ public class PlayerInput : MonoBehaviour
     {
         mouseOverTile = GridData.DefaultTile;
         previousMouseOverTile = GridData.DefaultTile;
+        grid = FindObjectOfType<Grid>();
     }
 
 
@@ -85,7 +91,7 @@ public class PlayerInput : MonoBehaviour
 
         if(mouseOverTile != previousMouseOverTile)
         {
-            MapDisplay.Instance.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
+            mapDisplay.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
             previousMouseOverTile = mouseOverTile;
         }
     }
@@ -125,15 +131,15 @@ public class PlayerInput : MonoBehaviour
         {
             if (CurrentState == State.dig)
             {
-                GridData.Instance.MarkTileToDig(gridPos);
+                gridData.MarkTileToDig(gridPos);
             }
             else if (CurrentState == State.erase)
             {
-                GridData.Instance.EraseMark(gridPos);
+                gridData.EraseMark(gridPos);
             }
             else if (CurrentState == State.infrastructure)
             {
-                GridData.Instance.MarkTileAsInfrastructureToBuild(gridPos);
+                gridData.MarkTileAsInfrastructureToBuild(gridPos);
             }
         }
 
@@ -146,7 +152,7 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()) //RMB (click and hold)
         {
             CurrentState = State.normal;
-            MapDisplay.Instance.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
+            mapDisplay.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
         }
     }
 
