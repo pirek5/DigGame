@@ -23,7 +23,6 @@ public class UnitPanel : UIPanel<UnitPanel>
     public override void Init()
     {
         selectedUnit = playerInput.SelectedObject.GetComponentInParent<Unit>();
-        FindRenderCamera();
     }
 
     public override void SetDependenciec(PlayerInput playerInput)
@@ -37,11 +36,4 @@ public class UnitPanel : UIPanel<UnitPanel>
         energySlider.maxValue = selectedUnit.maxEnergy;
         energySlider.value = selectedUnit.currentEnergy;
     }
-
-    private void FindRenderCamera()
-    {
-        GetComponent<Canvas>().worldCamera = Camera.main;
-    }
-
-
 }
