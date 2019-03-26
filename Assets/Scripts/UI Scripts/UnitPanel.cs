@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitPanel : UIPanel<UnitPanel>
+public class UnitPanel : UIPanel
 {
     #pragma warning disable 0649
     [SerializeField] private  Text unitName;

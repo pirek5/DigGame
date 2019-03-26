@@ -306,9 +306,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitPanelPrefab: {fileID: 8807700697923559481, guid: 71c3464c0fdb7ce478e3db86350dc611,
     type: 3}
-  chooseBuildingPanelPreafab: {fileID: 6003624556281572847, guid: 1cf2e0368e822854aa59dbe52fe2de33,
+  buildingPanelPreafab: {fileID: 6003624556281572847, guid: 1cf2e0368e822854aa59dbe52fe2de33,
     type: 3}
   menuParent: {fileID: 443972597452195920}
+  panels: []
 --- !u!1 &443972597719471470
 GameObject:
   m_ObjectHideFlags: 0
@@ -1112,7 +1113,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 443972597452195922}
-        m_MethodName: OnDigPressesd
+        m_MethodName: OnBuildPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

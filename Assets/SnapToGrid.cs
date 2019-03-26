@@ -6,6 +6,7 @@ using UnityEngine;
 public class SnapToGrid : MonoBehaviour
 {
     private const float grid = 1f;
+    public float offset = 0.5f;
 
     void LateUpdate()
     {
@@ -14,3 +15,4 @@ public class SnapToGrid : MonoBehaviour
         transform.position = new Vector3(xPos, yPos, 0f);
     }
 }
+

@@ -162,6 +162,7 @@ public class GridData : MonoBehaviour
     {
         foreach(var tilePos in tilesPos)
         {
+            print(tilePos);
             if(!GridDictionary.ContainsKey(tilePos)) { return false; }
             if(GridDictionary[tilePos].TileType != TileType.empty) { return false; }
             if(!GridDictionary[tilePos].HasInfrastructure && tilePos.x == 0) { return false; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChooseBuildingPanel : UIPanel<UnitPanel>
+public class ChooseBuildingPanel : UIPanel
 {
     [SerializeField] private GameObject HedquatersPrefab;
 
@@ -18,7 +18,6 @@ public class ChooseBuildingPanel : UIPanel<UnitPanel>
 
     public void OnHeadquatersPressed()
     {
-        print("elo-1");
         buildManager.CheckIfPossibleToBuild(HedquatersPrefab);
     }
 

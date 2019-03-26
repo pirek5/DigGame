@@ -24,6 +24,7 @@ public class PlayerInput : MonoBehaviour
     [Inject] private GridData gridData;
     [Inject] private MapDisplay mapDisplay;
     [Inject] private Grid grid;
+    [Inject] private UIPanelManager uiPanelManager;
 
     private void Start()
     {
@@ -82,7 +83,7 @@ public class PlayerInput : MonoBehaviour
             }
             else if(!EventSystem.current.IsPointerOverGameObject())
             {
-                UIPanelManager.Instance.CloseAll();
+                uiPanelManager.CloseAll();
                 SelectedObject = null;
                 CurrentState = State.normal;
             }
@@ -137,7 +138,7 @@ public class PlayerInput : MonoBehaviour
         if (obj.GetComponentInParent<Unit>())
         {
             CurrentState = State.unitSelected;
-            UnitPanel.Open();
+            uiPanelManager.OpenUnitPanel();
         }
         // else if building....
     }

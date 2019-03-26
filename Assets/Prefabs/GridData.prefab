@@ -84,3 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c8d27ea2c76cc478b66af43293ed7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  preBuildSortingLayer: PreConstructedBuildings
+  deffaultSortingLayer: Buildings
+  preBuildColorPositive: {r: 0, g: 1, b: 0.010046244, a: 0.5019608}
+  preBuildColorNegative: {r: 1, g: 0, b: 0, a: 0.5019608}

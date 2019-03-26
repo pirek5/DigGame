@@ -6,27 +6,28 @@ using Zenject;
 public class UiButtonsManager : MonoBehaviour
 {
     [Inject] PlayerInput playerInput;
+    [Inject] UIPanelManager uiPanelManager;
 
     public void OnDigPressesd()
     {
-        UIPanelManager.Instance.CloseAll();
+        uiPanelManager.CloseAll();
         playerInput.CurrentState = State.dig;
     }
 
     public void OnErasePressesd()
     {
-        UIPanelManager.Instance.CloseAll();
+        uiPanelManager.CloseAll();
         playerInput.CurrentState = State.erase;
     }
 
     public void OnInfrastructurePressed()
     {
-        UIPanelManager.Instance.CloseAll();
+        uiPanelManager.CloseAll();
         playerInput.CurrentState = State.infrastructure;
     }
 
     public void OnBuildPressed()
     {
-        ChooseBuildingPanel.Open();
+        uiPanelManager.OpenBuildingPanel();
     }
 }

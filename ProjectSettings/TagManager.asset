@@ -44,6 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 3056399495
     locked: 0
+  - name: Buildings
+    uniqueID: 83031839
+    locked: 0
   - name: Units
     uniqueID: 3734001587
     locked: 0
@@ -53,8 +56,8 @@ TagManager:
   - name: DigSelection
     uniqueID: 3245421529
     locked: 0
-  - name: Selectable
-    uniqueID: 1900718281
+  - name: preConstructedBuildings
+    uniqueID: 1541941459
     locked: 0
   - name: UI
     uniqueID: 3452578641
