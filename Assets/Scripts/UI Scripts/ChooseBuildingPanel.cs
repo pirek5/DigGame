@@ -18,7 +18,7 @@ public class ChooseBuildingPanel : UIPanel
 
     public void OnHeadquatersPressed()
     {
-        buildManager.CheckIfPossibleToBuild(HedquatersPrefab);
+        buildManager.TryBuild(HedquatersPrefab);
     }
 
 }

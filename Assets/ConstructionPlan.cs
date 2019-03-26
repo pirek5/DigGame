@@ -8,10 +8,11 @@ public class ConstructionPlan : MonoBehaviour
 {
     [SerializeField] private BuildingSize size;
     public List<Vector2Int> BuildingTiles { get; private set; }
+    public Vector2 offset { get; private set; }
 
     void Awake()
     {
-        BuildingTiles = GetBuildingTiles(size);
+        (BuildingTiles, offset) = GetBuildingTiles(size);
     }
 
     // Update is called once per frame
@@ -20,15 +21,15 @@ public class ConstructionPlan : MonoBehaviour
         
     }
 
-    List<Vector2Int> GetBuildingTiles(BuildingSize size)
+    (List<Vector2Int>, Vector2) GetBuildingTiles(BuildingSize size)
     {
         switch (size)
         {
-            case BuildingSize.B1x1: return new List<Vector2Int>() { Vector2Int.zero };
-            case BuildingSize.B2x1: return new List<Vector2Int>() { Vector2Int.zero, Vector2Int.right};
-            case BuildingSize.B2x2: return new List<Vector2Int>() { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new Vector2Int(1, 1) };
+            case BuildingSize.B1x1: return (new List<Vector2Int>() { Vector2Int.zero }, Vector2.zero);
+            case BuildingSize.B2x1: return (new List<Vector2Int>() { Vector2Int.zero, Vector2Int.right}, new Vector2(0f,0f));
+            case BuildingSize.B2x2: return (new List<Vector2Int>() { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new Vector2Int(1, 1) }, new Vector2(0.5f, 0.5f));
         }
-        return null;
+        return (null, Vector2.zero);
     }
 
 }

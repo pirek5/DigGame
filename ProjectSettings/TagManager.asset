@@ -56,7 +56,7 @@ TagManager:
   - name: DigSelection
     uniqueID: 3245421529
     locked: 0
-  - name: preConstructedBuildings
+  - name: PreConstructedBuildings
     uniqueID: 1541941459
     locked: 0
   - name: UI

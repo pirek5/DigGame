@@ -16,6 +16,8 @@ public class BuildManager : MonoBehaviour
     private GameObject currentBuilding;
     private ConstructionPlan currentConstructionPlan;
     private SpriteRenderer currentSR;
+    private Vector2 offset;
+    //public Vector2 offset;
 
     //dependencies
     [Inject] private GridData gridData;
@@ -28,7 +30,7 @@ public class BuildManager : MonoBehaviour
     {
         if (currentConstructionPlan != null && currentSR != null || currentBuilding != null)
         {
-            currentBuilding.transform.position = playerInput.MousePos2D;
+            currentBuilding.transform.position = playerInput.MousePos2D + offset;
             var positions = AssignPosition(currentConstructionPlan.BuildingTiles);
             if (gridData.CheckPlaceToBuild(positions))
             {
@@ -41,22 +43,25 @@ public class BuildManager : MonoBehaviour
         }
     }
 
-    public void CheckIfPossibleToBuild(GameObject building)
+    public void TryBuild(GameObject building)
     {
         if (!building.GetComponent<ConstructionPlan>() || !building.GetComponentInChildren<SpriteRenderer>()) { return; }
+        
         currentBuilding = Instantiate(building);
         currentSR = currentBuilding.GetComponentInChildren<SpriteRenderer>();
         currentConstructionPlan = currentBuilding.GetComponent<ConstructionPlan>();
-        
+        offset = currentConstructionPlan.offset;
+
         currentSR.sortingLayerName = preBuildSortingLayer;
     }
 
     List<Vector2Int> AssignPosition(List<Vector2Int> buildingTiles)
     {
+        print(Vector2Int.RoundToInt(playerInput.MousePos2D - offset));
         List<Vector2Int> currentBuildingTiles = new List<Vector2Int>();
         foreach(var position in buildingTiles)
         {
-            currentBuildingTiles.Add(position + Vector2Int.RoundToInt(playerInput.MousePos2D));
+            currentBuildingTiles.Add(position + Vector2Int.RoundToInt(playerInput.MousePos2D - offset));
         }
         return currentBuildingTiles;
     }
