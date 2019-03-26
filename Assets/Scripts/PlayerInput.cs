@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     //state
     public State CurrentState { get; set; }
     public GameObject SelectedObject { get; private set; }
-    private Vector2 mousePos2D;
+    public Vector2 MousePos2D { get; private set; }
     private Vector2Int gridPos;
     Tile mouseOverTile, previousMouseOverTile;
     
@@ -25,37 +25,12 @@ public class PlayerInput : MonoBehaviour
     [Inject] private MapDisplay mapDisplay;
     [Inject] private Grid grid;
 
-    ////singleton
-    //public static PlayerInput Instance { get; private set; }
-
-    //private void Awake()
-    //{
-    //    if (Instance != null)
-    //    {
-    //        Destroy(gameObject);
-    //    }
-    //    else
-    //    {
-    //        Instance = this;
-            
-    //    }
-    //}
-
     private void Start()
     {
         CurrentState = State.normal;
         mouseOverTile = GridData.DefaultTile;
         previousMouseOverTile = GridData.DefaultTile;
     }
-
-
-    //private void OnDestroy()
-    //{
-    //    if (Instance == this)
-    //    {
-    //        Instance = null;
-    //    }
-    //}
 
     void Update()
     {
@@ -78,7 +53,7 @@ public class PlayerInput : MonoBehaviour
     private void CollectData()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos2D = new Vector2(mousePos.x, mousePos.y);
+        MousePos2D = new Vector2(mousePos.x, mousePos.y);
         gridPos = (Vector2Int)grid.WorldToCell(mousePos);
         if (GridData.GridDictionary.ContainsKey(gridPos))
         {
@@ -100,7 +75,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) // LMB (clicked)
         {
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, Mathf.Infinity, selectables);
+            RaycastHit2D hit = Physics2D.Raycast(MousePos2D, Vector2.zero, Mathf.Infinity, selectables);
             if (hit.collider != null)
             {
                 SelectObject(hit.collider.gameObject);
@@ -143,7 +118,7 @@ public class PlayerInput : MonoBehaviour
             }
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero, Mathf.Infinity, selectables); //LMB Click
+        RaycastHit2D hit = Physics2D.Raycast(MousePos2D, Vector2.zero, Mathf.Infinity, selectables); //LMB Click
         if (Input.GetMouseButtonDown(0) && hit.collider != null)
         {
             SelectObject(hit.collider.gameObject);

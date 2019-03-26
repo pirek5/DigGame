@@ -24,4 +24,9 @@ public class UiButtonsManager : MonoBehaviour
         UIPanelManager.Instance.CloseAll();
         playerInput.CurrentState = State.infrastructure;
     }
+
+    public void OnBuildPressed()
+    {
+        ChooseBuildingPanel.Open();
+    }
 }

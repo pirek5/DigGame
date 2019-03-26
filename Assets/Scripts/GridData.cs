@@ -21,7 +21,7 @@ public class GridData : MonoBehaviour
     [Inject] DigManager digManager;
     [Inject] InfrastructureBuildManager infrastructureBM;
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -156,5 +156,16 @@ public class GridData : MonoBehaviour
             mapDisplay.DisplayTile(tile);
             infrastructureBM.EraseTileToBuild(tile);
         }
+    }
+
+    public bool CheckPlaceToBuild(List<Vector2Int> tilesPos)
+    {
+        foreach(var tilePos in tilesPos)
+        {
+            if(!GridDictionary.ContainsKey(tilePos)) { return false; }
+            if(GridDictionary[tilePos].TileType != TileType.empty) { return false; }
+            if(!GridDictionary[tilePos].HasInfrastructure && tilePos.x == 0) { return false; }
+        }
+        return true;
     }
 }

@@ -6,7 +6,8 @@ using Zenject;
 
 public class UIPanelManager : MonoBehaviour
 {
-    [SerializeField] private UnitPanel diggerPanelPrefab;
+    [SerializeField] private UnitPanel unitPanelPrefab;
+    [SerializeField] private ChooseBuildingPanel chooseBuildingPanelPreafab;
     [SerializeField] private Transform menuParent;
 
     private static UIPanelManager instance;
@@ -15,7 +16,9 @@ public class UIPanelManager : MonoBehaviour
     //cached
     List<UIPanel> panels = new List<UIPanel>();
 
+    //passed dependencies
     [Inject] PlayerInput playerInput;
+    [Inject] BuildManager buildManager;
 
     private void Awake()
     {
@@ -58,7 +61,8 @@ public class UIPanelManager : MonoBehaviour
                 UIPanel panelInstance = Instantiate(prefab, menuParent);
                 panels.Add(panelInstance);
                 panelInstance.gameObject.SetActive(false);
-                panelInstance.SetDependenciec(playerInput);
+                print(panelInstance.gameObject.name);
+                panelInstance.SetDependency(playerInput, buildManager);
             }
         }
     }

@@ -11,7 +11,7 @@ public abstract class UIPanel<T> : UIPanel where T : UIPanel<T>
     {
         if (instance != null)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
         else
         {
@@ -28,12 +28,13 @@ public abstract class UIPanel<T> : UIPanel where T : UIPanel<T>
     }
 
     public override void Init() { }
-    public override void SetDependenciec(PlayerInput playerInput) { }
+    public override void SetDependency(PlayerInput playerInput, BuildManager buildManager) { }
 }
+
 
 [RequireComponent(typeof(Canvas))]
 public abstract class UIPanel : MonoBehaviour
 {
     public virtual void Init() { }
-    public virtual void SetDependenciec(PlayerInput playerInput) { }
+    public virtual void SetDependency(PlayerInput playerInput, BuildManager buildManager) { }
 }

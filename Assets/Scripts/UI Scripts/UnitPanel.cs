@@ -25,7 +25,7 @@ public class UnitPanel : UIPanel<UnitPanel>
         selectedUnit = playerInput.SelectedObject.GetComponentInParent<Unit>();
     }
 
-    public override void SetDependenciec(PlayerInput playerInput)
+    public override void SetDependency(PlayerInput playerInput, BuildManager buildManager)
     {
         this.playerInput = playerInput;
     }
