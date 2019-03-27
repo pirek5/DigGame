@@ -4,155 +4,78 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
 
-public enum State {normal, dig, erase, unitSelected, infrastructure }
+public enum State {normal, dig, build, erase, unitSelected, buildingSelected, infrastructure }
 
 public class PlayerInput : MonoBehaviour
 {
     //references set in editor
     #pragma warning disable 0649
-    [SerializeField] private LayerMask selectables;
+    [SerializeField] public LayerMask selectables;
     #pragma warning restore 0649
 
     //state
     public State CurrentState { get; set; }
-    public GameObject SelectedObject { get; private set; }
     public Vector2 MousePos2D { get; private set; }
-    private Vector2Int gridPos;
-    Tile mouseOverTile, previousMouseOverTile;
-    
+    public Vector2Int MouseGridPos { get; private set; }
+    public Tile tileUnderneathCursor { get; private set; }
+    public Tile previousTileUnderneathCursor { get; private set; }
+
+    public bool LMB { get; private set; }
+    public bool RMB { get; private set; }
+    public bool LMBdown { get; private set; }
+    public bool RMBdown { get; private set; }
+    public bool CursorOverUI { get; private set; }
+
+
+
     //dependencies
-    [Inject] private GridData gridData;
     [Inject] private MapDisplay mapDisplay;
     [Inject] private Grid grid;
-    [Inject] private UIPanelManager uiPanelManager;
+    private UserActions userActions;
+
+    private void Awake()
+    {
+        userActions = GetComponent<UserActions>();
+    }
 
     private void Start()
     {
         CurrentState = State.normal;
-        mouseOverTile = GridData.DefaultTile;
-        previousMouseOverTile = GridData.DefaultTile;
+        tileUnderneathCursor = GridData.DefaultTile;
+        previousTileUnderneathCursor = GridData.DefaultTile;
     }
 
     void Update()
     {
-        CollectData();       
-        switch (CurrentState)
-        {
-            case State.normal:
-            case State.unitSelected:
-                MouseActionsNormal();
-                break;
-            case State.dig:
-            case State.erase:
-            case State.infrastructure:
-                MouseActionsDigOrErase();
-                break;
-        }
-        DebugLog();
+        CollectInputData();       
     }
 
-    private void CollectData()
+    private void CollectInputData()
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         MousePos2D = new Vector2(mousePos.x, mousePos.y);
-        gridPos = (Vector2Int)grid.WorldToCell(mousePos);
-        if (GridData.GridDictionary.ContainsKey(gridPos))
+        MouseGridPos = (Vector2Int)grid.WorldToCell(mousePos);
+        LMB = Input.GetMouseButton(0);
+        RMB = Input.GetMouseButton(1);
+        LMBdown = Input.GetMouseButtonDown(0);
+        RMBdown = Input.GetMouseButtonDown(1);
+        CursorOverUI = EventSystem.current.IsPointerOverGameObject();
+
+        Tile tempTile;
+        if (GridData.GridDictionary.ContainsKey(MouseGridPos))
         {
-            mouseOverTile = GridData.GridDictionary[gridPos];
+            tempTile = GridData.GridDictionary[MouseGridPos];
+            
         }
         else
         {
-            mouseOverTile = GridData.DefaultTile;
-        }
+            tempTile = GridData.DefaultTile;
+        } 
 
-        if(mouseOverTile != previousMouseOverTile)
+        if (tempTile != tileUnderneathCursor)
         {
-            mapDisplay.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
-            previousMouseOverTile = mouseOverTile;
-        }
-    }
-
-    private void MouseActionsNormal()
-    {
-        if (Input.GetMouseButtonDown(0)) // LMB (clicked)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(MousePos2D, Vector2.zero, Mathf.Infinity, selectables);
-            if (hit.collider != null)
-            {
-                SelectObject(hit.collider.gameObject);
-            }
-            else if(!EventSystem.current.IsPointerOverGameObject())
-            {
-                uiPanelManager.CloseAll();
-                SelectedObject = null;
-                CurrentState = State.normal;
-            }
-        }
-
-        if (CurrentState == State.unitSelected && Input.GetMouseButtonDown(1)) //RMB (clicked)
-        {
-            if (SelectedObject.GetComponentInParent<Movement>())
-            {
-                if (GridData.GridDictionary.ContainsKey(gridPos))
-                {
-                    SelectedObject.GetComponentInParent<Movement>().MoveToPosition(GridData.GridDictionary[gridPos]);
-                }
-            }
-        }
-    }
-
-    private void MouseActionsDigOrErase()
-    {
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject()) //LMB (click and hold)
-        {
-            if (CurrentState == State.dig)
-            {
-                gridData.MarkTileToDig(gridPos);
-            }
-            else if (CurrentState == State.erase)
-            {
-                gridData.EraseMark(gridPos);
-            }
-            else if (CurrentState == State.infrastructure)
-            {
-                gridData.MarkTileAsInfrastructureToBuild(gridPos);
-            }
-        }
-
-        RaycastHit2D hit = Physics2D.Raycast(MousePos2D, Vector2.zero, Mathf.Infinity, selectables); //LMB Click
-        if (Input.GetMouseButtonDown(0) && hit.collider != null)
-        {
-            SelectObject(hit.collider.gameObject);
-        }
-
-        if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject()) //RMB (click and hold)
-        {
-            CurrentState = State.normal;
-            mapDisplay.TemporaryTileDisplay(mouseOverTile, previousMouseOverTile, CurrentState);
-        }
-    }
-
-    private void SelectObject(GameObject obj)
-    {
-        SelectedObject = obj;
-        if (obj.GetComponentInParent<Unit>())
-        {
-            CurrentState = State.unitSelected;
-            uiPanelManager.OpenUnitPanel();
-        }
-        // else if building....
-    }
-
-    private void DebugLog()
-    {
-        if (Input.GetMouseButtonDown(2))
-        {
-            if (GridData.GridDictionary.ContainsKey(gridPos))
-            {
-                var tile = GridData.GridDictionary[gridPos];
-                print("State: " + tile.TileType);
-                print("DigIt: " + tile.DigIt);
-            }
+            previousTileUnderneathCursor = tileUnderneathCursor;
+            tileUnderneathCursor = tempTile;
         }
     }
 }

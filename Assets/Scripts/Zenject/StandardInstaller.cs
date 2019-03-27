@@ -11,7 +11,7 @@ public class StandardInstaller : MonoInstaller<StandardInstaller>
     {
         Container.Bind(typeof(GridData), typeof(DigManager), typeof(InfrastructureBuildManager), typeof(BuildManager)).FromComponentInNewPrefab(gridDataPrefab).AsSingle();
         Container.Bind(typeof(MapDisplay), typeof(MapGenerator), typeof(Grid)).FromComponentInNewPrefab(gridPrefab).AsSingle();
-        Container.Bind(typeof(PlayerInput), typeof(UIPanelManager)).FromComponentsInNewPrefab(playerInputPrefab).AsSingle();
+        Container.Bind(typeof(PlayerInput), typeof(UIPanelManager), typeof(UserActions)).FromComponentsInNewPrefab(playerInputPrefab).AsSingle();
     }
 
 }

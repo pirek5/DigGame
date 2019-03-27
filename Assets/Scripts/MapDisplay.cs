@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Zenject;
 
 public class MapDisplay : MonoBehaviour
 {
@@ -20,7 +21,18 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Tilemap background;
     [SerializeField] private Tilemap selection;
     [SerializeField] private Tilemap infrastructure;
-#pragma warning restore 0649
+
+    //dependencies
+    [Inject]
+    private PlayerInput playerInput;
+    #pragma warning restore 0649
+
+    private void Update()
+    {
+        
+        TemporaryTileDisplay(playerInput.tileUnderneathCursor, playerInput.previousTileUnderneathCursor, playerInput.CurrentState);
+    }
+
 
     public void DisplayMap(Dictionary<Vector2Int, Tile> gridDictionary)
     {
@@ -72,7 +84,7 @@ public class MapDisplay : MonoBehaviour
 
     public void TemporaryTileDisplay(Tile currentTile, Tile previousTile, State currentState)
     {
-        if(currentState == State.dig && currentTile.TileType == TileType.full)
+        if (currentState == State.dig && currentTile.TileType == TileType.full)
         {
             selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), digSelectionTile);
             DisplayTile(previousTile);

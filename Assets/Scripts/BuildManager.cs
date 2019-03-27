@@ -12,18 +12,16 @@ public class BuildManager : MonoBehaviour
     [SerializeField] private Color preBuildColorPositive;
     [SerializeField] private Color preBuildColorNegative;
 
-    //cached
+    //state
     private GameObject currentBuilding;
     private ConstructionPlan currentConstructionPlan;
     private SpriteRenderer currentSR;
     private Vector2 offset;
-    //public Vector2 offset;
+    private bool canPlaceBuilding;
 
     //dependencies
     [Inject] private GridData gridData;
     [Inject] private PlayerInput playerInput;
-
-
 
     // Update is called once per frame
     void Update()
@@ -34,10 +32,12 @@ public class BuildManager : MonoBehaviour
             var positions = AssignPosition(currentConstructionPlan.BuildingTiles);
             if (gridData.CheckPlaceToBuild(positions))
             {
+                canPlaceBuilding = true;
                 currentSR.color = preBuildColorPositive;
             }
             else
             {
+                canPlaceBuilding = false;
                 currentSR.color = preBuildColorNegative;
             }
         }
@@ -46,7 +46,8 @@ public class BuildManager : MonoBehaviour
     public void TryBuild(GameObject building)
     {
         if (!building.GetComponent<ConstructionPlan>() || !building.GetComponentInChildren<SpriteRenderer>()) { return; }
-        
+
+        playerInput.CurrentState = State.build;
         currentBuilding = Instantiate(building);
         currentSR = currentBuilding.GetComponentInChildren<SpriteRenderer>();
         currentConstructionPlan = currentBuilding.GetComponent<ConstructionPlan>();
@@ -64,5 +65,30 @@ public class BuildManager : MonoBehaviour
             currentBuildingTiles.Add(position + Vector2Int.RoundToInt(playerInput.MousePos2D - offset));
         }
         return currentBuildingTiles;
+    }
+
+    public void PlaceBuilding()
+    {
+        if(!canPlaceBuilding) { return; } //TODO zasygnalizować że się nie da zbudować budynku
+
+        playerInput.CurrentState = State.normal;
+        currentSR.color = Color.white;
+        currentSR.sortingLayerName = deffaultSortingLayer;
+
+        currentBuilding = null;
+        currentSR = null;
+        currentConstructionPlan = null;
+        offset = Vector2.zero;
+    }
+
+    public void CancelBuild()
+    {
+        playerInput.CurrentState = State.normal;
+
+        Destroy(currentBuilding);
+        currentBuilding = null;
+        currentSR = null;
+        currentConstructionPlan = null;
+        offset = Vector2.zero;
     }
 }

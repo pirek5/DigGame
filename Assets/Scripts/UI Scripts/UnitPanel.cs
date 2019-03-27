@@ -11,7 +11,7 @@ public class UnitPanel : UIPanel
     #pragma warning restore 0649
 
     public Unit selectedUnit;
-    private PlayerInput playerInput;
+    private UserActions userActions;
 
     private void Update()
     {
@@ -22,12 +22,12 @@ public class UnitPanel : UIPanel
 
     public override void Init()
     {
-        selectedUnit = playerInput.SelectedObject.GetComponentInParent<Unit>();
+        selectedUnit = userActions.SelectedObject.GetComponentInParent<Unit>();
     }
 
-    public override void SetDependency(PlayerInput playerInput, BuildManager buildManager)
+    public override void SetDependency(UserActions userActions, BuildManager buildManager)
     {
-        this.playerInput = playerInput;
+        this.userActions = userActions;
     }
 
     private void UpdatePanelInformations()

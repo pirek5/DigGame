@@ -7,12 +7,10 @@ public class ChooseBuildingPanel : UIPanel
 {
     [SerializeField] private GameObject HedquatersPrefab;
 
-    private PlayerInput playerInput;
     private BuildManager buildManager;
 
-    public override void SetDependency(PlayerInput playerInput, BuildManager buildManager)
+    public override void SetDependency(UserActions userActions, BuildManager buildManager)
     {
-        this.playerInput = playerInput;
         this.buildManager = buildManager;
     }
 

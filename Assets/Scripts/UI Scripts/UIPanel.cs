@@ -36,5 +36,5 @@ using UnityEngine;
 public class UIPanel : MonoBehaviour
 {
     public virtual void Init() { }
-    public virtual void SetDependency(PlayerInput playerInput, BuildManager buildManager) { }
+    public virtual void SetDependency(UserActions userActions, BuildManager buildManager) { }
 }
