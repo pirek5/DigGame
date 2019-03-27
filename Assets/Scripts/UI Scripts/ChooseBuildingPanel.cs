@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class ChooseBuildingPanel : UIPanel
 {
-    [SerializeField] private GameObject HedquatersPrefab;
+    //dependencies
+    [Inject]
+    private BuildingTemplatesContainer buildingTemplates;
 
     private BuildManager buildManager;
+
+    private void Start()
+    {
+        buildingTemplates = FindObjectOfType<BuildingTemplatesContainer>(); //TODO
+    }
 
     public override void SetDependency(UserActions userActions, BuildManager buildManager)
     {
@@ -16,7 +24,8 @@ public class ChooseBuildingPanel : UIPanel
 
     public void OnHeadquatersPressed()
     {
-        buildManager.TryBuild(HedquatersPrefab);
+        var hedquatersPrefab = buildingTemplates.SetActiveTemplate(BuildingName.Headquaters);
+        buildManager.TryBuild(hedquatersPrefab);
     }
 
 }

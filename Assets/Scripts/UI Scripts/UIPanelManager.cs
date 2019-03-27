@@ -20,13 +20,7 @@ public class UIPanelManager : MonoBehaviour
 
     private void Awake()
     {
-        //FillList();
         InitializeMenus();
-    }
-
-    private void FillList()
-    {
-        panels = new List<UIPanel>() { unitPanelPrefab, buildingPanelPreafab };
     }
 
     private void InitializeMenus()

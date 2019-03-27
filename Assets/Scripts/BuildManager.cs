@@ -48,7 +48,7 @@ public class BuildManager : MonoBehaviour
         if (!building.GetComponent<ConstructionPlan>() || !building.GetComponentInChildren<SpriteRenderer>()) { return; }
 
         playerInput.CurrentState = State.build;
-        currentBuilding = Instantiate(building);
+        currentBuilding = building;
         currentSR = currentBuilding.GetComponentInChildren<SpriteRenderer>();
         currentConstructionPlan = currentBuilding.GetComponent<ConstructionPlan>();
         offset = currentConstructionPlan.offset;
@@ -71,9 +71,10 @@ public class BuildManager : MonoBehaviour
     {
         if(!canPlaceBuilding) { return; } //TODO zasygnalizować że się nie da zbudować budynku
 
-        playerInput.CurrentState = State.normal;
         currentSR.color = Color.white;
         currentSR.sortingLayerName = deffaultSortingLayer;
+        Instantiate(currentBuilding, currentBuilding.transform.position, Quaternion.identity);
+        playerInput.CurrentState = State.normal;
 
         currentBuilding = null;
         currentSR = null;
@@ -85,7 +86,7 @@ public class BuildManager : MonoBehaviour
     {
         playerInput.CurrentState = State.normal;
 
-        Destroy(currentBuilding);
+        currentBuilding.SetActive(false);
         currentBuilding = null;
         currentSR = null;
         currentConstructionPlan = null;

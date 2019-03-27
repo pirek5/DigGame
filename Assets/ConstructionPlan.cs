@@ -6,7 +6,11 @@ public enum BuildingSize { B1x1, B2x1, B2x2};
 
 public class ConstructionPlan : MonoBehaviour
 {
+    //set in editor
     [SerializeField] private BuildingSize size;
+    public BuildingName BuildingName { get; set; }
+
+    //state
     public List<Vector2Int> BuildingTiles { get; private set; }
     public Vector2 offset { get; private set; }
 
