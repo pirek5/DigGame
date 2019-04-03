@@ -8,7 +8,6 @@ public enum BuildingName { Headquaters, Magazine}
 public class BuildingTemplatesContainer : MonoBehaviour
 {
     [SerializeField] private GameObject HedquatersPrefab;
-
     [SerializeField] private Transform templatesParent;
 
     private Dictionary<BuildingName, GameObject> templates = new Dictionary<BuildingName, GameObject>();

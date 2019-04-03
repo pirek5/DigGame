@@ -9,15 +9,10 @@ public class UserActions : MonoBehaviour
     [Inject] private GridData gridData;
     [Inject] private UIPanelManager uiPanelManager;
     [Inject] private BuildManager buildManager;
-    private PlayerInput playerInput;
+    [Inject] PlayerInput playerInput;
 
     //State
     public GameObject SelectedObject { get; private set; }
-
-    private void Awake()
-    {
-        playerInput = GetComponent<PlayerInput>();
-    }
 
     private void Update()
     {
@@ -73,7 +68,12 @@ public class UserActions : MonoBehaviour
 
     private void MouseActionsBuild()
     {
-        if (playerInput.LMBdown) // LMB (clicked) - place buildig
+        if (playerInput.LMBdown && playerInput.CursorOverUI) // LMB (clicked) over UI element - cancel
+        {
+            buildManager.CancelBuild();
+        }
+
+        else if (playerInput.LMBdown) // LMB (clicked) - place buildig
         {
             buildManager.PlaceBuilding();
         }
@@ -84,29 +84,35 @@ public class UserActions : MonoBehaviour
         }
     }
 
-    private void SelectObject(GameObject obj)
-    {
-        SelectedObject = obj;
-        if (obj.GetComponentInParent<Unit>())
-        {
-            playerInput.CurrentState = State.unitSelected;
-            uiPanelManager.OpenUnitPanel();
-        }
-        // else if building....
-    }
-
     private void TrySelectObject()
     {
         RaycastHit2D hit = Physics2D.Raycast(playerInput.MousePos2D, Vector2.zero, Mathf.Infinity, playerInput.selectables);
         if (hit.collider != null)
         {
             SelectObject(hit.collider.gameObject);
+
         }
         else if (!playerInput.CursorOverUI)
         {
             uiPanelManager.CloseAll();
             SelectedObject = null;
             playerInput.CurrentState = State.normal;
+        }
+    }
+
+    private void SelectObject(GameObject obj)
+    {
+        SelectedObject = obj;
+        
+        if (obj.GetComponentInParent<UnitInfo>())
+        {
+            playerInput.CurrentState = State.unitSelected;
+            uiPanelManager.OpenPanelAndClosePanel<UnitPanel, BuildingInfoPanel>();
+        }
+        else if (obj.GetComponentInParent<BuildingInfo>())
+        {
+            playerInput.CurrentState = State.buildingSelected;
+            uiPanelManager.OpenPanelAndClosePanel <BuildingInfoPanel, UnitPanel>() ;
         }
     }
 

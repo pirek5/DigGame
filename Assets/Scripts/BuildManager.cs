@@ -23,7 +23,6 @@ public class BuildManager : MonoBehaviour
     [Inject] private GridData gridData;
     [Inject] private PlayerInput playerInput;
 
-    // Update is called once per frame
     void Update()
     {
         if (currentConstructionPlan != null && currentSR != null || currentBuilding != null)
@@ -58,7 +57,6 @@ public class BuildManager : MonoBehaviour
 
     List<Vector2Int> AssignPosition(List<Vector2Int> buildingTiles)
     {
-        print(Vector2Int.RoundToInt(playerInput.MousePos2D - offset));
         List<Vector2Int> currentBuildingTiles = new List<Vector2Int>();
         foreach(var position in buildingTiles)
         {
@@ -76,6 +74,7 @@ public class BuildManager : MonoBehaviour
         Instantiate(currentBuilding, currentBuilding.transform.position, Quaternion.identity);
         playerInput.CurrentState = State.normal;
 
+        currentBuilding.SetActive(false);
         currentBuilding = null;
         currentSR = null;
         currentConstructionPlan = null;

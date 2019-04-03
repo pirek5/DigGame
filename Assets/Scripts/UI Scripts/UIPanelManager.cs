@@ -7,7 +7,8 @@ using Zenject;
 public class UIPanelManager : MonoBehaviour
 {
     [SerializeField] private UIPanel unitPanelPrefab;
-    [SerializeField] private UIPanel buildingPanelPreafab;
+    [SerializeField] private UIPanel chooseBuildingsPanelPreafab;
+    [SerializeField] private UIPanel buildingInfoPanel;
 
     [SerializeField] private Transform menuParent;
 
@@ -48,11 +49,11 @@ public class UIPanelManager : MonoBehaviour
         }
     }
 
-    public void OpenUnitPanel()
+    public void OpenPanel<T>() where T : UIPanel
     {
         foreach (var panel in panels)
         {
-            if (panel.GetComponent<UnitPanel>())
+            if (panel.GetComponent<T>())
             {
                 panel.gameObject.SetActive(true);
                 panel.Init();
@@ -60,25 +61,19 @@ public class UIPanelManager : MonoBehaviour
         }
     }
 
-    public void OpenBuildingPanel()
+    public void OpenPanelAndClosePanel<T,U>() where T : UIPanel where U : UIPanel
     {
         foreach (var panel in panels)
         {
-            if (panel.GetComponent<ChooseBuildingPanel>())
+            if (panel.GetComponent<T>()) //open panel T
             {
                 panel.gameObject.SetActive(true);
                 panel.Init();
             }
-        }
-    }
 
-    private void OpenMenu(UIPanel menu)
-    {
-        foreach(var panel in panels)
-        {
-            if(panel.Equals(menu))
+            if (panel.GetComponent<U>()) //close panel U
             {
-                panel.gameObject.SetActive(true);
+                panel.gameObject.SetActive(false);
             }
         }
     }

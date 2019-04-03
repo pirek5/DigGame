@@ -28,6 +28,6 @@ public class UiButtonsManager : MonoBehaviour
 
     public void OnBuildPressed()
     {
-        uiPanelManager.OpenBuildingPanel();
+        uiPanelManager.OpenPanel<ChooseBuildingPanel>();
     }
 }

@@ -31,12 +31,6 @@ public class PlayerInput : MonoBehaviour
     //dependencies
     [Inject] private MapDisplay mapDisplay;
     [Inject] private Grid grid;
-    private UserActions userActions;
-
-    private void Awake()
-    {
-        userActions = GetComponent<UserActions>();
-    }
 
     private void Start()
     {

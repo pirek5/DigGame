@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitControlPanel : MonoBehaviour
+public class BuildingInfo : MonoBehaviour
 {
+
+    public string buildingName;
 
 }
