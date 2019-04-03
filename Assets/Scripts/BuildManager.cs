@@ -16,6 +16,7 @@ public class BuildManager : MonoBehaviour
     private GameObject currentBuilding;
     private ConstructionPlan currentConstructionPlan;
     private SpriteRenderer currentSR;
+    private List<Vector2Int> currentBuldingTiles = new List<Vector2Int>();
     private Vector2 offset;
     private bool canPlaceBuilding;
 
@@ -28,8 +29,8 @@ public class BuildManager : MonoBehaviour
         if (currentConstructionPlan != null && currentSR != null || currentBuilding != null)
         {
             currentBuilding.transform.position = playerInput.MousePos2D + offset;
-            var positions = AssignPosition(currentConstructionPlan.BuildingTiles);
-            if (gridData.CheckPlaceToBuild(positions))
+            currentBuldingTiles = AssignPosition(currentConstructionPlan.BuildingTiles);
+            if (gridData.CheckPlaceToBuild(currentBuldingTiles))
             {
                 canPlaceBuilding = true;
                 currentSR.color = preBuildColorPositive;
@@ -69,6 +70,8 @@ public class BuildManager : MonoBehaviour
     {
         if(!canPlaceBuilding) { return; } //TODO zasygnalizować że się nie da zbudować budynku
 
+        gridData.MarkTilesAsOccupiedByBulding(currentBuldingTiles);
+
         currentSR.color = Color.white;
         currentSR.sortingLayerName = deffaultSortingLayer;
         Instantiate(currentBuilding, currentBuilding.transform.position, Quaternion.identity);
@@ -79,6 +82,7 @@ public class BuildManager : MonoBehaviour
         currentSR = null;
         currentConstructionPlan = null;
         offset = Vector2.zero;
+        currentBuldingTiles.Clear();
     }
 
     public void CancelBuild()

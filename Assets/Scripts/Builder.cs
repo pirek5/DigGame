@@ -43,7 +43,7 @@ public class Builder : MonoBehaviour
             while(currentTileToBuild.InfrastructureToBuild == true)
             {
                 currentTileToBuild.BuildingInfrastructure();
-                if(currentTileToBuild.buildProgress >= infrastructureBM.infrastructureBuildTime)
+                if(currentTileToBuild.InfrastructureBuildProgress >= infrastructureBM.infrastructureBuildTime)
                 {
                     gridData.InfrastructureBuilt(currentTileToBuild);
                 }

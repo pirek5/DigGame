@@ -11,8 +11,9 @@ public class Tile
     public bool DigIt { get; set; }
     public bool InfrastructureToBuild { get; set; }
     public bool HasInfrastructure { get; set; }
+    public bool IsOccupiedByBulding { get; set; }
     public int Health { get; set; }
-    public int buildProgress { get; set; }
+    public int InfrastructureBuildProgress { get; set; }
     
 
     //used to pathfinding
@@ -27,11 +28,8 @@ public class Tile
     {
         TileType = tileType;
         Health = health;
-        buildProgress = 0;
+        InfrastructureBuildProgress = 0;
         Neighbors = new List<Tile>();
-        DigIt = false;
-        InfrastructureToBuild = false;
-        HasInfrastructure = false;
     }
 
     public void LoseHealth()
@@ -41,7 +39,7 @@ public class Tile
 
     public void BuildingInfrastructure()
     {
-        buildProgress++;
+        InfrastructureBuildProgress++;
     }
 
     //used to pathfinding
