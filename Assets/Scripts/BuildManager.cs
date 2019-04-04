@@ -5,17 +5,10 @@ using Zenject;
 
 public class BuildManager : MonoBehaviour
 {
-    //set in editor
-    [SerializeField] private string preBuildSortingLayer;
-    [SerializeField] private string deffaultSortingLayer;
-
-    [SerializeField] private Color preBuildColorPositive;
-    [SerializeField] private Color preBuildColorNegative;
-
     //state
     private GameObject currentBuilding;
     private ConstructionPlan currentConstructionPlan;
-    private SpriteRenderer currentSR;
+    private BuildingDisplay currentBuildingDisplay;
     private List<Vector2Int> currentBuldingTiles = new List<Vector2Int>();
     private Vector2 offset;
     private bool canPlaceBuilding;
@@ -26,34 +19,25 @@ public class BuildManager : MonoBehaviour
 
     void Update()
     {
-        if (currentConstructionPlan != null && currentSR != null || currentBuilding != null)
+        if (currentConstructionPlan != null || currentBuildingDisplay != null || currentBuilding != null)
         {
             currentBuilding.transform.position = playerInput.MousePos2D + offset;
             currentBuldingTiles = AssignPosition(currentConstructionPlan.BuildingTiles);
-            if (gridData.CheckPlaceToBuild(currentBuldingTiles))
-            {
-                canPlaceBuilding = true;
-                currentSR.color = preBuildColorPositive;
-            }
-            else
-            {
-                canPlaceBuilding = false;
-                currentSR.color = preBuildColorNegative;
-            }
+            canPlaceBuilding = gridData.CheckPlaceToBuild(currentBuldingTiles);
+            currentBuildingDisplay.BuildingCanBePlaced(canPlaceBuilding);
         }
     }
 
     public void TryBuild(GameObject building)
     {
-        if (!building.GetComponent<ConstructionPlan>() || !building.GetComponentInChildren<SpriteRenderer>()) { return; }
+        if (!building.GetComponent<ConstructionPlan>() || !building.GetComponentInChildren<SpriteRenderer>() ||!building.GetComponent<BuildingDisplay>()) { return; }
 
         playerInput.CurrentState = State.build;
         currentBuilding = building;
-        currentSR = currentBuilding.GetComponentInChildren<SpriteRenderer>();
+        currentBuildingDisplay = currentBuilding.GetComponent<BuildingDisplay>();
+        currentBuildingDisplay.Init();
         currentConstructionPlan = currentBuilding.GetComponent<ConstructionPlan>();
         offset = currentConstructionPlan.offset;
-
-        currentSR.sortingLayerName = preBuildSortingLayer;
     }
 
     List<Vector2Int> AssignPosition(List<Vector2Int> buildingTiles)
@@ -71,28 +55,27 @@ public class BuildManager : MonoBehaviour
         if(!canPlaceBuilding) { return; } //TODO zasygnalizować że się nie da zbudować budynku
 
         gridData.MarkTilesAsOccupiedByBulding(currentBuldingTiles);
-
-        currentSR.color = Color.white;
-        currentSR.sortingLayerName = deffaultSortingLayer;
+        
         Instantiate(currentBuilding, currentBuilding.transform.position, Quaternion.identity);
         playerInput.CurrentState = State.normal;
 
-        currentBuilding.SetActive(false);
-        currentBuilding = null;
-        currentSR = null;
-        currentConstructionPlan = null;
-        offset = Vector2.zero;
-        currentBuldingTiles.Clear();
+        ResetCurrentBuilding();
     }
 
     public void CancelBuild()
     {
         playerInput.CurrentState = State.normal;
 
+        ResetCurrentBuilding();
+    }
+
+    private void ResetCurrentBuilding()
+    {
         currentBuilding.SetActive(false);
         currentBuilding = null;
-        currentSR = null;
+        currentBuildingDisplay = null;
         currentConstructionPlan = null;
         offset = Vector2.zero;
+        currentBuldingTiles.Clear();
     }
 }
