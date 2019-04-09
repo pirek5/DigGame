@@ -4,13 +4,16 @@ using UnityEngine;
 
 public enum TileType { empty = 0, full = 1 };
 
+[System.Serializable]
+public enum InfrastructureType { empty, substructure, pipe }
+
 public class Tile
 {
     //state
     public TileType TileType { get; set; }
     public bool DigIt { get; set; }
-    public bool InfrastructureToBuild { get; set; }
-    public bool HasInfrastructure { get; set; }
+    public InfrastructureType InfrastructureToBuild { get; set; }
+    public InfrastructureType InfrastructureType { get; set; }
     public bool IsOccupiedByBulding { get; set; }
     public int Health { get; set; }
     public int InfrastructureBuildProgress { get; set; }
@@ -26,6 +29,8 @@ public class Tile
     //constructor
     public Tile(TileType tileType, int health) 
     {
+        InfrastructureType = InfrastructureType.empty;
+        InfrastructureToBuild = InfrastructureType.empty;
         TileType = tileType;
         Health = health;
         InfrastructureBuildProgress = 0;

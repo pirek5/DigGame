@@ -17,7 +17,7 @@ public class ChooseBuildingPanel : UIPanel
         buildingTemplates = FindObjectOfType<BuildingTemplatesContainer>(); //TODO
     }
 
-    public override void SetDependency(UserActions userActions, BuildManager buildManager)
+    public override void SetDependency(UserActions userActions, BuildManager buildManager, InfrastructureBuildManager infrastructureBuildManager)
     {
         this.buildManager = buildManager;
     }

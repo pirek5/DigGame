@@ -25,7 +25,7 @@ public class UnitPanel : UIPanel
         selectedUnit = userActions.SelectedObject.GetComponentInParent<UnitInfo>();
     }
 
-    public override void SetDependency(UserActions userActions, BuildManager buildManager)
+    public override void SetDependency(UserActions userActions, BuildManager buildManager, InfrastructureBuildManager infrastructureBuildManager)
     {
         this.userActions = userActions;
     }

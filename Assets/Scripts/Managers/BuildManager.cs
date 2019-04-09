@@ -53,12 +53,11 @@ public class BuildManager : MonoBehaviour
     public void PlaceBuilding()
     {
         if(!canPlaceBuilding) { return; } //TODO zasygnalizować że się nie da zbudować budynku
-
         gridData.MarkTilesAsOccupiedByBulding(currentBuldingTiles);
-        
+
+        currentBuildingDisplay.BuildingPlaced();
         Instantiate(currentBuilding, currentBuilding.transform.position, Quaternion.identity);
         playerInput.CurrentState = State.normal;
-
         ResetCurrentBuilding();
     }
 

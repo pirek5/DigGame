@@ -102,25 +102,25 @@ public class GridData : MonoBehaviour
                 digManager.EraseTileToDig(tile);
                 mapDisplay.DisplayTile(tile);
             }
-            else if (tile.InfrastructureToBuild == true)
+            else if (tile.InfrastructureToBuild != InfrastructureType.empty)
             {
-                tile.InfrastructureToBuild = false;
+                tile.InfrastructureToBuild = InfrastructureType.empty;
                 infrastructureBM.EraseTileToBuild(tile);
                 mapDisplay.DisplayTile(tile);
             }
         }
     }
 
-    public void MarkTileAsInfrastructureToBuild(Vector2Int tilePosition)
+    public void MarkTileAsInfrastructureToBuild(Vector2Int tilePosition, InfrastructureType infrastructureType)
     {
         Vector2Int lowerTilePos = tilePosition + Vector2Int.down;
         if (GridDictionary.ContainsKey(tilePosition) && GridDictionary.ContainsKey(lowerTilePos))
         {
             Tile tile = GridDictionary[tilePosition];
             Tile lowerTile = GridDictionary[lowerTilePos];
-            if (tile.InfrastructureToBuild == false && tile.HasInfrastructure == false && tile.TileType == TileType.empty && lowerTile.TileType == TileType.full)
+            if (tile.InfrastructureToBuild == InfrastructureType.empty && tile.InfrastructureType == InfrastructureType.empty && tile.TileType == TileType.empty && lowerTile.TileType == TileType.full)
             {
-                tile.InfrastructureToBuild = true;
+                tile.InfrastructureToBuild = infrastructureType;
                 infrastructureBM.MarkTileToBuild(tile);
                 mapDisplay.DisplayTile(tile);
             }
@@ -141,8 +141,8 @@ public class GridData : MonoBehaviour
         if (GridDictionary.ContainsKey(upperTilePos))
         {
             Tile upperTile = GridDictionary[upperTilePos];
-            upperTile.HasInfrastructure = false;
-            upperTile.InfrastructureToBuild = false;
+            upperTile.InfrastructureType = InfrastructureType.empty;
+            upperTile.InfrastructureToBuild = InfrastructureType.empty;
             mapDisplay.DisplayTile(upperTile);
         }
     }
@@ -151,8 +151,8 @@ public class GridData : MonoBehaviour
     {
         if (GridDictionary.ContainsValue(tile))
         {
-            tile.InfrastructureToBuild = false;
-            tile.HasInfrastructure = true;
+            tile.InfrastructureType = tile.InfrastructureToBuild;
+            tile.InfrastructureToBuild = InfrastructureType.empty;
             mapDisplay.DisplayTile(tile);
             infrastructureBM.EraseTileToBuild(tile);
         }

@@ -29,7 +29,6 @@ public class PlayerInput : MonoBehaviour
 
 
     //dependencies
-    [Inject] private MapDisplay mapDisplay;
     [Inject] private Grid grid;
 
     private void Start()

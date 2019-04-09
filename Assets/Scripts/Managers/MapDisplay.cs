@@ -14,6 +14,14 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private TileBase digSelectionTile;
     [SerializeField] private TileBase infrastructureTile;
     [SerializeField] private TileBase infrastructureSelectionTile;
+    [SerializeField] private InfrastructureTile[] infrastructureTiles;
+
+    [System.Serializable]
+    class InfrastructureTile
+    {
+        public InfrastructureType type;
+        public TileBase tile;
+    }
 
     //references set in editor
     [Header("Tilemaps")]
@@ -29,7 +37,6 @@ public class MapDisplay : MonoBehaviour
 
     private void Update()
     {
-        
         TemporaryTileDisplay(playerInput.tileUnderneathCursor, playerInput.previousTileUnderneathCursor, playerInput.CurrentState);
     }
 
@@ -57,7 +64,7 @@ public class MapDisplay : MonoBehaviour
         {
             selection.SetTile(Vector3Int.FloorToInt(tile.Position), digSelectionTile);
         }
-        else if (tile.InfrastructureToBuild)
+        else if (tile.InfrastructureToBuild != InfrastructureType.empty)
         {
             selection.SetTile(Vector3Int.FloorToInt(tile.Position), infrastructureSelectionTile);
         }
@@ -66,7 +73,7 @@ public class MapDisplay : MonoBehaviour
             selection.SetTile(Vector3Int.FloorToInt(tile.Position), null);
         }
 
-        if (tile.HasInfrastructure)
+        if (tile.InfrastructureType != InfrastructureType.empty)
         {
             infrastructure.SetTile(Vector3Int.FloorToInt(tile.Position), infrastructureTile);
         }
@@ -110,5 +117,19 @@ public class MapDisplay : MonoBehaviour
             DisplayTile(previousTile);
             DisplayTile(currentTile);
         }
+    }
+
+    private TileBase GetInfrastructureTile(InfrastructureType type)
+    {
+        foreach (var tile in infrastructureTiles)
+        {
+            if (tile.type == type)
+            {
+                return tile.tile;
+            }
+        }
+
+        Debug.LogError("Cant find tile!");
+        return null;
     }
 }

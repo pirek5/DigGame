@@ -1,19 +1,23 @@
 fileFormatVersion: 2
-guid: ea116f01dae9f514d9d51bf7b2246995
+guid: 5e4e9e7f9efd64c43877c7f3593f61fe
 TextureImporter:
   fileIDToRecycleName:
-    21300000: infrastructure_sheet_0
-    21300002: infrastructure_sheet_1
-    21300004: infrastructure_sheet_2
-    21300006: infrastructure_sheet_3
-    21300008: infrastructure_sheet_4
-    21300010: infrastructure_sheet_5
-    21300012: infrastructure_sheet_6
-    21300014: infrastructure_sheet_7
-    21300016: infrastructure_sheet_8
-    21300018: infrastructure_sheet_9
-    21300020: infrastructure_sheet_10
-    21300022: infrastructure_sheet_11
+    21300000: cables_0
+    21300002: cables_1
+    21300004: cables_2
+    21300006: cables_3
+    21300008: cables_4
+    21300010: cables_5
+    21300012: cables_6
+    21300014: cables_7
+    21300016: cables_8
+    21300018: cables_9
+    21300020: cables_10
+    21300022: cables_11
+    21300024: cables_12
+    21300026: cables_13
+    21300028: cables_14
+    21300030: cables_15
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -118,7 +122,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: infrastructure_sheet_0
+      name: cables_0
       rect:
         serializedVersion: 2
         x: 0
@@ -132,13 +136,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 43c51e55b4f519f48af073463403eb89
+      spriteID: b57f051e4a7f54a4c9af7f2970fd6ae6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_1
+      name: cables_1
       rect:
         serializedVersion: 2
         x: 32
@@ -152,13 +156,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd8cee99c3b5c154d92960d4da3f4456
+      spriteID: b0afa09838dc8dd478aab57a58b3e3a5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_2
+      name: cables_2
       rect:
         serializedVersion: 2
         x: 64
@@ -172,13 +176,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c909dbed27a7b2a4ead19d6e8f6ae501
+      spriteID: 1eb2143b83ed7c345951c78ee6fdb7df
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_3
+      name: cables_3
       rect:
         serializedVersion: 2
         x: 96
@@ -192,13 +196,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c892b32ee6c7054388d732d38dc9f46
+      spriteID: 6cc1ac8413aa82c4cb58043eb33fa937
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_4
+      name: cables_4
       rect:
         serializedVersion: 2
         x: 128
@@ -212,13 +216,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 66ec9c02c946bd04b84afaeebf721201
+      spriteID: 96ed9ac8daa6d654b84b91d247246569
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_5
+      name: cables_5
       rect:
         serializedVersion: 2
         x: 160
@@ -232,13 +236,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ff0d3c1e8561ce4ca962d60ea8005f7
+      spriteID: 7e326d345b9a1504ea169d4ff3587826
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_6
+      name: cables_6
       rect:
         serializedVersion: 2
         x: 192
@@ -252,13 +256,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e43c713de50887d4ba8c0e3ae954e147
+      spriteID: 34ba8f3449ff7cc458a3d9ea5f52e2b6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_7
+      name: cables_7
       rect:
         serializedVersion: 2
         x: 224
@@ -272,13 +276,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d1c73540bfd0854fbfab0966f3f9fd4
+      spriteID: 69cbdfb073be0f6419be9ecb92b5fe91
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_8
+      name: cables_8
       rect:
         serializedVersion: 2
         x: 256
@@ -292,13 +296,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3b5dba9ac88fe4d4f9add7cf58c9d1f8
+      spriteID: 0009f2fda74fc4f44b952e905819a2bb
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_9
+      name: cables_9
       rect:
         serializedVersion: 2
         x: 288
@@ -312,13 +316,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17c495effc042934eb65dd006c0cd5f2
+      spriteID: f2c138a93ff65e242843c6cbf7183be8
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_10
+      name: cables_10
       rect:
         serializedVersion: 2
         x: 320
@@ -332,13 +336,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 841d2a76dce719145b16ead566ac06ad
+      spriteID: 438e9283da811e846a5f7239a2c62600
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: infrastructure_sheet_11
+      name: cables_11
       rect:
         serializedVersion: 2
         x: 352
@@ -352,7 +356,87 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e47e30c28cdd58d489be2bdfd11850e8
+      spriteID: 7b454c88b788d4f4db08e3424b300f92
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cables_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16d9f8fc7c7212241b7c708016faf490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cables_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a207b3d15ece1884c99af74a628294ef
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cables_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd0ab4bf9e2fbaf4ea342961f2e39b7b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cables_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9df78213f9aaa3542b63d18caffae765
       vertices: []
       indices: 
       edges: []
@@ -360,7 +444,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 7a5c3de4f03e2674db0c7140bb08cf79
+    spriteID: 1e135b5c282cd754292355751e2c186f
     vertices: []
     indices: 
     edges: []

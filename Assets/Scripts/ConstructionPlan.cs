@@ -8,9 +8,11 @@ public class ConstructionPlan : MonoBehaviour
 {
     //set in editor
     [SerializeField] private BuildingSize size;
+    [SerializeField] private int constructionTime = 0;
     public BuildingName BuildingName { get; set; }
 
     //state
+    private int constructionProgress; //when > constructionTime, building is finished
     public List<Vector2Int> BuildingTiles { get; private set; }
     public Vector2 offset { get; private set; }
 
@@ -34,6 +36,11 @@ public class ConstructionPlan : MonoBehaviour
             case BuildingSize.B2x2: return (new List<Vector2Int>() { Vector2Int.zero, Vector2Int.right, Vector2Int.up, new Vector2Int(1, 1) }, new Vector2(0.5f, 0.5f));
         }
         return (null, Vector2.zero);
+    }
+
+    public void Build()
+    {
+        constructionProgress++;
     }
 
 }

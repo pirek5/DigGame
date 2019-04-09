@@ -37,10 +37,10 @@ public class Builder : MonoBehaviour
 
         var currentTileToBuild = movement.CurrentTile;
 
-        if (currentTileToBuild.InfrastructureToBuild)
+        if (currentTileToBuild.InfrastructureToBuild != InfrastructureType.empty)
         {
             GetComponent<FlashingObject>().StartFlashing();
-            while(currentTileToBuild.InfrastructureToBuild == true)
+            while(currentTileToBuild.InfrastructureToBuild != InfrastructureType.empty)
             {
                 currentTileToBuild.BuildingInfrastructure();
                 if(currentTileToBuild.InfrastructureBuildProgress >= infrastructureBM.infrastructureBuildTime)

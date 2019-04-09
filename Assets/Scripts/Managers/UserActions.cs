@@ -9,6 +9,7 @@ public class UserActions : MonoBehaviour
     [Inject] private GridData gridData;
     [Inject] private UIPanelManager uiPanelManager;
     [Inject] private BuildManager buildManager;
+    [Inject] private InfrastructureBuildManager infrastructureBuildManager;
     [Inject] PlayerInput playerInput;
 
     //State
@@ -63,6 +64,7 @@ public class UserActions : MonoBehaviour
         if (playerInput.RMBdown && !playerInput.CursorOverUI) //RMB click - cancel
         {
             playerInput.CurrentState = State.normal;
+            infrastructureBuildManager.InfrastuctureSelectCancel();
         }
     }
 
@@ -139,7 +141,7 @@ public class UserActions : MonoBehaviour
         }
         else if (playerInput.CurrentState == State.infrastructure)
         {
-            gridData.MarkTileAsInfrastructureToBuild(playerInput.MouseGridPos);
+            gridData.MarkTileAsInfrastructureToBuild(playerInput.MouseGridPos, infrastructureBuildManager.typeOfInfrastructureToBuild);
         }
     }
 

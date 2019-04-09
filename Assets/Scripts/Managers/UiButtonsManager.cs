@@ -22,12 +22,11 @@ public class UiButtonsManager : MonoBehaviour
 
     public void OnInfrastructurePressed()
     {
-        uiPanelManager.CloseAll();
-        playerInput.CurrentState = State.infrastructure;
+        uiPanelManager.OpenPanelAndClosePanel<ChooseInfrastructurePanel, ChooseBuildingPanel>();
     }
 
     public void OnBuildPressed()
     {
-        uiPanelManager.OpenPanel<ChooseBuildingPanel>();
+        uiPanelManager.OpenPanelAndClosePanel<ChooseBuildingPanel, ChooseInfrastructurePanel>();
     }
 }

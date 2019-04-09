@@ -14,6 +14,9 @@ public class BuildingDisplay : MonoBehaviour
     [SerializeField] private Color preBuildPlaced;
     [SerializeField] private Color normalColor;
 
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite preBuildSprite;
+
     //cached
     private SpriteRenderer _spriteRenderer;
 
@@ -25,6 +28,7 @@ public class BuildingDisplay : MonoBehaviour
     public void Init()
     {
         _spriteRenderer.sortingLayerName = preBuildSortingLayer;
+        _spriteRenderer.sprite = preBuildSprite;
     }
 
     public void BuildingCanBePlaced(bool canIt)
@@ -41,6 +45,7 @@ public class BuildingDisplay : MonoBehaviour
     public void BuildingFinished()
     {
         _spriteRenderer.color = normalColor;
+        _spriteRenderer.sprite = normalSprite;
     }
 
 }

@@ -17,7 +17,7 @@ public class BuilderMovement : Movement
     {
         builder.StopBuild();
         base.MoveToPosition(destinationTile); //move to specific tile or...
-        if (destinationTile.InfrastructureToBuild == true) // ... move and build
+        if (destinationTile.InfrastructureToBuild != InfrastructureType.empty) // ... move and build
         {
             builder.Build = true;
         }
