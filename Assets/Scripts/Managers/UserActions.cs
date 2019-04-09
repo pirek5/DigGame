@@ -141,7 +141,7 @@ public class UserActions : MonoBehaviour
         }
         else if (playerInput.CurrentState == State.infrastructure)
         {
-            gridData.MarkTileAsInfrastructureToBuild(playerInput.MouseGridPos, infrastructureBuildManager.typeOfInfrastructureToBuild);
+            gridData.MarkTileAsInfrastructureToBuild(playerInput.MouseGridPos, infrastructureBuildManager.typeOfTileToBuild);
         }
     }
 

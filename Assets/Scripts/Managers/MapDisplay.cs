@@ -20,6 +20,7 @@ public class MapDisplay : MonoBehaviour
     class InfrastructureTile
     {
         public InfrastructureType type;
+        public TileBase tileSelection;
         public TileBase tile;
     }
 
@@ -31,8 +32,8 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Tilemap infrastructure;
 
     //dependencies
-    [Inject]
-    private PlayerInput playerInput;
+    [Inject] private PlayerInput playerInput;
+    [Inject] private InfrastructureBuildManager infrastructureBuildManager;
     #pragma warning restore 0649
 
     private void Update()
@@ -66,7 +67,7 @@ public class MapDisplay : MonoBehaviour
         }
         else if (tile.InfrastructureToBuild != InfrastructureType.empty)
         {
-            selection.SetTile(Vector3Int.FloorToInt(tile.Position), infrastructureSelectionTile);
+            selection.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(tile.InfrastructureToBuild, true));
         }
         else
         {
@@ -75,7 +76,7 @@ public class MapDisplay : MonoBehaviour
 
         if (tile.InfrastructureType != InfrastructureType.empty)
         {
-            infrastructure.SetTile(Vector3Int.FloorToInt(tile.Position), infrastructureTile);
+            infrastructure.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(tile.InfrastructureType, false));
         }
         else
         {
@@ -103,13 +104,7 @@ public class MapDisplay : MonoBehaviour
         }
         else if(currentState == State.infrastructure && currentTile.TileType == TileType.empty)
         {
-            Vector2Int lowerTilePos = Vector2Int.FloorToInt(currentTile.Position) + Vector2Int.down;
-            if(!GridData.GridDictionary.ContainsKey(lowerTilePos)) { return; }
-            var lowerTile = GridData.GridDictionary[lowerTilePos];
-            if(lowerTile.TileType == TileType.full)
-            {
-                selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), infrastructureSelectionTile);
-            }
+            SetTempInfrastructureTile(currentTile);
             DisplayTile(previousTile);
         }
         else
@@ -119,13 +114,31 @@ public class MapDisplay : MonoBehaviour
         }
     }
 
-    private TileBase GetInfrastructureTile(InfrastructureType type)
+    private void SetTempInfrastructureTile(Tile tile)
+    {
+        if(infrastructureBuildManager.typeOfTileToBuild == InfrastructureType.substructure)
+        {
+            Vector2Int lowerTilePos = Vector2Int.FloorToInt(tile.Position) + Vector2Int.down;
+            if (!GridData.GridDictionary.ContainsKey(lowerTilePos)) { return; }
+            var lowerTile = GridData.GridDictionary[lowerTilePos];
+            if (lowerTile.TileType == TileType.full)
+            {
+                selection.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(InfrastructureType.substructure, true));
+            }
+        }
+        else if(infrastructureBuildManager.typeOfTileToBuild == InfrastructureType.pipe)
+        {
+            selection.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(InfrastructureType.pipe, true));
+        }
+    }
+
+    private TileBase GetInfrastructureTile(InfrastructureType type, bool SelectionTile)
     {
         foreach (var tile in infrastructureTiles)
         {
             if (tile.type == type)
             {
-                return tile.tile;
+                return SelectionTile ?  tile.tileSelection : tile.tile;
             }
         }
 

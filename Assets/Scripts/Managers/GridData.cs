@@ -113,6 +113,7 @@ public class GridData : MonoBehaviour
 
     public void MarkTileAsInfrastructureToBuild(Vector2Int tilePosition, InfrastructureType infrastructureType)
     {
+        //TODO check pipes in different way
         Vector2Int lowerTilePos = tilePosition + Vector2Int.down;
         if (GridDictionary.ContainsKey(tilePosition) && GridDictionary.ContainsKey(lowerTilePos))
         {

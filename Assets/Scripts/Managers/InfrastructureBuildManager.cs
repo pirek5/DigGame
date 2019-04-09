@@ -9,7 +9,7 @@ public class InfrastructureBuildManager : MonoBehaviour
     public int infrastructureBuildTime = 3; //TODO public field
     
     //state
-    public InfrastructureType typeOfInfrastructureToBuild { get; private set; }
+    public InfrastructureType typeOfTileToBuild { get; private set; }
     public List<Tile> TilesWithInfrastructureToBuild { get; private set; }
 
     //dependencies
@@ -38,13 +38,13 @@ public class InfrastructureBuildManager : MonoBehaviour
 
     public void InfrastructureTileSelected(InfrastructureType type)
     {
-        typeOfInfrastructureToBuild = type;
+        typeOfTileToBuild = type;
         playerInput.CurrentState = State.infrastructure;
     }
 
     public void InfrastuctureSelectCancel()
     {
-        typeOfInfrastructureToBuild = InfrastructureType.empty;
+        typeOfTileToBuild = InfrastructureType.empty;
     }
 
 }
