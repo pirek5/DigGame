@@ -12,6 +12,7 @@ public class Tile
     //state
     public TileType TileType { get; set; }
     public bool DigIt { get; set; }
+    public bool PipeConnection { get; set; }
     public InfrastructureType InfrastructureToBuild { get; set; }
     public InfrastructureType InfrastructureType { get; set; }
     public GameObject BuildingOnTile { get; set; }

@@ -86,15 +86,6 @@ public class ChangeTile : MonoBehaviour
             mapDisplay.DisplayTile(tile);
             digManager.EraseTileToDig(tile);
         }
-
-        //Vector2Int upperTilePos = Vector2Int.FloorToInt(tile.Position) + Vector2Int.up;
-        //if (GridData.GridDictionary.ContainsKey(upperTilePos))
-        //{
-        //    Tile upperTile = GridData.GridDictionary[upperTilePos];
-        //    upperTile.InfrastructureType = InfrastructureType.empty;
-        //    upperTile.InfrastructureToBuild = InfrastructureType.empty;
-        //    mapDisplay.DisplayTile(upperTile);
-        //}
     }
 
     public void TileWithInfrastructure(Tile tile)
@@ -105,7 +96,18 @@ public class ChangeTile : MonoBehaviour
             tile.InfrastructureToBuild = InfrastructureType.empty;
             mapDisplay.DisplayTile(tile);
             infrastructureBM.EraseTileToBuild(tile);
+
+            foreach(var connectedTile in checkTile.GetConnectedTiles(tile))
+            {
+                TileWithConnection(connectedTile);
+            } 
         }
+    }
+
+    public void TileWithConnection(Tile tile)
+    {
+        tile.PipeConnection = true;
+        mapDisplay.DisplayTile(tile);
     }
 
     public void TileWithBuilding(List<Vector2Int> tilesPos, GameObject building)

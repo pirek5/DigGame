@@ -16,7 +16,7 @@ public class BuildManager : MonoBehaviour
     //dependencies
     [Inject] private PlayerInput playerInput;
     [Inject] private ChangeTile changeTile;
-    [Inject] private GridData gridData;
+    [Inject] private CheckTile checkTile;
 
     void Update()
     {
@@ -24,7 +24,7 @@ public class BuildManager : MonoBehaviour
         {
             currentBuilding.transform.position = playerInput.MousePos2D + offset;
             currentBuldingTiles = AssignPosition(currentConstructionPlan.BuildingTiles);
-            canPlaceBuilding = gridData.CheckPlaceToBuild(currentBuldingTiles);
+            canPlaceBuilding = checkTile.CheckPlaceToBuild(currentBuldingTiles);
             currentBuildingDisplay.BuildingCanBePlaced(canPlaceBuilding);
         }
     }

@@ -14,6 +14,7 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private TileBase digSelectionTile;
     [SerializeField] private TileBase infrastructureTile;
     [SerializeField] private TileBase infrastructureSelectionTile;
+    [SerializeField] private TileBase pipesConnectionTile;
     [SerializeField] private InfrastructureTile[] infrastructureTiles;
 
     [System.Serializable]
@@ -31,7 +32,8 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Tilemap selection;
     [SerializeField] private Tilemap substracture;
     [SerializeField] private Tilemap pipes;
-
+    [SerializeField] private Tilemap pipesConnection;
+ 
     //dependencies
     [Inject] private PlayerInput playerInput;
     [Inject] private InfrastructureBuildManager infrastructureBuildManager;
@@ -88,6 +90,11 @@ public class MapDisplay : MonoBehaviour
         {
             substracture.SetTile(Vector3Int.FloorToInt(tile.Position), null);
             pipes.SetTile(Vector3Int.FloorToInt(tile.Position), null);
+        }
+
+        if (tile.PipeConnection)
+        {
+            pipesConnection.SetTile(Vector3Int.FloorToInt(tile.Position), pipesConnectionTile);
         }
 
         if(tile.TileType == TileType.empty)
