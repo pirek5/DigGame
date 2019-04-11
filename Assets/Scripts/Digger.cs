@@ -16,8 +16,7 @@ public class Digger : MonoBehaviour
     [Inject] DigManager digManager;
     private DiggerMovement movement;
 
-    [Inject]
-    private GridData gridData;
+    [Inject] private ChangeTile changeTile;
 
     public void Awake()
     {
@@ -45,7 +44,7 @@ public class Digger : MonoBehaviour
                 closestTileToDig.LoseHealth();
                 if(closestTileToDig.Health <= 0)
                 {
-                    gridData.TileDigged(closestTileToDig);
+                    changeTile.TileDigged(closestTileToDig);
                 }
                 yield return new WaitForSeconds(diggingPeriod);
             }

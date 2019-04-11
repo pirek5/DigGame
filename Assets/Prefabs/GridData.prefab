@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 6601232694983057534}
   - component: {fileID: 888837848966287343}
   - component: {fileID: 5119901253341328639}
+  - component: {fileID: 2004894251}
+  - component: {fileID: 2004894257}
   m_Layer: 0
   m_Name: GridData
   m_TagString: Untagged
@@ -84,7 +86,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c8d27ea2c76cc478b66af43293ed7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  preBuildSortingLayer: PreConstructedBuildings
-  deffaultSortingLayer: Buildings
-  preBuildColorPositive: {r: 0, g: 1, b: 0.010046244, a: 0.5019608}
-  preBuildColorNegative: {r: 1, g: 0, b: 0, a: 0.5019608}
+--- !u!114 &2004894251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601232694983057529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3ee66e11bc0b54db20fa4ee232f42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2004894257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601232694983057529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52e7f5ae2c4ef394da1a865dacc9535a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,14 +1,23 @@
 fileFormatVersion: 2
-guid: 3375e234d2152ba4d947da73559b384c
+guid: a64551e8dc7518e4c85e262d31e14c4b
 TextureImporter:
   fileIDToRecycleName:
-    21300000: background_new_0
-    21300002: background_new_1
-    21300004: background_new_2
-    21300006: background_new_3
-    21300008: background_new_4
-    21300010: background_new_5
-    21300012: background_new_6
+    21300000: Pipes_selection_0
+    21300002: Pipes_selection_1
+    21300004: Pipes_selection_2
+    21300006: Pipes_selection_3
+    21300008: Pipes_selection_4
+    21300010: Pipes_selection_5
+    21300012: Pipes_selection_6
+    21300014: Pipes_selection_7
+    21300016: Pipes_selection_8
+    21300018: Pipes_selection_9
+    21300020: Pipes_selection_10
+    21300022: Pipes_selection_11
+    21300024: Pipes_selection_12
+    21300026: Pipes_selection_13
+    21300028: Pipes_selection_14
+    21300030: Pipes_selection_15
   externalObjects: {}
   serializedVersion: 9
   mipmaps:
@@ -113,7 +122,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: background_new_0
+      name: Pipes_selection_0
       rect:
         serializedVersion: 2
         x: 0
@@ -127,13 +136,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1459f15a9e1a50440bd75e8719378ea4
+      spriteID: b185aebe3c1697e45ab822cf9a360f1e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: background_new_1
+      name: Pipes_selection_1
       rect:
         serializedVersion: 2
         x: 32
@@ -147,13 +156,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1e0bd0bc1c5e3f43b0b3a5e822583e9
+      spriteID: 33186571b0cdced41a6820b2ab8446f2
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: background_new_2
+      name: Pipes_selection_2
       rect:
         serializedVersion: 2
         x: 64
@@ -167,13 +176,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aad2c87b7c548134cab239b059ed43a7
+      spriteID: 22e5264d1c7d3654c8fd98202fd6d49f
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: background_new_3
+      name: Pipes_selection_3
       rect:
         serializedVersion: 2
         x: 96
@@ -187,13 +196,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e9d41ed73a6f2a94aa056e8c6e1b603f
+      spriteID: a2a003d10a0f87a42b1d66ad5f053ae5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: background_new_4
+      name: Pipes_selection_4
       rect:
         serializedVersion: 2
         x: 128
@@ -207,13 +216,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69e25befb9527f5468a5ae7391c94ede
+      spriteID: 4fccdac5b234b2440a46f86a6a7c7619
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: background_new_5
+      name: Pipes_selection_5
       rect:
         serializedVersion: 2
         x: 160
@@ -227,13 +236,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8fd5026c8c78c734f88ce32d020310c3
+      spriteID: bbc51f3a2e5fd7842bac207825238e9b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: background_new_6
+      name: Pipes_selection_6
       rect:
         serializedVersion: 2
         x: 192
@@ -247,7 +256,187 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc67bea1da1b6cd41ac7c86bd2dc6c0d
+      spriteID: a978ef1ad8928484ab1ab0e991e39fb8
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e427a335641afe8499f2efedd643c5bd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78e04a22781efe04b9443640eafeef38
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ea03bd779eba4c4b86a6887935eea51
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7c81793298d855418992577b738c70f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e802909a52dc8034a91c14dc726ac767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34381620f3662ae4387980da2754a0cd
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7015784d3e0dfce48bcafb90c7c6ed20
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1aa881becae109f44acefc11b26a231f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pipes_selection_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 267e7a7ff60185d438a3aa6596d656c9
       vertices: []
       indices: 
       edges: []
@@ -255,7 +444,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 30e9955fc8d15804e96e8e5c759afe15
+    spriteID: 8ba297126e297fb4abbf1844970997aa
     vertices: []
     indices: 
     edges: []

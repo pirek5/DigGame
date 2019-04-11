@@ -29,11 +29,13 @@ public class MapDisplay : MonoBehaviour
     [SerializeField] private Tilemap foreground;
     [SerializeField] private Tilemap background;
     [SerializeField] private Tilemap selection;
-    [SerializeField] private Tilemap infrastructure;
+    [SerializeField] private Tilemap substracture;
+    [SerializeField] private Tilemap pipes;
 
     //dependencies
     [Inject] private PlayerInput playerInput;
     [Inject] private InfrastructureBuildManager infrastructureBuildManager;
+    [Inject] private CheckTile checkTile;
     #pragma warning restore 0649
 
     private void Update()
@@ -74,13 +76,18 @@ public class MapDisplay : MonoBehaviour
             selection.SetTile(Vector3Int.FloorToInt(tile.Position), null);
         }
 
-        if (tile.InfrastructureType != InfrastructureType.empty)
+        if (tile.InfrastructureType == InfrastructureType.substructure)
         {
-            infrastructure.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(tile.InfrastructureType, false));
+            substracture.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(tile.InfrastructureType, false));
+        }
+        else if (tile.InfrastructureType == InfrastructureType.pipe)
+        {
+            pipes.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(tile.InfrastructureType, false));
         }
         else
         {
-            infrastructure.SetTile(Vector3Int.FloorToInt(tile.Position), null);
+            substracture.SetTile(Vector3Int.FloorToInt(tile.Position), null);
+            pipes.SetTile(Vector3Int.FloorToInt(tile.Position), null);
         }
 
         if(tile.TileType == TileType.empty)
@@ -92,7 +99,8 @@ public class MapDisplay : MonoBehaviour
 
     public void TemporaryTileDisplay(Tile currentTile, Tile previousTile, State currentState)
     {
-        if (currentState == State.dig && currentTile.TileType == TileType.full)
+        Vector2Int currentTilePos = Vector2Int.FloorToInt(currentTile.Position); //TODO possible bug "null reference exception - current tile 
+        if (currentState == State.dig && checkTile.MarkToDig(currentTilePos))
         {
             selection.SetTile(Vector3Int.FloorToInt(currentTile.Position), digSelectionTile);
             DisplayTile(previousTile);
@@ -104,7 +112,7 @@ public class MapDisplay : MonoBehaviour
         }
         else if(currentState == State.infrastructure && currentTile.TileType == TileType.empty)
         {
-            SetTempInfrastructureTile(currentTile);
+            SetTempInfrastructureTile(currentTilePos);
             DisplayTile(previousTile);
         }
         else
@@ -114,21 +122,15 @@ public class MapDisplay : MonoBehaviour
         }
     }
 
-    private void SetTempInfrastructureTile(Tile tile)
+    private void SetTempInfrastructureTile(Vector2Int tilePos)
     {
-        if(infrastructureBuildManager.typeOfTileToBuild == InfrastructureType.substructure)
+        if (infrastructureBuildManager.typeOfTileToBuild == InfrastructureType.substructure && checkTile.BuildSubstructure(tilePos))
         {
-            Vector2Int lowerTilePos = Vector2Int.FloorToInt(tile.Position) + Vector2Int.down;
-            if (!GridData.GridDictionary.ContainsKey(lowerTilePos)) { return; }
-            var lowerTile = GridData.GridDictionary[lowerTilePos];
-            if (lowerTile.TileType == TileType.full)
-            {
-                selection.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(InfrastructureType.substructure, true));
-            }
+            selection.SetTile((Vector3Int)tilePos, GetInfrastructureTile(InfrastructureType.substructure, true));
         }
-        else if(infrastructureBuildManager.typeOfTileToBuild == InfrastructureType.pipe)
+        else if(infrastructureBuildManager.typeOfTileToBuild == InfrastructureType.pipe && checkTile.BuildPipe(tilePos))
         {
-            selection.SetTile(Vector3Int.FloorToInt(tile.Position), GetInfrastructureTile(InfrastructureType.pipe, true));
+            selection.SetTile((Vector3Int)tilePos, GetInfrastructureTile(InfrastructureType.pipe, true));
         }
     }
 

@@ -6,7 +6,7 @@ using Zenject;
 public class UserActions : MonoBehaviour
 {
     //dependencies
-    [Inject] private GridData gridData;
+    [Inject] private ChangeTile changeTile;
     [Inject] private UIPanelManager uiPanelManager;
     [Inject] private BuildManager buildManager;
     [Inject] private InfrastructureBuildManager infrastructureBuildManager;
@@ -55,11 +55,11 @@ public class UserActions : MonoBehaviour
             ModifyEnvironment();
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(playerInput.MousePos2D, Vector2.zero, Mathf.Infinity, playerInput.selectables); //select object if clicked
-        if (Input.GetMouseButtonDown(0) && hit.collider != null)
-        {
-            SelectObject(hit.collider.gameObject);
-        }
+        //RaycastHit2D hit = Physics2D.Raycast(playerInput.MousePos2D, Vector2.zero, Mathf.Infinity, playerInput.selectables); //select object if clicked
+        //if (Input.GetMouseButtonDown(0) && hit.collider != null)
+        //{
+        //    SelectObject(hit.collider.gameObject);
+        //}
 
         if (playerInput.RMBdown && !playerInput.CursorOverUI) //RMB click - cancel
         {
@@ -133,15 +133,15 @@ public class UserActions : MonoBehaviour
     {
         if (playerInput.CurrentState == State.dig)
         {
-            gridData.MarkTileToDig(playerInput.MouseGridPos);
+            changeTile.MarkTileToDig(playerInput.MouseGridPos);
         }
         else if (playerInput.CurrentState == State.erase)
         {
-            gridData.EraseMark(playerInput.MouseGridPos);
+            changeTile.EraseMark(playerInput.MouseGridPos);
         }
         else if (playerInput.CurrentState == State.infrastructure)
         {
-            gridData.MarkTileAsInfrastructureToBuild(playerInput.MouseGridPos, infrastructureBuildManager.typeOfTileToBuild);
+            changeTile.MarkTileAsInfrastructureToBuild(playerInput.MouseGridPos, infrastructureBuildManager.typeOfTileToBuild);
         }
     }
 

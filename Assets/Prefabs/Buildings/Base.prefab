@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 2
+  constructionTime: 10
 --- !u!114 &8678013606992433759
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class Tile
     public bool DigIt { get; set; }
     public InfrastructureType InfrastructureToBuild { get; set; }
     public InfrastructureType InfrastructureType { get; set; }
-    public bool IsOccupiedByBulding { get; set; }
+    public GameObject BuildingOnTile { get; set; }
     public int Health { get; set; }
     public int InfrastructureBuildProgress { get; set; }
     

@@ -16,15 +16,15 @@ public class ConstructionPlan : MonoBehaviour
     public List<Vector2Int> BuildingTiles { get; private set; }
     public Vector2 offset { get; private set; }
 
+    //dependecies
+    BuildingInfo buildingInfo;
+    BuildingDisplay buildingDisplay;
+
     void Awake()
     {
         (BuildingTiles, offset) = GetBuildingTiles(size);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        buildingInfo = GetComponent<BuildingInfo>();
+        buildingDisplay = GetComponent<BuildingDisplay>();
     }
 
     (List<Vector2Int>, Vector2) GetBuildingTiles(BuildingSize size)
@@ -41,6 +41,11 @@ public class ConstructionPlan : MonoBehaviour
     public void Build()
     {
         constructionProgress++;
+        if(constructionProgress >= constructionTime)
+        {
+            buildingInfo.IsConstructed = true;
+            buildingDisplay.BuildingFinished();
+        }
     }
 
 }

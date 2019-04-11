@@ -17,18 +17,26 @@ public class BuilderMovement : Movement
     {
         builder.StopBuild();
         base.MoveToPosition(destinationTile); //move to specific tile or...
-        if (destinationTile.InfrastructureToBuild != InfrastructureType.empty) // ... move and build
+        if (destinationTile.InfrastructureToBuild != InfrastructureType.empty) // ... move and build infrastructure or ...
         {
-            builder.Build = true;
+            builder.InfrastructureToBuild = true;
+        }
+        else if(destinationTile.BuildingOnTile) // move and build buildings
+        {
+            builder.currentBuilding = destinationTile.BuildingOnTile;
         }
     }
 
     protected override IEnumerator FollowPath(List<Tile> path)
     {
         yield return StartCoroutine(base.FollowPath(path));
-        if (builder.Build)
+        if (builder.InfrastructureToBuild)
         {
-            builder.StartBuild();
+            builder.BuildInfrastructure();
+        }
+        else if (builder.currentBuilding)
+        {
+            builder.BuildOrRepair();
         }
     }
 

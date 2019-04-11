@@ -10,12 +10,13 @@ public class Builder : MonoBehaviour
     [SerializeField] private int autoBuildRange = 10;
 
     //state
-    public bool Build { get; set; }
+    public bool InfrastructureToBuild { get; set; }
+    public GameObject currentBuilding { get; set; }
 
     //dependencies
     private BuilderMovement movement;
     [Inject] InfrastructureBuildManager infrastructureBM;
-    [Inject] private GridData gridData;
+    [Inject] private ChangeTile changeTile;
 
 
     public void Awake()
@@ -23,12 +24,48 @@ public class Builder : MonoBehaviour
         movement = GetComponent<BuilderMovement>();
     }
 
-    public void StartBuild()
+    public void BuildInfrastructure()
     {
-        StartCoroutine(BuildCoroutine());
+        StartCoroutine(BuildInfrastructureCoroutine());
+    }
+
+    public void BuildOrRepair()
+    { 
+        if(currentBuilding == null) { return; }
+
+        var buildingInfo = currentBuilding.GetComponent<BuildingInfo>();
+
+        if (!buildingInfo.IsConstructed) //build
+        {
+            StartCoroutine(BuildCoroutine());
+        }
+        else if(buildingInfo.CurrentHealth < buildingInfo.MaxHealth) //repair
+        {
+            //do repair stuff
+        }
+        else //nothing to do
+        {
+            currentBuilding = null;
+        }
     }
 
     private IEnumerator BuildCoroutine()
+    {
+        var constructionPlan = currentBuilding.GetComponent<ConstructionPlan>();
+        var buildingInfo = currentBuilding.GetComponent<BuildingInfo>();
+
+        GetComponent<FlashingObject>().StartFlashing();
+        while (!buildingInfo.IsConstructed)
+        {
+            constructionPlan.Build();
+            yield return new WaitForSeconds(buildPeriod);
+        }
+        GetComponent<FlashingObject>().StopFlashing();
+
+        currentBuilding = null;
+    }
+
+    private IEnumerator BuildInfrastructureCoroutine()
     {
         if (infrastructureBM.TilesWithInfrastructureToBuild.Count <= 0 || movement.CurrentTile == null)
         {
@@ -45,7 +82,7 @@ public class Builder : MonoBehaviour
                 currentTileToBuild.BuildingInfrastructure();
                 if(currentTileToBuild.InfrastructureBuildProgress >= infrastructureBM.infrastructureBuildTime)
                 {
-                    gridData.InfrastructureBuilt(currentTileToBuild);
+                    changeTile.TileWithInfrastructure(currentTileToBuild);
                 }
                 yield return new WaitForSeconds(buildPeriod);
             }
@@ -66,7 +103,8 @@ public class Builder : MonoBehaviour
 
     public void StopBuild()
     {
-        Build = false;
+        currentBuilding = null;
+        InfrastructureToBuild = false;
         GetComponent<FlashingObject>().StopFlashing();
         StopAllCoroutines();
     }

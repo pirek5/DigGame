@@ -319,7 +319,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitPanelPrefab: {fileID: 8807700697923559481, guid: 71c3464c0fdb7ce478e3db86350dc611,
     type: 3}
-  buildingPanelPreafab: {fileID: 6003624556281572847, guid: 1cf2e0368e822854aa59dbe52fe2de33,
+  buildingInfoPanel: {fileID: 259010069198501721, guid: 78548b56e6d4e6d49a4f9f5d74dcf684,
+    type: 3}
+  chooseBuildingsPanelPrefab: {fileID: 6003624556281572847, guid: 1cf2e0368e822854aa59dbe52fe2de33,
+    type: 3}
+  chooseInfrastructurePanelPrefab: {fileID: 5986469065114063390, guid: f392862f6e1dc7e408917c1ca2b8f714,
     type: 3}
   menuParent: {fileID: 443972597452195920}
   panels: []

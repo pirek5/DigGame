@@ -18,8 +18,6 @@ public class GridData : MonoBehaviour
     //dependencies
     [Inject] MapGenerator mapGenerator;
     [Inject] MapDisplay mapDisplay;
-    [Inject] DigManager digManager;
-    [Inject] InfrastructureBuildManager infrastructureBM;
 
     private void Awake()
     {
@@ -77,107 +75,15 @@ public class GridData : MonoBehaviour
         }
     }
 
-    public void MarkTileToDig(Vector2Int tilePosition)
-    {
-        if (GridDictionary.ContainsKey(tilePosition))
-        {
-            Tile tile = GridDictionary[tilePosition];
-            if (tile.DigIt == false && tile.TileType == TileType.full)
-            {
-                tile.DigIt = true;
-                digManager.MarkTileToDig(tile);
-                mapDisplay.DisplayTile(tile);
-            }
-        }
-    }
-
-    public void EraseMark(Vector2Int tilePosition)
-    {
-        if (GridDictionary.ContainsKey(tilePosition))
-        {
-            Tile tile = GridDictionary[tilePosition];
-            if (tile.DigIt == true)
-            {
-                tile.DigIt = false;
-                digManager.EraseTileToDig(tile);
-                mapDisplay.DisplayTile(tile);
-            }
-            else if (tile.InfrastructureToBuild != InfrastructureType.empty)
-            {
-                tile.InfrastructureToBuild = InfrastructureType.empty;
-                infrastructureBM.EraseTileToBuild(tile);
-                mapDisplay.DisplayTile(tile);
-            }
-        }
-    }
-
-    public void MarkTileAsInfrastructureToBuild(Vector2Int tilePosition, InfrastructureType infrastructureType)
-    {
-        //TODO check pipes in different way
-        Vector2Int lowerTilePos = tilePosition + Vector2Int.down;
-        if (GridDictionary.ContainsKey(tilePosition) && GridDictionary.ContainsKey(lowerTilePos))
-        {
-            Tile tile = GridDictionary[tilePosition];
-            Tile lowerTile = GridDictionary[lowerTilePos];
-            if (tile.InfrastructureToBuild == InfrastructureType.empty && tile.InfrastructureType == InfrastructureType.empty && tile.TileType == TileType.empty && lowerTile.TileType == TileType.full)
-            {
-                tile.InfrastructureToBuild = infrastructureType;
-                infrastructureBM.MarkTileToBuild(tile);
-                mapDisplay.DisplayTile(tile);
-            }
-        }
-    }
-
-    public void TileDigged(Tile tile)
-    {
-        if (GridDictionary.ContainsValue(tile))
-        {
-            tile.TileType = TileType.empty;
-            tile.DigIt = false;
-            mapDisplay.DisplayTile(tile);
-            digManager.EraseTileToDig(tile);
-        }
-
-        Vector2Int upperTilePos = Vector2Int.FloorToInt(tile.Position) + Vector2Int.up;
-        if (GridDictionary.ContainsKey(upperTilePos))
-        {
-            Tile upperTile = GridDictionary[upperTilePos];
-            upperTile.InfrastructureType = InfrastructureType.empty;
-            upperTile.InfrastructureToBuild = InfrastructureType.empty;
-            mapDisplay.DisplayTile(upperTile);
-        }
-    }
-
-    public void InfrastructureBuilt(Tile tile)
-    {
-        if (GridDictionary.ContainsValue(tile))
-        {
-            tile.InfrastructureType = tile.InfrastructureToBuild;
-            tile.InfrastructureToBuild = InfrastructureType.empty;
-            mapDisplay.DisplayTile(tile);
-            infrastructureBM.EraseTileToBuild(tile);
-        }
-    }
-
     public bool CheckPlaceToBuild(List<Vector2Int> tilesPos)
-    {
-        foreach(var tilePos in tilesPos)
-        {
-            if(!GridDictionary.ContainsKey(tilePos)) { return false; }
-            if(GridDictionary[tilePos].TileType != TileType.empty) { return false; }
-            if(GridDictionary[tilePos].IsOccupiedByBulding) { return false; }
-            //if(!GridDictionary[tilePos].HasInfrastructure && tilePos.x == 0) { return false; }
-        }
-        return true;
-    }
-
-    public void MarkTilesAsOccupiedByBulding(List<Vector2Int> tilesPos)
     {
         foreach (var tilePos in tilesPos)
         {
-            if (!GridDictionary.ContainsKey(tilePos)) { continue; }
-            GridDictionary[tilePos].IsOccupiedByBulding = true;
+            if (!GridDictionary.ContainsKey(tilePos)) { return false; }
+            if (GridDictionary[tilePos].TileType != TileType.empty) { return false; }
+            if (GridDictionary[tilePos].BuildingOnTile) { return false; }
+            //if(!GridDictionary[tilePos].HasInfrastructure && tilePos.x == 0) { return false; }
         }
-
+        return true;
     }
 }

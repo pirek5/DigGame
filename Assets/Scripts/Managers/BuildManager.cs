@@ -14,8 +14,9 @@ public class BuildManager : MonoBehaviour
     private bool canPlaceBuilding;
 
     //dependencies
-    [Inject] private GridData gridData;
     [Inject] private PlayerInput playerInput;
+    [Inject] private ChangeTile changeTile;
+    [Inject] private GridData gridData;
 
     void Update()
     {
@@ -53,10 +54,10 @@ public class BuildManager : MonoBehaviour
     public void PlaceBuilding()
     {
         if(!canPlaceBuilding) { return; } //TODO zasygnalizować że się nie da zbudować budynku
-        gridData.MarkTilesAsOccupiedByBulding(currentBuldingTiles);
-
+        
         currentBuildingDisplay.BuildingPlaced();
-        Instantiate(currentBuilding, currentBuilding.transform.position, Quaternion.identity);
+        GameObject newBuilding = Instantiate(currentBuilding, currentBuilding.transform.position, Quaternion.identity);
+        changeTile.TileWithBuilding(currentBuldingTiles, newBuilding);
         playerInput.CurrentState = State.normal;
         ResetCurrentBuilding();
     }
